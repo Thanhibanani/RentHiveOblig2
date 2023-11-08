@@ -30,16 +30,18 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\hosting\hosting.component.ts" />
+    <None Remove="ClientApp\src\app\listing\listingform.component.ts" />
     <None Remove="ClientApp\src\app\models\listing.model.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\hosting\hosting.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\listing\listingform.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\listing.model.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\listing\" />
+    <Folder Include="ClientApp\src\assets\images\" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

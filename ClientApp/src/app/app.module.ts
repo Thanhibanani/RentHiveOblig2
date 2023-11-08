@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -13,6 +13,7 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { HostingComponent } from './hosting/hosting.component';
+import { ListingformComponent } from './listing/listingform.component';
 
 
 @NgModule({
@@ -23,17 +24,20 @@ import { HostingComponent } from './hosting/hosting.component';
     CounterComponent,
     FetchDataComponent,
     HostingComponent,
+    ListingformComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent }, //T0 BE DELETED.
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] }, //T0 BE DELETED.
       { path: 'hosting', component: HostingComponent, canActivate: [AuthorizeGuard] },
+      { path: 'createListing', component: ListingformComponent },
     ])
   ],
   providers: [

@@ -1,5 +1,8 @@
-import { Component } from '@angular/core'
+import { Component, OnInit  } from '@angular/core'
 import { Listing } from './../models/listing.model';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-hosting-component',
@@ -7,7 +10,7 @@ import { Listing } from './../models/listing.model';
 })
 
 export class HostingComponent {
-
+ 
 
 
   //test to show lisitng
@@ -34,11 +37,11 @@ export class HostingComponent {
 
 
 
-  constructor() { }
+  constructor(private _http: HttpClient, private _router: Router) { }
 
 
-  createListing(): void {
-
+  navigateToCreateListingForm(): void {
+    this._router.navigate(['/createListing'])
   }
 
   editListing(listingId: number): void {
