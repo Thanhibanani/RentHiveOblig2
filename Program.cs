@@ -38,6 +38,12 @@ else
     app.UseHsts();
 }
 
+
+app.UseCors(policy =>
+    policy.WithOrigins("https://localhost:44423") 
+          .AllowAnyMethod()
+          .AllowAnyHeader());
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();

@@ -8,9 +8,8 @@ using RentHiveV2.ViewModels;
 
 namespace RentHiveV2.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ListingController : Controller
+    [ApiController][Route("api/[controller]")]public class ListingController : Controller
+
     {
 
 
@@ -26,14 +25,18 @@ namespace RentHiveV2.Controllers
 
         }
 
+        //JUST FOR TESTING: 
+
+        public static List<Listing> Listings = new List<Listing>(); 
+
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] ListingViewModel model)
+        public IActionResult Create([FromBody] Listing newListing)
         {
 
             _logger.LogInformation("Create action method invoked.");
 
-            if(model == null)
+            if(newListing == null)
             {
                 return BadRequest("Invalid item data.");
             }
@@ -42,17 +45,17 @@ namespace RentHiveV2.Controllers
             _logger.LogInformation("Attempting to create a Listing with the following model:");
 
             //A lot of loggers for debugging...
-            _logger.LogInformation($"The listing title is {model.Title}");
-            _logger.LogInformation($"The listing description is: {model.Description}");
-            _logger.LogInformation($"The listing price per night is: {model.PricePerNight}");
-            _logger.LogInformation($"The listing street is: {model.Street}");
-            _logger.LogInformation($"The listing City is: {model.City}");
-            _logger.LogInformation($"The listing Country is: {model.Country}");
-            _logger.LogInformation($"The listing Zipcode is: {model.ZipCode}");
-            _logger.LogInformation($"The listing State is: {model.State}");
-            _logger.LogInformation($"The listing Bedroom is: {model.Bedroom}");
-            _logger.LogInformation($"The listing Bathroom is: {model.Bathroom}");
-            _logger.LogInformation($"The listing Beds is: {model.Bed}");
+            _logger.LogInformation($"The listing title is {newListing.Title}");
+            _logger.LogInformation($"The listing description is: {newListing.Description}");
+            _logger.LogInformation($"The listing price per night is: {newListing.PricePerNight}");
+            _logger.LogInformation($"The listing street is: {newListing.Street}");
+            _logger.LogInformation($"The listing City is: {newListing.City}");
+            _logger.LogInformation($"The listing Country is: {newListing.Country}");
+            _logger.LogInformation($"The listing Zipcode is: {newListing.ZipCode}");
+            _logger.LogInformation($"The listing State is: {newListing.State}");
+            _logger.LogInformation($"The listing Bedroom is: {newListing.Bedroom}");
+            _logger.LogInformation($"The listing Bathroom is: {newListing.Bathroom}");
+            _logger.LogInformation($"The listing Beds is: {newListing.Beds}");
 
 
             //Check if it finds userId. This might already be done by [Authorize].
@@ -74,27 +77,18 @@ namespace RentHiveV2.Controllers
             try
             {
 
-                Listing listing = new Listing
-                {
-                    ApplicationUserId = userId,
-                    Title = model.Title,
-                    Description = model.Description,
-                    PricePerNight = model.PricePerNight,
-                    Street = model.Street,
-                    City = model.City,
-                    Country = model.Country,
-                    ZipCode = model.ZipCode,
-                    State = model.State,
-                    Bedroom = model.Bedroom,
-                    Bathroom = model.Bathroom,
-                    Beds = model.Bed,
-                    CreatedDateTime = DateTime.Now
-                };
+                newListing.ApplicationUserId = userId;
+                newListing.CreatedDateTime = DateTime.Now;
+
+                Listings.Add(newListing);
 
 
-                _context.Listing.Add(listing);
+                var response = new { success = true, message = "Listing " + newListing.Title + " created successfully" };
 
-                await _context.SaveChangesAsync();
+
+                _context.Listing.Add(newListing);
+
+                _context.SaveChangesAsync();
                 return Ok();
 
             }

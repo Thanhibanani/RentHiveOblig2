@@ -132,6 +132,7 @@
            required>
   </div>
 
-  <button class="btn-primary" type="submit" [disabled]="listingForm.invalid">Create listing</button>
+  <button class="btn btn-primary" type="submit" [disabled]="listingForm.invalid">Create listing</button>
+  <button class="btn btn-secondary" (click)="backToHostingDashboard()">Cancel</button>
 
 </form>
