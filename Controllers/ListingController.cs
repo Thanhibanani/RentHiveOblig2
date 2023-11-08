@@ -4,11 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using RentHiveV2.Data;
 using RentHiveV2.Models;
 using System.Security.Claims;
-using RentHiveV2.ViewModels; 
+using RentHiveV2.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Duende.IdentityServer.Extensions;
+using Duende.IdentityServer;
+using Microsoft.EntityFrameworkCore; 
 
 namespace RentHiveV2.Controllers
 {
-    [ApiController][Route("api/[controller]")]public class ListingController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ListingController : Controller
 
     {
 
@@ -16,22 +22,24 @@ namespace RentHiveV2.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ILogger<ListingController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ListingController(ApplicationDbContext context, ILogger<ListingController> logger, UserManager<ApplicationUser> userManager)
+        public ListingController(ApplicationDbContext context, ILogger<ListingController> logger, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _logger = logger;
             _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
 
         }
 
         //JUST FOR TESTING: 
 
-        public static List<Listing> Listings = new List<Listing>(); 
+        public static List<Listing> Listings = new List<Listing>();
 
-
-        [HttpPost("create")]
-        public IActionResult Create([FromBody] Listing newListing)
+        
+    [HttpPost("create")]
+        public async Task<IActionResult> Create([FromBody] Listing newListing)
         {
 
             _logger.LogInformation("Create action method invoked.");
@@ -56,9 +64,17 @@ namespace RentHiveV2.Controllers
             _logger.LogInformation($"The listing Bedroom is: {newListing.Bedroom}");
             _logger.LogInformation($"The listing Bathroom is: {newListing.Bathroom}");
             _logger.LogInformation($"The listing Beds is: {newListing.Beds}");
+            _logger.LogInformation($"The listing UserID is: {newListing.ApplicationUserId}");
 
 
-            //Check if it finds userId. This might already be done by [Authorize].
+            //FOR SOME REASON THIS DOES NOT WORK. IT DOES NOT GET THE ID OF THE USER.
+            //WHEN I DO [AUTHORIZE] IM STILL GETTING FORBIDDEN. I KNOW THE USER IS LOGGED IN. 
+
+            //string userId = User.GetSubjectId(); 
+           
+           // _logger.LogInformation($"The USER IDENTITY IS: {User.Identity.GetSubjectId()}");
+
+
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrEmpty(userId))
@@ -68,6 +84,7 @@ namespace RentHiveV2.Controllers
                 return Forbid();
 
             }
+
 
             _logger.LogInformation($"The userId is {userId}");
 
@@ -88,7 +105,7 @@ namespace RentHiveV2.Controllers
 
                 _context.Listing.Add(newListing);
 
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return Ok();
 
             }

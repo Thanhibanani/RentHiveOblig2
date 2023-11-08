@@ -36,7 +36,7 @@ import { ListingformComponent } from './listing/listingform.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent }, //T0 BE DELETED.
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] }, //T0 BE DELETED.
-      { path: 'hosting', component: HostingComponent, canActivate: [AuthorizeGuard] },
+      { path: 'hosting', component: HostingComponent },
       { path: 'createListing', component: ListingformComponent },
     ])
   ],
