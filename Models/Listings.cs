@@ -82,6 +82,9 @@ namespace RentHiveV2.Models
         /// The booking will be used to keep track of all bookings for the apartment. 
         /// It will also be used to find Unavailable days for the calendar. 
         /// </summary>
+        /// 
+
+
         //public ICollection<Booking>? Bookings { get; set; }
 
     }
