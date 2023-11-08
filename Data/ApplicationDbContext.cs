@@ -13,5 +13,12 @@ namespace RentHiveV2.Data
         {
 
         }
+
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Listing> Listing { get; set; }
+
+
+
+
     }
 }
