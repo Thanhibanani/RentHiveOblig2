@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -14,6 +13,7 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { HostingComponent } from './hosting/hosting.component';
 import { ListingformComponent } from './listing/listingform.component';
+import { SharedListingsService } from './services/shared-listings.service';
 
 
 @NgModule({
@@ -25,7 +25,9 @@ import { ListingformComponent } from './listing/listingform.component';
     FetchDataComponent,
     HostingComponent,
     ListingformComponent,
+
   ],
+
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -41,8 +43,12 @@ import { ListingformComponent } from './listing/listingform.component';
     ])
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    SharedListingsService,
+
   ],
+
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

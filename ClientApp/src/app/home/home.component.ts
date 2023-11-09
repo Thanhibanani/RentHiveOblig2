@@ -1,10 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SharedListingsService } from '../services/shared-listings.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  listings: any[] = [];
 
+  constructor(private listingsService: SharedListingsService) { }
+
+  ngOnInit() {
+    this.listingsService.listings$.subscribe((listings) => {
+      this.listings = listings;
+    });
+  }
 }
