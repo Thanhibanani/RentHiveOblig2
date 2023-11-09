@@ -14,6 +14,7 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { HostingComponent } from './hosting/hosting.component';
 import { ListingformComponent } from './listing/listingform.component';
 import { SharedListingsService } from './services/shared-listings.service';
+import { UserhistoryComponent } from './userhistory/userhistory.component';
 
 
 @NgModule({
@@ -21,11 +22,11 @@ import { SharedListingsService } from './services/shared-listings.service';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
+    CounterComponent, //T0 BE DELETED.
+    FetchDataComponent, //T0 BE DELETED.
     HostingComponent,
     ListingformComponent,
-
+    UserhistoryComponent,
   ],
 
   imports: [
@@ -40,6 +41,7 @@ import { SharedListingsService } from './services/shared-listings.service';
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] }, //T0 BE DELETED.
       { path: 'hosting', component: HostingComponent },
       { path: 'createListing', component: ListingformComponent },
+      { path: 'userhistory', component: UserhistoryComponent },
     ])
   ],
   providers: [

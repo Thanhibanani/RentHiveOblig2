@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
-
+  //Denne funksjonaliteten kan fjernes siden vi ikke trenger å skru nav baren av og på
   collapse() {
     this.isExpanded = false;
   }
