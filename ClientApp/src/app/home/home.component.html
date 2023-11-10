@@ -62,9 +62,11 @@
   </section>
   </main>
 
-  <div class="content-section">
-    <div class="container mt-4">
-      <div class="row">
+<div class="content-section">
+  <div class="container">
+    <div class="row">
+      <!-- Check if there are listings to display -->
+      <ng-container *ngIf="listings && listings.length > 0; else noListings">
         <!-- Loop through listings and create cards for each listing -->
         <div class="col-md-4" *ngFor="let listing of listings">
           <div class="card">
@@ -89,6 +91,14 @@
             </div>
           </div>
         </div>
-      </div>
+      </ng-container>
+
+      <!-- Display a message if there are no listings -->
+      <ng-template #noListings>
+        <div class="col-md-12">
+          <p>No listings for display</p>
+        </div>
+      </ng-template>
     </div>
   </div>
+</div>

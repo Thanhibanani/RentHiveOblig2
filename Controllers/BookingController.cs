@@ -18,6 +18,22 @@ namespace RentHiveV2.Controllers
             _context = context;
         }
 
+        // GET: api/Bookings/ByGuest/{guestId}
+        [HttpGet("ByGuest/{guestId}")]
+        public async Task<ActionResult<IEnumerable<Bookings>>> GetBookingsByGuest(string guestId)
+        {
+            var bookings = await _context.Bookings
+                                         .Where(b => b.GuestId == guestId)
+                                         .ToListAsync();
+
+            if (!bookings.Any())
+            {
+                return NotFound();
+            }
+
+            return bookings;
+        }
+
         // GET: api/Bookings
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bookings>>> GetBookings()
