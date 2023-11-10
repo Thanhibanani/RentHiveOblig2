@@ -1,5 +1,5 @@
 import { Component, OnInit  } from '@angular/core'
-import { Listing } from './../models/listing.model';
+import { IListing } from './../models/listing.model';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,7 @@ export class HostingComponent {
 
   //test to show lisitng
 
-  listings: Listing[] = [
+  listings: IListing[] = [
     {
       listingId: 1,
       title: 'houseTest1',

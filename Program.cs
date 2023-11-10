@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
-using RentHiveV2.Data;
+using RentHiveV2.DAL;
 using RentHiveV2.Models;
 
 
@@ -13,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -26,15 +28,8 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
-/*
-builder.Services.Configure<JwtBearerOptions>(
-    IdentityServerJwtConstants.IdentityServerJwtBearerScheme,
-    options =>
-    {
+builder.Services.AddScoped<IListingRepository, ListingRepository>();
 
-    }); 
-
-*/
 
 
 builder.Services.AddControllersWithViews();
@@ -45,6 +40,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
+    //DBInit.Seed(app);
     app.UseMigrationsEndPoint();
 }
 else

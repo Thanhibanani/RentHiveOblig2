@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using RentHiveV2.Models;
 
-namespace RentHiveV2.Data
+namespace RentHiveV2.DAL
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {

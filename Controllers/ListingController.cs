@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using RentHiveV2.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using RentHiveV2.Models;
 using System.Security.Claims;
-using RentHiveV2.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Duende.IdentityServer.Extensions;
-using Duende.IdentityServer;
-using Microsoft.EntityFrameworkCore; 
 
+using RentHiveV2.DAL;
 
 namespace RentHiveV2.Controllers
 {
@@ -20,28 +13,55 @@ namespace RentHiveV2.Controllers
     {
 
 
-        private readonly ApplicationDbContext _context;
+        private readonly IListingRepository _listingRepository;
         private readonly ILogger<ListingController> _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ListingController(ApplicationDbContext context, ILogger<ListingController> logger, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+
+        public ListingController(IListingRepository listingRepository, ILogger<ListingController> logger)
         {
-            _context = context;
+            _listingRepository = listingRepository;
             _logger = logger;
-            _userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
-
         }
 
-        //JUST FOR TESTING: 
 
 
+
+        /// <summary>
+        /// Gets all the listings in the DB. 
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            _logger.LogInformation("GetAll action method invoked in Listing");
+
+            var listings = await _listingRepository.GetAll();
+
+            if (listings == null) {
+                _logger.LogError("There were no Listings found when executing _listingRepository.GetAll()");
+                return NotFound();
+            }
+
+            return Ok(listings);
+        }
+
+
+
+
+
+
+
+        /// <summary>
+        /// Create listing method
+        /// </summary>
+        /// <param name="newListing"></param>
+        /// <returns></returns>
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] Listing newListing)
         {
 
-            _logger.LogInformation("Create action method invoked.");
+            _logger.LogInformation("[ListingController]: Create action method invoked.");
 
             if(newListing == null)
             {
@@ -64,13 +84,6 @@ namespace RentHiveV2.Controllers
             _logger.LogInformation($"The listing Bathroom is: {newListing.Bathroom}");
             _logger.LogInformation($"The listing Beds is: {newListing.Beds}");
 
-            //FOR SOME REASON THIS DOES NOT WORK. IT DOES NOT GET THE ID OF THE USER.
-            //WHEN I DO [AUTHORIZE] IM STILL GETTING FORBIDDEN. I KNOW THE USER IS LOGGED IN. 
-
-            //string userId = User.GetSubjectId(); 
-
-            // _logger.LogInformation($"The USER IDENTITY IS: {User.Identity.GetSubjectId()}");
-
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             _logger.LogInformation($"The listing UserID is: {userId}");
@@ -82,37 +95,53 @@ namespace RentHiveV2.Controllers
                 return Forbid();
             }
 
-
-            _logger.LogInformation($"The userId is {userId}");
-
-
             //Try to create the model.
-
             try
             {
-
                 newListing.ApplicationUserId = userId;
                 newListing.CreatedDateTime = DateTime.Now;
 
+                if (ModelState.IsValid)
+                {
+                    //Method in DAL
+                    bool returnOk = await _listingRepository.Create(newListing);
 
-                var response = new { success = true, message = "Listing " + newListing.Title + " created successfully" };
+                    if (returnOk)
+                    {
+                        var response = new { success = true, message = "Listing " + newListing.Title + " created successfully" };
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        var respone = new { success = false, message = "Listing creation" };
+                        return Ok(respone);
+                    }
 
 
-                _context.Listing.Add(newListing);
-
-                await _context.SaveChangesAsync();
-                return Ok();
-
+                }
+                //If Modelstate is invalid.
+                else{
+                    _logger.LogError("ModelState in invalid");
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
-
                 _logger.LogError(ex, "An error occured while creating the listing.");
                 //Need to return something here too. 
                 return StatusCode(500, ex.Message);
             }
 
         }
+
+
+
+
+
+
+
+
+
 
 
     }

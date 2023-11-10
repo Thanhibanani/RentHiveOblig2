@@ -1,5 +1,5 @@
 
-export interface Listing {
+export interface IListing {
   listingId: number;
 
   title: string;

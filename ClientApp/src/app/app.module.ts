@@ -13,7 +13,6 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { HostingComponent } from './hosting/hosting.component';
 import { ListingformComponent } from './listing/listingform.component';
-import { SharedListingsService } from './services/shared-listings.service';
 import { UserhistoryComponent } from './userhistory/userhistory.component';
 
 
@@ -46,7 +45,7 @@ import { UserhistoryComponent } from './userhistory/userhistory.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-    SharedListingsService,
+    //SharedListingsService,
 
   ],
 

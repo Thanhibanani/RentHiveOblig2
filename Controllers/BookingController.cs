@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentHiveV2.Models;
-using RentHiveV2.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using RentHiveV2.DAL;
 
 namespace RentHiveV2.Controllers
 {
