@@ -13,6 +13,7 @@ namespace RentHiveV2.DAL
         Task Update (Listing listing);
         Task <bool> Delete (int id);
 
+        Task<IEnumerable<Listing>?> GetByHost(string hostId);
 
     }
 }

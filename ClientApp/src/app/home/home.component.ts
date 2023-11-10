@@ -29,11 +29,20 @@ export class HomeComponent {//implements OnInit {
   getListings(): void {
     this._listingService.getListings()
       .subscribe(data => {
-      console.log('All', JSON.stringify(data));
+     console.log('All', JSON.stringify(data)); //Just for debugging purposes, remember to REMOVE or COMMENT it out. 
       this.listings = data;
     });
   }
 
 
+
+  /*
+
+  TODO:
+          NEED TO IMPLEMENT A ROUTING TO OTHER PAGE METHOD FOR WHEN THESE LISTINGS ARE CLICKED ON. 
+
+
+
+   */
 
 }

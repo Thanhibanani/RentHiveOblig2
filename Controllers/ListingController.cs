@@ -48,6 +48,27 @@ namespace RentHiveV2.Controllers
 
 
 
+        [HttpGet("getByHost")]
+        public async Task<IActionResult> GetByHost()
+        {
+            _logger.LogInformation("GetByHost action method invoked in Listing");
+
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            _logger.LogInformation($"Attempting to get the listings for host: {userId} ");
+
+            var listings = await _listingRepository.GetByHost(userId);
+
+            if (listings == null)
+            {
+                _logger.LogError("There were no Listings found when executing _listingRepository.GetByHost()");
+                return NotFound();
+            }
+
+            return Ok(listings);
+        }
+
+
 
 
 

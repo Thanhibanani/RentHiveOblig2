@@ -82,15 +82,15 @@
               <div class="carousel-inner">
                 <!-- Display first image -->
                 <div class="carousel-item active">
-                  <img *ngIf="listing.image1" [src]="'assets/' + listing.image1" class="d-block w-100" alt="Image 1">
+                  <img *ngIf="listing.image1" [src]="listing.image2" class="d-block w-100" alt="Image 1">
                 </div>
                 <!-- Display second image -->
                 <div *ngIf="listing.image2" class="carousel-item">
-                  <img [src]="'assets/' + listing.image2" class="d-block w-100" alt="Image 2">
+                  <img [src]="listing.image2" class="d-block w-100" alt="Image 2">
                 </div>
                 <!-- Display third image -->
                 <div *ngIf="listing.image3" class="carousel-item">
-                  <img [src]="'assets/' + listing.image3" class="d-block w-100" alt="Image 3">
+                  <img [src]="listing.image3" class="d-block w-100" alt="Image 3">
                 </div>
               </div>
               <a class="carousel-control-prev" href="#carousel-{{ listing.listingId }}" role="button" data-slide="prev">
@@ -109,6 +109,7 @@
           </div>
         </div>
       </ng-container>
+
 
       <!-- Display a message if there are no listings -->
       <ng-template #noListings>

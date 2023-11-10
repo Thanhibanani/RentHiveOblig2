@@ -42,11 +42,6 @@ export class ListingformComponent {
   }
 
 
-
-
-
-
-
   onSubmit() {
     console.log('Listing is created, form is submitted.');
     console.log(this.listingForm);
@@ -60,7 +55,6 @@ export class ListingformComponent {
             response => {
               if (response.success) {
                 console.log(response.message);
-                // this.listingsService.addListing(response.data);
                 this._router.navigate(['/hosting']);
               } else {
                 console.log('Creating a listing failed');

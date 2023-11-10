@@ -10,54 +10,56 @@ namespace RentHiveV2.Models
 
         //Primary Key
         [Key]
+
+        [JsonPropertyName("listingId")]
         public int ListingId { get; set; }
 
 
         //Foreign Key from ApplicationUser
         public string? ApplicationUserId { get; set; }
 
-        [JsonPropertyName("Title")]
+        [JsonPropertyName("title")]
         [Required(ErrorMessage = "Required to fill out Title for the listing.")]
         public string? Title { get; set; }
 
-        [JsonPropertyName("Description")]
+        [JsonPropertyName("description")]
         public string? Description { get; set; }
 
 
-        [JsonPropertyName("PricePerNight")]
+        [JsonPropertyName("pricePerNight")]
         [Range(0, (double)decimal.MaxValue, ErrorMessage = "Please enter valid price.")]
         [Required(ErrorMessage = "Required to fill out the price of the listing.")]
         public double PricePerNight { get; set; }
 
 
         //Address
-        [JsonPropertyName("Street")] 
+        [JsonPropertyName("street")] 
         public string? Street { get; set; }
 
-        [JsonPropertyName("City")]
+        [JsonPropertyName("city")]
         public string? City { get; set; }
 
-        [JsonPropertyName("Country")]
+        [JsonPropertyName("country")]
         public string? Country { get; set; }
 
-        [JsonPropertyName("ZipCode")]
+        [JsonPropertyName("zipCode")]
         public string? ZipCode { get; set; }
 
-        [JsonPropertyName("State")]
+        [JsonPropertyName("state")]
         public string? State { get; set; }
 
 
 
         //More information about the apartment
-        [JsonPropertyName("Bedroom")]
+        [JsonPropertyName("bedroom")]
         [Required(ErrorMessage = "Required to fill out how many bedrooms.")]
         public int Bedroom { get; set; }
 
-        [JsonPropertyName("Bathroom")]
+        [JsonPropertyName("bathroom")]
         [Required(ErrorMessage = "Required to fill out how many bathrooms.")]
         public int Bathroom { get; set; }
 
-        [JsonPropertyName("Beds")]
+        [JsonPropertyName("beds")]
         [Required(ErrorMessage = "Required to fill out how many beds.")]
         public int Beds { get; set; }
 
@@ -66,17 +68,17 @@ namespace RentHiveV2.Models
 
         //Optional images - We should rather add a image class and make a one-to-many relationship.
         //Not a scaleable option. 
-        [JsonPropertyName("Image1")]
-        public string? Image1 { get; set; } = "/Images/PlaceholderApartmentImage.png"; //Adding a default image to the first image. 
+        [JsonPropertyName("image1")]
+        public string? Image1 { get; set; } = "assets/listingImages/PlaceholderApartmentImage.png"; //Adding a default image to the first image. 
         
-        [JsonPropertyName("Image2")]
+        [JsonPropertyName("image2")]
         public string? Image2 { get; set; }
         
-        [JsonPropertyName("Image3")]
+        [JsonPropertyName("image3")]
         public string? Image3 { get; set; }
 
 
-        [JsonPropertyName("CreatedDateTime")]
+        [JsonPropertyName("createdDateTime")]
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
 
 

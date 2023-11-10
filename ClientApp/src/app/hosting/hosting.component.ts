@@ -1,7 +1,8 @@
 import { Component, OnInit  } from '@angular/core'
 import { IListing } from './../models/listing.model';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ListingService } from '../listing/listing.service';
+import { AuthorizeService } from '../../api-authorization/authorize.service'
 
 
 @Component({
@@ -9,35 +10,30 @@ import { Router } from '@angular/router';
   templateUrl: './hosting.component.html',
 })
 
-export class HostingComponent {
- 
+export class HostingComponent implements OnInit {
+  listings: IListing[] = [];
 
 
-  //test to show lisitng
+  constructor(private _router: Router, private _listingService: ListingService, private authorizeService: AuthorizeService,) { }
 
-  listings: IListing[] = [
-    {
-      listingId: 1,
-      title: 'houseTest1',
-      description: 'House Description1.',
-      pricePerNight: 750,
-      street: 'streettt',
-      city: 'cityyy',
-      country: 'countryyy',
-      zipCode: '123123123',
-      state: 'Stateee',
-      bedroom: 30,
-      bathroom: 40,
-      beds: 50,
-      image1: 'path/to/image.jpg',
-      createdDateTime: new Date()
-    },
 
-  ];
+  ngOnInit() {
+    this.getUserListings();
+  }
 
 
 
-  constructor(private _http: HttpClient, private _router: Router) { }
+  //Retriving all the user's listings (Where current user is host). 
+  getUserListings(): void {
+    this._listingService.getUserListings()
+      .subscribe(data => {
+        console.log('All', JSON.stringify(data)); // For debugging purposes
+        this.listings = data;
+      });
+  }
+
+
+
 
 
   navigateToCreateListingForm(): void {
