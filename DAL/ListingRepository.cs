@@ -25,14 +25,12 @@ namespace RentHiveV2.DAL
                 _context.Listing.Add(listing);
                 await _context.SaveChangesAsync();
                 return true;
-
             }
             catch (Exception ex)
             {
                 _logger.LogError("[ListingRepository] listing creation failed for {@listing}, Error Message: {ex}", listing, ex.Message);
                 return false; 
             }
-
         }
 
 
