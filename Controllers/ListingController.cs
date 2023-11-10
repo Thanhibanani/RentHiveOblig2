@@ -10,6 +10,7 @@ using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer;
 using Microsoft.EntityFrameworkCore; 
 
+
 namespace RentHiveV2.Controllers
 {
     [ApiController]
@@ -35,10 +36,8 @@ namespace RentHiveV2.Controllers
 
         //JUST FOR TESTING: 
 
-        public static List<Listing> Listings = new List<Listing>();
 
-        
-    [HttpPost("create")]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] Listing newListing)
         {
 
@@ -52,7 +51,7 @@ namespace RentHiveV2.Controllers
 
             _logger.LogInformation("Attempting to create a Listing with the following model:");
 
-            //A lot of loggers for debugging...
+            //Loggers for debugging:
             _logger.LogInformation($"The listing title is {newListing.Title}");
             _logger.LogInformation($"The listing description is: {newListing.Description}");
             _logger.LogInformation($"The listing price per night is: {newListing.PricePerNight}");
@@ -64,25 +63,23 @@ namespace RentHiveV2.Controllers
             _logger.LogInformation($"The listing Bedroom is: {newListing.Bedroom}");
             _logger.LogInformation($"The listing Bathroom is: {newListing.Bathroom}");
             _logger.LogInformation($"The listing Beds is: {newListing.Beds}");
-            _logger.LogInformation($"The listing UserID is: {newListing.ApplicationUserId}");
-
 
             //FOR SOME REASON THIS DOES NOT WORK. IT DOES NOT GET THE ID OF THE USER.
             //WHEN I DO [AUTHORIZE] IM STILL GETTING FORBIDDEN. I KNOW THE USER IS LOGGED IN. 
 
             //string userId = User.GetSubjectId(); 
-           
-           // _logger.LogInformation($"The USER IDENTITY IS: {User.Identity.GetSubjectId()}");
+
+            // _logger.LogInformation($"The USER IDENTITY IS: {User.Identity.GetSubjectId()}");
 
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _logger.LogInformation($"The listing UserID is: {userId}");
 
             if (string.IsNullOrEmpty(userId))
             {
                 _logger.LogError("The userId is null or empty.");
 
                 return Forbid();
-
             }
 
 
@@ -96,8 +93,6 @@ namespace RentHiveV2.Controllers
 
                 newListing.ApplicationUserId = userId;
                 newListing.CreatedDateTime = DateTime.Now;
-
-                Listings.Add(newListing);
 
 
                 var response = new { success = true, message = "Listing " + newListing.Title + " created successfully" };

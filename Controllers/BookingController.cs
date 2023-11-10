@@ -9,7 +9,7 @@ namespace RentHiveV2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookingsController : ControllerBase
+    public class BookingsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -50,6 +50,7 @@ namespace RentHiveV2.Controllers
         }
 
         // PUT: api/Bookings/5
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBooking(int id, Bookings booking)
         {
@@ -80,6 +81,7 @@ namespace RentHiveV2.Controllers
         }
 
         // DELETE: api/Bookings/5
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBooking(int id)
         {

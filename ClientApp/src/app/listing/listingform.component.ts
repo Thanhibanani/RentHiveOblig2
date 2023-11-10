@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } 
 import { Router } from "@angular/router";
 import { HttpClient } from '@angular/common/http';
 import { SharedListingsService } from "../services/shared-listings.service";
+import { AuthorizeService } from '../../api-authorization/authorize.service'
 
 
 @Component({
@@ -16,7 +17,7 @@ export class ListingformComponent {
   listingForm: FormGroup;
   
 
-  constructor(private _formBuilder: FormBuilder, private _router: Router, private _http: HttpClient, private listingsService: SharedListingsService) {
+  constructor(private _formBuilder: FormBuilder, private _router: Router, private _http: HttpClient, private listingsService: SharedListingsService, private authorizeService: AuthorizeService) {
 
     
     this.listingForm = _formBuilder.group({
@@ -41,29 +42,38 @@ export class ListingformComponent {
     console.log('Listing is created, form is submitted.');
     console.log(this.listingForm);
     const newListing = this.listingForm.value;
-    const createUrl = 'api/listing/create';
+    const createUrl = '/api/listing/create'; 
 
-    this._http.post<any>(createUrl, newListing).subscribe((response) => {
-      if (response.success) {
-        console.log(response.message);
+    // Retrieving the access token
+    this.authorizeService.getAccessToken().subscribe(
+      token => {
+        if (token) {
+          const headers = { 'Authorization': `Bearer ${token}` };
 
-        // Use the shared service to add the new listing to the listings array
-        this.listingsService.addListing(newListing);
-
-        this._router.navigate(['/hosting']);
-      } else {
-        console.log('Creating a listing failed');
-      }
-    });
+          this._http.post<any>(createUrl, newListing, { headers }).subscribe((response) => {
+            if (response.success) {
+              console.log(response.message);
+              this.listingsService.addListing(response.data);
+              this._router.navigate(['/hosting']);
+            } else {
+              console.log('Creating a listing failed');
+            }
+          }, error => {
+            console.error('HTTP error:', error);
+          });
+        } else {
+          console.error('Authorization token not found');
+        }
+      },
+      error => console.error('Error fetching access token:', error)
+    );
   }
 
-  backToHostingDashboard() {
+
+
+
+   backToHostingDashboard() {
     this._router.navigate(['/hosting']);
-  }
-
+   }
 
 }
-
-
-
-

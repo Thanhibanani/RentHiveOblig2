@@ -85,7 +85,7 @@ namespace RentHiveV2.Models
         /// 
 
 
-        //public ICollection<Booking>? Bookings { get; set; }
+        public ICollection<Bookings>? Bookings { get; set; }
 
     }
 }
