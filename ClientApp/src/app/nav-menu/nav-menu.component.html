@@ -3,7 +3,6 @@
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">RentHiveV2</a>
 
-      <!--Denne funksjonaliteten kan fjernes siden vi ikke trenger å skru nav baren av og på-->
       <button class="navbar-toggler"
               type="button"
               data-toggle="collapse"
@@ -17,22 +16,6 @@
       <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
            [ngClass]="{ show: isExpanded }">
         <ul class="navbar-nav flex-grow">
-          <li class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
-          </li>
-
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/userhistory']">Bookings</a>
-          </li>
-
-          <!----Need to find out how to show this only when they are logged in---->
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/hosting']">Switch to host</a>
-          </li>
-
-
 
         </ul>
         <app-login-menu></app-login-menu>
