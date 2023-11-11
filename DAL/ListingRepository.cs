@@ -58,14 +58,6 @@ namespace RentHiveV2.DAL
         }
 
 
-
-
-
-
-
-
-
-
         //DELETE A LISTING BY ITS ID.
         public async Task<bool> Delete(int id)
         {
@@ -81,10 +73,6 @@ namespace RentHiveV2.DAL
 
         }
 
-
-
-
-
         //GET A LISTING BY ITS ID
         public async Task<Listing?> GetById(int id)
         {
@@ -99,7 +87,6 @@ namespace RentHiveV2.DAL
             return listings; 
 
         }
-
 
         //UPDATE A LISTING
         public async Task Update(Listing listing)
