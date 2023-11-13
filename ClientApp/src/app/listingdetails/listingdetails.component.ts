@@ -3,6 +3,7 @@ import { IListing } from '../models/listing.model';
 import { Router } from '@angular/router';
 import { ListingService } from '../listing/listing.service';
 
+
 @Component({
   selector: 'app-listingdetails',
   templateUrl: './listingdetails.component.html',

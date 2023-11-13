@@ -9,19 +9,19 @@
 <!--End of imports and links-->
 <!--Page content-->
 
-<div class="container shadow p-3 mb-5 bg-white rounded">
+<div class="container shadow p-3 mb-5 bg-white rounded" *ngFor="let listing of listings">
 
   <h1 class="my-4">
     {{listing.Title}}
-    <h2>{{listing.City}}, {{listing.Street}}, {{listing.Country}}</h2>
+    <h2> {{listing.City}}, {{listing.Street}}, {{listing.Country}}</h2>
   </h1>
 
   <!--Image grid-->
 
   <div class="image-grid">
-    <img class="image-grid-col-2 image-grid-row-2" [src]="listing.image1 alt="">
-    <img class="img-fluid" [src]="listing.image2 alt="">
-    <img class="img-fluid" [src]="listing.image3 alt="">
+    <img class="image-grid-col-2 image-grid-row-2" [src]="listing.image1 || 'https://via.placeholder.com/150'" alt="">
+    <img class="img-fluid" [src]="listing.image2 || 'https://via.placeholder.com/150'" alt="">
+    <img class="img-fluid" [src]="listing.image3 || 'https://via.placeholder.com/150'" alt="">
   </div>
 
   <!--Description-->
@@ -30,8 +30,6 @@
     <p>
       {{listing.description}}
     </p>
-    <h2 class="col-sm">Queen Bee Description</h2>
-    <h2></h2>
   </div>
 
   <div>
