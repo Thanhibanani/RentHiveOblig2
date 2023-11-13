@@ -3,17 +3,10 @@
 /* Provide sufficient contrast against white background */
 
 
-
-html{
-    margin:0;
-    padding:0;
-}
-
 body {
-  margin: 0;
-  padding: 0;
+  margin:0;
+  padding-top: 10px; /*This padding is to keep the content below the navbar because the navbar has fixed-top*/
 }
-
 
 a {
   color: #0366d6;
