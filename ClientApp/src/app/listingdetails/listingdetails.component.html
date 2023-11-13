@@ -10,6 +10,12 @@
 <!--Page content-->
 
 <div class="container shadow p-3 mb-5 bg-white rounded">
+
+  <h1 class="my-4">
+    {{listing.Title}}
+    <h2>{{listing.City}}, {{listing.Street}}, {{listing.Country}}</h2>
+  </h1>
+
   <!--Image grid-->
 
   <div class="image-grid">
@@ -22,7 +28,7 @@
   <div class="row">
     <h2 class="col-sm">Beehive description</h2>
     <p>
-
+      {{listing.description}}
     </p>
     <h2 class="col-sm">Queen Bee Description</h2>
     <h2></h2>
