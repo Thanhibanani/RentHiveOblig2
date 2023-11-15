@@ -1,127 +1,18 @@
-<!--Links-->
-<!--Imports links-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<!--End of imports and links-->
-<!--Page content-->
+<div class="container shadow p-3 mb-5 bg-white rounded">
+  <h1 class="my-4">{{ listing?.title }}</h1>
+  <h2>{{ listing?.city }}, {{ listing?.street }}, {{ listing?.country }}</h2>
 
-<div class="container shadow p-3 mb-5 bg-white rounded" *ngFor="let listing of listings">
-
-  <h1 class="my-4">
-    {{listing.Title}}
-    <h2> {{listing.City}}, {{listing.Street}}, {{listing.Country}}</h2>
-  </h1>
-
-  <!--Image grid-->
-
+  <!-- Image grid -->
   <div class="image-grid">
-    <img class="image-grid-col-2 image-grid-row-2" [src]="listing.image1 || 'https://via.placeholder.com/150'" alt="">
-    <img class="img-fluid" [src]="listing.image2 || 'https://via.placeholder.com/150'" alt="">
-    <img class="img-fluid" [src]="listing.image3 || 'https://via.placeholder.com/150'" alt="">
+    <img class="image-grid-col-2 image-grid-row-2" [src]="listing?.image1 || 'https://via.placeholder.com/150'" alt="">
+    <img class="img-fluid" [src]="listing?.image2 || 'https://via.placeholder.com/150'" alt="">
+    <img class="img-fluid" [src]="listing?.image3 || 'https://via.placeholder.com/150'" alt="">
   </div>
 
-  <!--Description-->
+  <!-- Description -->
   <div class="row">
     <h2 class="col-sm">Beehive description</h2>
-    <p>
-      {{listing.description}}
-    </p>
-  </div>
-
-  <div>
-
-    <br />
-    <hr />
-    <br />
-
-    <h2>Book your trip</h2>
-
-    <form asp-action="SendToBooking" asp-controller="Bookings" id="SendToBooking">
-      <p id="pricePerNight"> NOK per night </p>
-
-      <div class="availability">
-        <p>Date from</p>
-        <input type="date" id="startDate" name="startTime" />
-        <p>Date to</p>
-        <input type="date" id="endDate" name="endTime" />
-
-      </div>
-
-      <!-- Add hidden fields for eiendomId and totalPrice -->
-      <input type="hidden" name="eiendomId" value="@Model.EiendomID" />
-      <input type="hidden" name="totalPrice" id="totalPriceHiddenField" />
-      <input type="hidden" name="diffDays" id="diffDays" />
-
-      <p>Total price <span id="totalPrice"> </span> NOK</p>
-      <button type="submit" class="btn btn-primary">Book now</button>
-    </form>
-
-
+    <p>{{ listing?.description }}</p>
   </div>
 
 </div>
-
-
-
-<script>
-
-  //Calculating the total price, making it change dynamically by the date inputs.
-
-
-
-
-  function calculateDayDifference() {
-
-    //Getting the value of start and end date.
-    var startDate = new Date(document.getElementById("startDate").value);
-    var endDate = new Date(document.getElementById("endDate").value);
-
-    //Caluclating difference
-    //Inspired by: https://stackoverflow.com/questions/3224834/get-difference-between-2-dates-in-javascript
-
-    var timeDifference = endDate.getTime() - startDate.getTime();
-    var diffDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
-
-
-    return diffDays;
-  }
-
-
-  function calculateTotalPrice() {
-
-    var diffDays = calculateDayDifference();
-
-    console.log("DiffDays chosen is ", diffDays);
-    const pricePerNight = parseInt(document.getElementById("pricePerNight").textContent);
-    var totalPrice = diffDays * pricePerNight;
-
-    //If check-in and check-out are the same day.
-    if (diffDays === 0) {
-      totalPrice = pricePerNight;
-      document.getElementById("totalPrice").textContent = totalPrice;
-      document.getElementById("totalPriceHiddenField").value = totalPrice;
-      document.getElementById("diffDays").value = diffDays;
-
-    }
-    else if (diffDays > 0) {
-      document.getElementById("totalPrice").textContent = totalPrice;
-      document.getElementById("totalPriceHiddenField").value = totalPrice;
-      document.getElementById("diffDays").value = diffDays;
-    }
-
-    //If startDate > enddate
-    else {
-      document.getElementById("totalPrice").textContent = "Invalid";
-
-    }
-  }
-
-
-  document.getElementById("startDate").addEventListener("change", calculateTotalPrice);
-  document.getElementById("endDate").addEventListener("change", calculateTotalPrice);
-</script>
-

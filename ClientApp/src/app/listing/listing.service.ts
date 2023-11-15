@@ -17,7 +17,7 @@ export class ListingService {
 
 
   getListings(): Observable<IListing[]> {
-    return this._http.get<IListing[]>(this.baseUrl); 
+    return this._http.get<IListing[]>(this.baseUrl);
   }
 
 
@@ -34,7 +34,7 @@ export class ListingService {
 
 
   createListing(newListing: IListing, token: string): Observable<any> {
-    const createUrl = '/api/listing/create'; 
+    const createUrl = '/api/listing/create';
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -44,5 +44,12 @@ export class ListingService {
 
   }
 
+  getListingById(id: number): Observable<IListing | undefined> {
+    const url = `${this.baseUrl}${id}`; // Adjust the URL based on your API endpoint
+    return this._http.get<IListing | undefined>(url);
 
+
+
+
+  }
 }

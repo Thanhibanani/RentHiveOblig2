@@ -61,7 +61,7 @@
     <div class="mt-5 row justify-content-center">
       <div class="col-lg-6">
         <div class="input-group d-flex justify-content-center">
-          <input type="search" class="form-control form-control-lg rounded text-center shadow-sm border"  aria-label="Search" aria-describedby="search-addon" />
+          <input type="search" class="form-control form-control-lg rounded text-center shadow-sm border" aria-label="Search" aria-describedby="search-addon" />
           <button type="button" class="btn btn-light">Search</button>
         </div>
       </div>
@@ -82,31 +82,9 @@
       <ng-container *ngIf="listings && listings.length > 0; else noListings">
         <!-- Loop through up to three listings and create cards for each listing -->
         <div class="col-md-4" *ngFor="let listing of listings.slice(0, 3)">
-          <div class="card">
-            <div id="carousel-{{ listing.listingId }}" class="carousel slide" data-ride="carousel">
-              <div class="carousel-inner">
-                <!-- Display first image -->
-                <div class="carousel-item active">
-                  <img *ngIf="listing.image1" [src]="listing.image1" class="d-block w-100" alt="Image 1">
-                </div>
-                <!-- Display second image -->
-                <div *ngIf="listing.image2" class="carousel-item">
-                  <img [src]="listing.image2" class="d-block w-100" alt="Image 2">
-                </div>
-                <!-- Display third image -->
-                <div *ngIf="listing.image3" class="carousel-item">
-                  <img [src]="listing.image3" class="d-block w-100" alt="Image 3">
-                </div>
-              </div>
-              <a class="carousel-control-prev" href="#carousel-{{ listing.listingId }}" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="carousel-control-next" href="#carousel-{{ listing.listingId }}" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" ariahidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
-            </div>
+          <div class="card" style="cursor: pointer;" (click)="navigateToDetails(listing.listingId)">
+            <!-- Display first image directly without the carousel -->
+            <img *ngIf="listing.image1" [src]="listing.image1" class="card-img-top" alt="Listing Image">
             <div class="card-body">
               <h5 class="card-title">{{ listing.title }}</h5>
               <p class="card-text">{{ listing.description }}</p>

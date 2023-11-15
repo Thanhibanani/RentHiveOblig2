@@ -1,32 +1,32 @@
-import { Component } from '@angular/core';
+// listing-details.component.ts
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IListing } from '../models/listing.model';
-import { Router } from '@angular/router';
 import { ListingService } from '../listing/listing.service';
 
-
 @Component({
-  selector: 'app-listingdetails',
+  selector: 'app-listing-details',
   templateUrl: './listingdetails.component.html',
-  styleUrls: ['./listingdetails.component.css']
 })
-export class HomeComponent {//implements OnInit {
-  listings: IListing[] = [];
+export class ListingdetailsComponent implements OnInit {
+  listingId!: number;
+  listing: IListing | undefined;
 
-  constructor(private _router: Router, private _listingService: ListingService) { }
+  constructor(private route: ActivatedRoute, private listingService: ListingService) { }
 
-
-  ngOnInit() {
-    this.getListings();
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.listingId = +params['id'];
+      this.listingService.getListingById(this.listingId).subscribe(
+        (listing) => {
+          this.listing = listing;
+        },
+        (error) => {
+          console.error('Error fetching listing:', error);
+        }
+      );
+    });
   }
 
 
-  //Method to get the all listings:
-
-  getListings(): void {
-    this._listingService.getListings()
-      .subscribe(data => {
-        console.log('All', JSON.stringify(data)); //Just for debugging purposes, remember to REMOVE or COMMENT it out. 
-        this.listings = data;
-      });
-  }
 }

@@ -16,7 +16,7 @@ import { ListingService } from '../listing/listing.service';
 export class HomeComponent {//implements OnInit {
   listings: IListing[] = [];
 
-  constructor(private _router: Router, private _listingService: ListingService) { }
+  constructor(private _router: Router, private _listingService: ListingService,) { }
 
 
   ngOnInit() {
@@ -34,6 +34,9 @@ export class HomeComponent {//implements OnInit {
     });
   }
 
+  navigateToDetails(listingId: number): void {
+    this._router.navigate(['/listingdetails', listingId]);
+  }
 
 
   /*

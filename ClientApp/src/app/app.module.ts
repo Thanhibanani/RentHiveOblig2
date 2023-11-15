@@ -14,6 +14,10 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { HostingComponent } from './hosting/hosting.component';
 import { ListingformComponent } from './listing/listingform.component';
 import { UserhistoryComponent } from './userhistory/userhistory.component';
+import { ListingdetailsComponent } from './listingdetails/listingdetails.component';
+
+
+
 
 
 @NgModule({
@@ -26,6 +30,8 @@ import { UserhistoryComponent } from './userhistory/userhistory.component';
     HostingComponent,
     ListingformComponent,
     UserhistoryComponent,
+    ListingdetailsComponent,
+    
   ],
 
   imports: [
@@ -41,6 +47,9 @@ import { UserhistoryComponent } from './userhistory/userhistory.component';
       { path: 'hosting', component: HostingComponent },
       { path: 'createListing', component: ListingformComponent },
       { path: 'userhistory', component: UserhistoryComponent },
+      { path: 'listingdetails/:id', component: ListingdetailsComponent },
+
+     
     ])
   ],
   providers: [
