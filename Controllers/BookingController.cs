@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RentHiveV2.Models;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using RentHiveV2.DAL;
+using RentHiveV2.Models;
 
 namespace RentHiveV2.Controllers
 {
@@ -20,10 +18,10 @@ namespace RentHiveV2.Controllers
 
         // GET: api/Bookings/ByGuest/{guestId}
         [HttpGet("ByGuest/{guestId}")]
-        public async Task<ActionResult<IEnumerable<Bookings>>> GetBookingsByGuest(string guestId)
+        public async Task<ActionResult<IEnumerable<Bookings>>> GetBookingsByGuest(string guestId, string ApplicationUser)
         {
             var bookings = await _context.Bookings
-                                         .Where(b => b.GuestId == guestId)
+                                         .Where(b => b.GuestId == ApplicationUser)
                                          .ToListAsync();
 
             if (!bookings.Any())

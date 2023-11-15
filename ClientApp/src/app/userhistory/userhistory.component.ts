@@ -1,26 +1,23 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core';
 import { Bookings } from '../models/booking.model';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { BookingsService } from '../services/bookings.service';
 
 @Component({
   selector: 'app-userhistory-component',
   templateUrl: './userhistory.component.html',
 })
-
-export class UserhistoryComponent {
-  // In your Angular component
+export class UserhistoryComponent implements OnInit {
   activeBookings: Bookings[] = [];
   previousBookings: Bookings[] = [];
-  bookingsService: any;
+
+  constructor(private bookingsService: BookingsService) { }
 
   ngOnInit() {
-    this.loadBookings();
+    this.loadBookingsForGuest('guestId'); // Replace 'guestId' with the actual guest ID
   }
 
-  loadBookings() {
-    // Assuming `this.bookingsService.getBookings()` is a method that fetches the bookings
-    this.bookingsService.getBookings().subscribe((bookings: any[]) => {
+  loadBookingsForGuest(guestId: string) {
+    this.bookingsService.getBookingsByGuest(guestId).subscribe((bookings: Bookings[]) => {
       const currentDate = new Date();
       this.activeBookings = bookings.filter(booking => new Date(booking.endDate) >= currentDate);
       this.previousBookings = bookings.filter(booking => new Date(booking.endDate) < currentDate);
