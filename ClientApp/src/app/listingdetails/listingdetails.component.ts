@@ -5,7 +5,7 @@ import { IListing } from '../models/listing.model';
 import { ListingService } from '../listing/listing.service';
 
 @Component({
-  selector: 'app-listing-details',
+  selector: 'app-listing-listingdetails',
   templateUrl: './listingdetails.component.html',
 })
 export class ListingdetailsComponent implements OnInit {

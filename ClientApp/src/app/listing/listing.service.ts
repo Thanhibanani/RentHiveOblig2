@@ -44,12 +44,9 @@ export class ListingService {
 
   }
 
-  getListingById(id: number): Observable<IListing | undefined> {
-    const url = `${this.baseUrl}${id}`; // Adjust the URL based on your API endpoint
-    return this._http.get<IListing | undefined>(url);
-
-
-
-
+  getListingById(id: number): Observable<IListing> {
+    const url = `${this.baseUrl}${id}`;
+    return this._http.get<IListing>(url);
   }
+
 }

@@ -38,7 +38,8 @@ namespace RentHiveV2.Controllers
 
             var listings = await _listingRepository.GetAll();
 
-            if (listings == null) {
+            if (listings == null)
+            {
                 _logger.LogError("There were no Listings found when executing _listingRepository.GetAll()");
                 return NotFound();
             }
@@ -84,7 +85,7 @@ namespace RentHiveV2.Controllers
 
             _logger.LogInformation("[ListingController]: Create action method invoked.");
 
-            if(newListing == null)
+            if (newListing == null)
             {
                 return BadRequest("Invalid item data.");
             }
@@ -141,7 +142,8 @@ namespace RentHiveV2.Controllers
 
                 }
                 //If Modelstate is invalid.
-                else{
+                else
+                {
                     _logger.LogError("ModelState in invalid");
                     return BadRequest();
                 }
@@ -153,6 +155,24 @@ namespace RentHiveV2.Controllers
                 return StatusCode(500, ex.Message);
             }
 
+
+
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            _logger.LogInformation($"GetById action method invoked in Listing for ID: {id}");
+
+            var listing = await _listingRepository.GetById(id);
+
+            if (listing == null)
+            {
+                _logger.LogError($"No Listing found for ID: {id}");
+                return NotFound();
+            }
+
+            return Ok(listing);
         }
 
 

@@ -1,18 +1,21 @@
-<div class="container shadow p-3 mb-5 bg-white rounded">
-  <h1 class="my-4">{{ listing?.title }}</h1>
-  <h2>{{ listing?.city }}, {{ listing?.street }}, {{ listing?.country }}</h2>
 
-  <!-- Image grid -->
-  <div class="image-grid">
-    <img class="image-grid-col-2 image-grid-row-2" [src]="listing?.image1 || 'https://via.placeholder.com/150'" alt="">
-    <img class="img-fluid" [src]="listing?.image2 || 'https://via.placeholder.com/150'" alt="">
-    <img class="img-fluid" [src]="listing?.image3 || 'https://via.placeholder.com/150'" alt="">
+<body>
+  <div class="container shadow p-3 mb-5 bg-white rounded mt-5">
+    <h1 class="my-4">{{ listing?.title }}</h1>
+    <h2>{{ listing?.city }}, {{ listing?.street }}, {{ listing?.country }}</h2>
+
+    <!-- Image grid -->
+    <div class="image-grid">
+      <img class="image-grid-col-2 image-grid-row-2" [src]="listing?.image1 || 'https://via.placeholder.com/150'" alt="">
+      <img class="img-fluid" [src]="listing?.image2 || 'https://via.placeholder.com/150'" alt="">
+      <img class="img-fluid" [src]="listing?.image3 || 'https://via.placeholder.com/150'" alt="">
+    </div>
+
+    <!-- Description -->
+    <div class="row">
+      <h2 class="col-sm">Beehive description</h2>
+      <p>{{ listing?.description }}</p>
+    </div>
+
   </div>
-
-  <!-- Description -->
-  <div class="row">
-    <h2 class="col-sm">Beehive description</h2>
-    <p>{{ listing?.description }}</p>
-  </div>
-
-</div>
+</body>

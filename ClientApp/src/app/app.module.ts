@@ -41,7 +41,7 @@ import { ListingdetailsComponent } from './listingdetails/listingdetails.compone
     ReactiveFormsModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent }, //T0 BE DELETED.
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] }, //T0 BE DELETED.
       { path: 'hosting', component: HostingComponent },

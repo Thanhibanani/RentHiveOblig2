@@ -29,7 +29,7 @@ namespace RentHiveV2.DAL
             catch (Exception ex)
             {
                 _logger.LogError("[ListingRepository] listing creation failed for {@listing}, Error Message: {ex}", listing, ex.Message);
-                return false; 
+                return false;
             }
         }
 
@@ -63,8 +63,9 @@ namespace RentHiveV2.DAL
         {
             var listing = await _context.Listing.FindAsync(id);
 
-            if(listing == null) {
-            return false;
+            if (listing == null)
+            {
+                return false;
             }
 
             _context.Listing.Remove(listing);
@@ -79,12 +80,12 @@ namespace RentHiveV2.DAL
 
             var listings = await _context.Listing.FindAsync(id);
 
-            if(listings == null)
+            if (listings == null)
             {
-               return null;
+                return null;
 
             }
-            return listings; 
+            return listings;
 
         }
 
