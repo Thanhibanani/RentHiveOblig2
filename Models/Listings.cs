@@ -69,7 +69,7 @@ namespace RentHiveV2.Models
         //Optional images - We should rather add a image class and make a one-to-many relationship.
         //Not a scaleable option. 
         [JsonPropertyName("image1")]
-        public string? Image1 { get; set; } = "assets/listingImages/PlaceholderApartmentImage.png"; //Adding a default image to the first image. 
+        public string? Image1 { get; set; } = "assets/images/PlaceholderApartmentImage.png"; //Adding a default image to the first image. 
         
         [JsonPropertyName("image2")]
         public string? Image2 { get; set; }
