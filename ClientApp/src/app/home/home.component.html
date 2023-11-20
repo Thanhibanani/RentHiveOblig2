@@ -84,7 +84,7 @@
         <div class="col-md-4" *ngFor="let listing of listings.slice(0, 3)">
           <div class="card" style="cursor: pointer;" (click)="navigateToDetails(listing.listingId)">
             <!-- Display first image directly without the carousel -->
-            <img *ngIf="listing.image1" [src]="listing.image1" class="card-img-top" alt="Listing Image">
+            <img *ngIf="listing.image1" src="{{ listing.image1 }}" class="card-img-top" alt="Listing Image">
             <div class="card-body">
               <h5 class="card-title">{{ listing.title }}</h5>
               <p class="card-text">{{ listing.description }}</p>
