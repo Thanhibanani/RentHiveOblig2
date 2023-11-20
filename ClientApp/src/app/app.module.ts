@@ -20,6 +20,7 @@ import { ListingdetailsComponent } from './listingdetails/listingdetails.compone
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

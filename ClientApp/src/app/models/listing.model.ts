@@ -8,6 +8,8 @@ export interface IListing {
 
   pricePerNight: number;
 
+  totalPrice?: number;
+
   street?: string;
 
   city?: string;

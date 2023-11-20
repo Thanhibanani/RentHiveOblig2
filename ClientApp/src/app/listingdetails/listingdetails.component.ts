@@ -11,6 +11,9 @@ import { ListingService } from '../listing/listing.service';
 export class ListingdetailsComponent implements OnInit {
   listingId!: number;
   listing: IListing | undefined;
+  startDate: string = '';
+  endDate: string = '';
+  totalPrice: number = 0;
 
   constructor(private route: ActivatedRoute, private listingService: ListingService) { }
 
@@ -27,6 +30,26 @@ export class ListingdetailsComponent implements OnInit {
       );
     });
   }
+
+  calculateTotalPrice(): void {
+    const startDateObj = new Date(this.startDate);
+    const endDateObj = new Date(this.endDate);
+
+    const timeDifference = endDateObj.getTime() - startDateObj.getTime();
+    const diffDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+    if (diffDays >= 0) {
+      this.totalPrice = diffDays * this.listing!.pricePerNight;
+    } else {
+      this.totalPrice = 0;
+    }
+  }
+
+
+  bookNow(): void {
+    // Add your booking logic here
+  }
+
 
 
 }

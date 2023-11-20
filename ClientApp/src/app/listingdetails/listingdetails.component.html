@@ -17,5 +17,35 @@
       <p>{{ listing?.description }}</p>
     </div>
 
+    <!--tags to give it some margin-->
+    <br />
+    <hr />
+    <br />
+    <!--tags to give it some margin-->
+
+    <h2>Book your trip</h2>
+
+    
+
+    <form (ngSubmit)="bookNow()" id="SendToBooking">
+      <p id="pricePerNight">{{ listing?.pricePerNight }} NOK per night</p>
+
+      <div class="availability">
+        <p>Date from</p>
+        <input type="date" [(ngModel)]="startDate" name="startTime" (change)="calculateTotalPrice()" />
+        <p>Date to</p>
+        <input type="date" [(ngModel)]="endDate" name="endTime" (change)="calculateTotalPrice()" />
+      </div>
+
+      <p>Total price <span id="totalPrice">{{ totalPrice }} NOK</span></p>
+      <button type="submit" class="btn btn-primary">Book now</button>
+    </form>
+
+  
+
+
   </div>
+
+
+
 </body>
