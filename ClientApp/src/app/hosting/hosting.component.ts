@@ -44,7 +44,27 @@ export class HostingComponent implements OnInit {
     
   }
 
-  deleteListing(listingId: number): void {
+  deleteListing(listing: IListing): void {
+
+    const confirmDelete = confirm(`Are you sure you want to delete the listing "${listing.title}" ?`);
+    if (confirmDelete) {
+
+      this._listingService.deleteListing(listing.listingId)
+        .subscribe(
+          (response) => {
+            if (response.success) {
+              console.log(response.message);
+              // this.filteredListings = this.filteredListings.filter(i => i !== listing); --> To update the list locally after deleting.
+              this.getUserListings(); //Temporarily (fetching all the listings again). 
+            }
+          },
+          (error) => {
+            console.log("Error deleting listing:", error);
+          });
+
+
+
+    }
     
   }
 

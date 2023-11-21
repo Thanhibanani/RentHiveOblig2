@@ -8,6 +8,8 @@ import { AuthorizeService } from '../../api-authorization/authorize.service';
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class ListingService {
 
   private baseUrl = 'api/listing/';
@@ -47,6 +49,13 @@ export class ListingService {
   getListingById(id: number): Observable<IListing> {
     const url = `${this.baseUrl}${id}`;
     return this._http.get<IListing>(url);
+  }
+
+
+
+  deleteListing(listingId: number): Observable<any> {
+    const url = `${this.baseUrl}/delete/${listingId}`;
+    return this._http.delete(url); 
   }
 
 }

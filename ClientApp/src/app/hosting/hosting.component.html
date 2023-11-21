@@ -28,7 +28,7 @@
           <td>{{ listing.createdDateTime | date: 'medium' }}</td>
           <td>
             <button class="btn btn-secondary" (click)="editListing(listing.listingId)">Edit</button>
-            <button class="btn btn-danger" (click)="deleteListing(listing.listingId)">Delete</button>
+            <button class="btn btn-danger" (click)="deleteListing(listing)">Delete</button>
           </td>
         </tr>
       </tbody>

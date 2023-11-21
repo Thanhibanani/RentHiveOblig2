@@ -176,6 +176,18 @@ namespace RentHiveV2.Controllers
         }
 
 
+        [HttpDelete("delete/{id}")]
+        public async Task <IActionResult> DeleteListing(int id)
+        {
+            bool returnOk = await _listingRepository.Delete(id);
+            if (!returnOk)
+            {
+                _logger.LogError("ListingController: listing deletion failed for the listing {listingId:0000}", id);
+                return BadRequest("Listing deletion failed."); 
+            }
+            var response = new { success = true, message = "Listing " + id.ToString() + " deleted successfully" };
+            return Ok(response); 
+        }
 
 
 
