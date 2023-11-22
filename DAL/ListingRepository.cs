@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using RentHiveV2.Models;
 
 namespace RentHiveV2.DAL
@@ -59,6 +60,7 @@ namespace RentHiveV2.DAL
 
 
         //DELETE A LISTING BY ITS ID.
+
         public async Task<bool> Delete(int id)
         {
             var listing = await _context.Listing.FindAsync(id);
@@ -90,10 +92,39 @@ namespace RentHiveV2.DAL
         }
 
         //UPDATE A LISTING
-        public async Task Update(Listing listing)
+
+        [Authorize]
+        public async Task<bool> Update(int id, Listing listing)
         {
-            _context.Listing.Update(listing);
-            await _context.SaveChangesAsync();
+
+            var existingListing = await _context.Listing.FindAsync(id); 
+                if (existingListing == null) 
+                { _logger.LogError($"Listing with listingId {id} not found.");
+                    return false;
+                }
+            try
+            {
+                existingListing.Title = listing.Title;
+                existingListing.Description = listing.Description;
+                existingListing.Street = listing.Street;
+                existingListing.City = listing.City;
+                existingListing.Country = listing.Country;
+                existingListing.ZipCode = listing.ZipCode;
+                existingListing.State = listing.State;
+                existingListing.Bedroom = listing.Bedroom;
+                existingListing.Beds = listing.Beds;
+                existingListing.Bathroom = listing.Bathroom;
+                existingListing.PricePerNight = listing.PricePerNight;
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("[ListingRepository] listing FindAsync(id) failed when updating the ListingId {ListingId:0000}, error message: {ex}", listing, ex.Message) ;
+                return false;
+            }
+
         }
 
 

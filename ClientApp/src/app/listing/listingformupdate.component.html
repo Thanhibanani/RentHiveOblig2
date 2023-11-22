@@ -1,6 +1,6 @@
-<h1>Create a new Listing</h1>
+<h1>Update Listing</h1>
 
-<form [formGroup]="listingForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="listingFormUpdate" (ngSubmit)="onSubmit()">
 
   <div class="form-group">
     <label for="title">Title</label>
@@ -132,8 +132,9 @@
            required>
   </div>
 
-  <button class="btn btn-primary" type="submit" [disabled]="listingForm.invalid">
-  Create Listing</button>
+  <button class="btn btn-primary" type="submit" [disabled]="listingFormUpdate.invalid">
+    Update Listing
+  </button>
 
   <button class="btn btn-secondary" (click)="backToHostingDashboard()">Cancel</button>
 

@@ -15,9 +15,7 @@ import { HostingComponent } from './hosting/hosting.component';
 import { ListingformComponent } from './listing/listingform.component';
 import { UserhistoryComponent } from './userhistory/userhistory.component';
 import { ListingdetailsComponent } from './listingdetails/listingdetails.component';
-
-
-
+import { ListingformUpdateComponent } from './listing/listingformupdate.component';
 
 
 
@@ -32,6 +30,7 @@ import { ListingdetailsComponent } from './listingdetails/listingdetails.compone
     ListingformComponent,
     UserhistoryComponent,
     ListingdetailsComponent,
+    ListingformUpdateComponent,
     
   ],
 
@@ -45,9 +44,10 @@ import { ListingdetailsComponent } from './listingdetails/listingdetails.compone
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent }, //T0 BE DELETED.
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] }, //T0 BE DELETED.
-      { path: 'hosting', component: HostingComponent },
-      { path: 'createListing', component: ListingformComponent },
-      { path: 'userhistory', component: UserhistoryComponent },
+      { path: 'hosting', component: HostingComponent, canActivate: [AuthorizeGuard] },
+      { path: 'createListing', component: ListingformComponent, canActivate: [AuthorizeGuard] },
+      { path: 'listingFormUpdate/:id', component: ListingformUpdateComponent, canActivate: [AuthorizeGuard] }, 
+      { path: 'userhistory', component: UserhistoryComponent, canActivate: [AuthorizeGuard] },
       { path: 'listingdetails/:id', component: ListingdetailsComponent },
 
      

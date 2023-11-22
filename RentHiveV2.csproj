@@ -33,6 +33,7 @@
     <None Remove="ClientApp\src\app\hosting\hosting.component.ts" />
     <None Remove="ClientApp\src\app\listing\listing.service.ts" />
     <None Remove="ClientApp\src\app\listing\listingform.component.ts" />
+    <None Remove="ClientApp\src\app\listing\listingformupdate.component.ts" />
     <None Remove="ClientApp\src\app\models\booking.model.ts" />
     <None Remove="ClientApp\src\app\models\listing.model.ts" />
     <None Remove="ClientApp\src\app\services\bookings.service.ts" />
@@ -43,6 +44,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\hosting\hosting.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\listing\listing.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\listing\listingform.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\listing\listingformupdate.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\booking.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\listing.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\bookings.service.ts" />

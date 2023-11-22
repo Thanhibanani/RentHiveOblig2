@@ -10,7 +10,7 @@ namespace RentHiveV2.DAL
         Task<Listing?> GetById(int id);
 
         Task<bool> Create(Listing listing);
-        Task Update (Listing listing);
+        Task <bool> Update (int id, Listing listing);
         Task <bool> Delete (int id);
 
         Task<IEnumerable<Listing>?> GetByHost(string hostId);

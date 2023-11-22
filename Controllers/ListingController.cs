@@ -3,6 +3,7 @@ using RentHiveV2.Models;
 using System.Security.Claims;
 
 using RentHiveV2.DAL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentHiveV2.Controllers
 {
@@ -25,12 +26,7 @@ namespace RentHiveV2.Controllers
 
 
 
-
-        /// <summary>
-        /// Gets all the listings in the DB. 
-        /// </summary>
-        /// <returns></returns>
-
+        //GETTING ALL LISTINGS.
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -48,7 +44,7 @@ namespace RentHiveV2.Controllers
         }
 
 
-
+        //GETTING LISTINGS BELONGING TO THE HOST.
         [HttpGet("getByHost")]
         public async Task<IActionResult> GetByHost()
         {
@@ -70,15 +66,7 @@ namespace RentHiveV2.Controllers
         }
 
 
-
-
-
-
-        /// <summary>
-        /// Create listing method
-        /// </summary>
-        /// <param name="newListing"></param>
-        /// <returns></returns>
+        //CREATING A NEW LISTING.
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] Listing newListing)
         {
@@ -105,6 +93,7 @@ namespace RentHiveV2.Controllers
             _logger.LogInformation($"The listing Bedroom is: {newListing.Bedroom}");
             _logger.LogInformation($"The listing Bathroom is: {newListing.Bathroom}");
             _logger.LogInformation($"The listing Beds is: {newListing.Beds}");
+
 
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -154,11 +143,9 @@ namespace RentHiveV2.Controllers
                 //Need to return something here too. 
                 return StatusCode(500, ex.Message);
             }
-
-
-
         }
 
+        //GETTING A LISTING BY ITS ID.
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -176,17 +163,89 @@ namespace RentHiveV2.Controllers
         }
 
 
+        //DELETING A LISTING BY ITS ID.
+        [Authorize]
         [HttpDelete("delete/{id}")]
-        public async Task <IActionResult> DeleteListing(int id)
+        public async Task<IActionResult> DeleteListing(int id)
         {
+
+            //Checks if the user is the correct owner of the listing.
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _logger.LogInformation($"The listing UserID is: {userId}");
+
+            var listing = await _listingRepository.GetById(id);
+
+            if (listing.ApplicationUserId != userId)
+            {
+                _logger.LogError("The user is not the owner of the listing");
+                _logger.LogInformation($"User {userId} attemped to delete listing {id}");
+
+                return Forbid();
+            }
+
             bool returnOk = await _listingRepository.Delete(id);
             if (!returnOk)
             {
                 _logger.LogError("ListingController: listing deletion failed for the listing {listingId:0000}", id);
-                return BadRequest("Listing deletion failed."); 
+                return BadRequest("Listing deletion failed.");
             }
             var response = new { success = true, message = "Listing " + id.ToString() + " deleted successfully" };
-            return Ok(response); 
+            return Ok(response);
+        }
+
+
+        //UPDATING A LISTING BY ITS ID.
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] Listing newListing)
+        {
+            _logger.LogInformation($"Updating {newListing}");
+
+            //Checks if the user is the correct owner of the listing.
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _logger.LogInformation($"The listings UserID is: {userId}");
+
+            var listing = await _listingRepository.GetById(id);
+
+            if (listing.ApplicationUserId != userId)
+            {
+                _logger.LogError("The user is not the owner of the listing");
+                _logger.LogInformation($"User {userId} attemped to delete listing {id}");
+
+                return Forbid();
+            }
+
+            if (newListing == null)
+            {
+                return BadRequest("Invalid listing data");
+            }
+
+            //Loggers for debugging:
+            _logger.LogInformation($"The updated listing title is {newListing.Title}");
+            _logger.LogInformation($"The updated listing description is: {newListing.Description}");
+            _logger.LogInformation($"The updated listing price per night is: {newListing.PricePerNight}");
+            _logger.LogInformation($"The updated listing street is: {newListing.Street}");
+            _logger.LogInformation($"The updated listing City is: {newListing.City}");
+            _logger.LogInformation($"The updated listing Country is: {newListing.Country}");
+            _logger.LogInformation($"The updated listing Zipcode is: {newListing.ZipCode}");
+            _logger.LogInformation($"The updated listing State is: {newListing.State}");
+            _logger.LogInformation($"The updated listing Bedroom is: {newListing.Bedroom}");
+            _logger.LogInformation($"The updated listing Bathroom is: {newListing.Bathroom}");
+            _logger.LogInformation($"The updated listing Beds is: {newListing.Beds}");
+
+            bool returnOk = await _listingRepository.Update(id,newListing); // To rep.
+
+            if (returnOk)
+            {
+                var response = new { success = true, message = "Listing " + newListing.Title + " updated successfully." };
+                return Ok(response);
+            }
+            else
+            {
+                var response = new { success = false, message = "Updating listing failed" };
+                return Ok(response); 
+            }
+        
         }
 
 

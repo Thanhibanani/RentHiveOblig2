@@ -3,6 +3,8 @@ import { IListing } from './../models/listing.model';
 import { Router } from '@angular/router';
 import { ListingService } from '../listing/listing.service';
 import { AuthorizeService } from '../../api-authorization/authorize.service'
+import { Observable, catchError, switchMap, throwError } from 'rxjs';
+
 
 
 @Component({
@@ -19,6 +21,7 @@ export class HostingComponent implements OnInit {
 
   ngOnInit() {
     this.getUserListings();
+
   }
 
 
@@ -33,9 +36,6 @@ export class HostingComponent implements OnInit {
   }
 
 
-
-
-
   navigateToCreateListingForm(): void {
     this._router.navigate(['/createListing'])
   }
@@ -44,12 +44,30 @@ export class HostingComponent implements OnInit {
     
   }
 
+  viewListing(listing: IListing): void {
+    const id = listing.listingId; 
+    this._router.navigate(['/listingdetails', id])
+  }
+
+
   deleteListing(listing: IListing): void {
 
     const confirmDelete = confirm(`Are you sure you want to delete the listing "${listing.title}" ?`);
     if (confirmDelete) {
 
-      this._listingService.deleteListing(listing.listingId)
+      this.authorizeService.getAccessToken()
+        .pipe(
+          switchMap(token => {
+            if (!token) {
+              throw new Error('Authorization token not found!');
+            }
+            return this._listingService.deleteListing(listing.listingId, token);
+          }),
+          catchError(error => {
+            console.error('HTTP error', error);
+            return throwError('Deleting a listing failed');
+          })
+          )
         .subscribe(
           (response) => {
             if (response.success) {
@@ -61,9 +79,6 @@ export class HostingComponent implements OnInit {
           (error) => {
             console.log("Error deleting listing:", error);
           });
-
-
-
     }
     
   }

@@ -40,10 +40,7 @@ export class ListingService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-
-
     return this._http.post<any>(createUrl, newListing, { headers });
-
   }
 
   getListingById(id: number): Observable<IListing> {
@@ -53,9 +50,24 @@ export class ListingService {
 
 
 
-  deleteListing(listingId: number): Observable<any> {
-    const url = `${this.baseUrl}/delete/${listingId}`;
-    return this._http.delete(url); 
+  deleteListing(listingId: number, token: string): Observable<any> {
+    const deleteUrl = `${this.baseUrl}/delete/${listingId}`;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this._http.delete(deleteUrl, { headers });
   }
+
+
+  updateListing(listingId: number, token: string, newListing: any): Observable<any> {
+    const url = `${this.baseUrl}/update/${listingId}`;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    newListing.listingId = listingId; 
+    return this._http.put<any>(url, newListing, { headers });
+  }
+
 
 }

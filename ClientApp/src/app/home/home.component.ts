@@ -39,13 +39,5 @@ export class HomeComponent {//implements OnInit {
   }
 
 
-  /*
-
-  TODO:
-          NEED TO IMPLEMENT A ROUTING TO OTHER PAGE METHOD FOR WHEN THESE LISTINGS ARE CLICKED ON. 
-
-
-
-   */
 
 }
