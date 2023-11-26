@@ -7,11 +7,15 @@ import { Bookings } from '../models/booking.model';
   providedIn: 'root'
 })
 export class BookingsService {
-  private apiUrl = 'http://your-api-url/api/Bookings';
+  private apiUrl = '/api/bookings';
 
   constructor(private http: HttpClient) { }
 
   getBookingsByGuest(guestId: string): Observable<Bookings[]> {
     return this.http.get<Bookings[]>(`${this.apiUrl}/ByGuest/${guestId}`);
+  }
+
+  createBooking(newBooking: Bookings): Observable<Bookings> {
+    return this.http.post<Bookings>(this.apiUrl, newBooking);
   }
 }

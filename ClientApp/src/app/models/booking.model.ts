@@ -8,7 +8,7 @@ interface Listing {
 }
 
 // Enum for BookingStatus
-enum BookingStatus {
+export enum BookingStatus {
   Pending,
   Accepted,
   Declined

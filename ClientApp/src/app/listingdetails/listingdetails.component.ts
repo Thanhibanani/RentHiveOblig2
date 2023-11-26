@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IListing } from '../models/listing.model';
 import { ListingService } from '../listing/listing.service';
+import { Bookings, BookingStatus } from '../models/booking.model';
+import { BookingsService } from '../services/bookings.service';
 
 @Component({
   selector: 'app-listing-listingdetails',
@@ -15,7 +17,7 @@ export class ListingdetailsComponent implements OnInit {
   endDate: string = '';
   totalPrice: number = 0;
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService) { }
+  constructor(private route: ActivatedRoute, private listingService: ListingService,private BookingService: BookingsService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -46,10 +48,41 @@ export class ListingdetailsComponent implements OnInit {
   }
 
 
-  bookNow(): void {
-    // Add your booking logic here
+  createNewBooking(
+    guestId: string,
+    propertyId: number,
+    startDate: Date,
+    endDate: Date,
+    totalPrice: number,
+    quantityDays: number
+  ) {
+    const newBooking: Bookings = {
+      bookingId: 0, // 0 or null if it's a new booking
+      guestId: guestId,
+      propertyId: propertyId,
+      startDate: startDate,
+      endDate: endDate,
+      totalPrice: totalPrice,
+      bookingStatus:BookingStatus.Pending,
+      quantityDays: quantityDays,
+      applicationUser: undefined, 
+      listing: undefined, 
+    };
+
+    //error handling
+    this.BookingService.createBooking(newBooking).subscribe(
+      (createdBooking: Bookings) => {
+        console.log('Booking created successfully:', createdBooking);
+      
+      },
+      (error: any) => {
+        console.error('Error creating booking:', error);
+        
+      }
+    );
+  }
   }
 
 
 
-}
+
