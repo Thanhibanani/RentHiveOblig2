@@ -14,6 +14,21 @@ import { ListingformComponent } from './listing/listingform.component';
 import { UserhistoryComponent } from './userhistory/userhistory.component';
 import { ListingdetailsComponent } from './listingdetails/listingdetails.component';
 import { ListingformUpdateComponent } from './listing/listingformupdate.component';
+import { searchComponent } from './search/search.component';
+
+
+
+const routes: Routes = [
+  // ... other routes
+  { path: 'search', component: SearchComponent },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
 
 
 
