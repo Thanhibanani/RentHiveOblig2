@@ -1,9 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthorizeService } from '../../api-authorization/authorize.service'
 import { ListingService } from "./listing.service";
 import { catchError, finalize, switchMap, throwError } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 
 
 
@@ -15,8 +16,10 @@ import { catchError, finalize, switchMap, throwError } from "rxjs";
 export class ListingformUpdateComponent {
   listingFormUpdate: FormGroup;
   isLoading: boolean = false;
-  listingId: number =-1; 
-
+  listingId: number = -1;
+  @ViewChild('fileInput1') fileInput1?: ElementRef;
+  @ViewChild('fileInput2') fileInput2?: ElementRef;
+  @ViewChild('fileInput3') fileInput3?: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -24,6 +27,7 @@ export class ListingformUpdateComponent {
     private authorizeService: AuthorizeService,
     private _listingService: ListingService,
     private _route: ActivatedRoute,
+    private http: HttpClient,
   ) {
     this.listingFormUpdate = _formBuilder.group({
       title: ['', Validators.required],
@@ -121,5 +125,36 @@ export class ListingformUpdateComponent {
         }
       );
   }
+
+
+
+
+  
+  //Sending image upload.
+
+  uploadImages() {
+    const formData = new FormData();
+
+    if (this.fileInput1?.nativeElement.files[0]) {
+      formData.append('file1', this.fileInput1.nativeElement.files[0]);
+    }
+
+    if (this.fileInput2?.nativeElement.files[0]) {
+      formData.append('file2', this.fileInput2.nativeElement.files[0]);
+    }
+
+    if (this.fileInput3?.nativeElement.files[0]) {
+      formData.append('file3', this.fileInput3.nativeElement.files[0]);
+    }
+
+    this.http.post('/api/upload-images', formData).subscribe(
+      response => {
+        console.log('Images uploaded successfully', response);
+      },
+      error => console.error('Upload error', error)
+    );
+  }
+
+
 
 }

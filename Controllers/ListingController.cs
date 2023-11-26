@@ -4,6 +4,8 @@ using System.Security.Claims;
 
 using RentHiveV2.DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace RentHiveV2.Controllers
 {
@@ -16,12 +18,15 @@ namespace RentHiveV2.Controllers
 
         private readonly IListingRepository _listingRepository;
         private readonly ILogger<ListingController> _logger;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
 
-        public ListingController(IListingRepository listingRepository, ILogger<ListingController> logger)
+        public ListingController(IListingRepository listingRepository, ILogger<ListingController> logger, IWebHostEnvironment hostEnvironment)
         {
             _listingRepository = listingRepository;
             _logger = logger;
+            _hostEnvironment = hostEnvironment;
+
         }
 
 
@@ -247,6 +252,62 @@ namespace RentHiveV2.Controllers
             }
         
         }
+
+
+
+
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            _logger.LogInformation("Attempting to save image file.");
+            if (file == null) return null;
+            _logger.LogError("Image file was null.");
+
+            var uploadsFolderPath = Path.Combine(_hostEnvironment.WebRootPath, "listingImages");
+
+            //Logging for debugging
+            if (!Directory.Exists(uploadsFolderPath))
+                _logger.LogError("The folder path does not exist. Check the path!");
+
+
+
+            var fileName = Path.GetRandomFileName() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(uploadsFolderPath, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Path.Combine("listingImages", fileName); // Return the relative path
+        }
+
+
+
+
+        [HttpPost("upload-images/{listingId}")]
+        public async Task<IActionResult> UploadImages(int listingId, IFormFile file1, IFormFile file2, IFormFile file3)
+        {
+            _logger.LogInformation($"Got images from client. Attempting to update listing {listingId}");
+
+            var paths = new string[3];
+            paths[0] = await SaveFile(file1);
+            paths[1] = await SaveFile(file2);
+            paths[2] = await SaveFile(file3);
+
+            _logger.LogInformation("Files saved.");
+
+            // After saving the files, we will update the listing with the paths
+
+            bool updateSuccess = await _listingRepository.UpdateListingImages(listingId, paths[0], paths[1], paths[2]);
+            if (!updateSuccess)
+            {
+                return BadRequest("Failed to update listing with image paths.");
+            }
+
+            return Ok(new { Image1 = paths[0], Image2 = paths[1], Image3 = paths[2] });
+        }
+
+
 
 
 
