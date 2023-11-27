@@ -48,32 +48,24 @@ namespace RentHiveV2.Controllers
             return Ok(listings);
         }
 
+
+        // Other actions...
+
+
+
+
         //GET search method
         /**
-        public class SearchController : Controller
-        {
-            private readonly ApplicationDbContext _context;
-
-            public SearchController(ApplicationDbContext context)
+         
+         public IActionResult Search(string searchPhrase)
             {
-                _context = context;
-            }
-
-            public IActionResult Index(string keywords, string country, string city)
-            {
-                // Perform database query based on search parameters
-                var results = _context.Listing
-                    .Where(l =>
-                        (string.IsNullOrEmpty(keywords) || l.Description.Contains(keywords)) &&
-                        (string.IsNullOrEmpty(country) || l.Country == country) &&
-                        (string.IsNullOrEmpty(city) || l.City == city)
-                    )
+                var results = _context.Listings
+                    .Where(l => l.Description.Contains(searchPhrase) || l.Country.Contains(searchPhrase) || l.City.Contains(searchPhrase))
                     .ToList();
 
-                // Pass the search results to the view
-                return View(results);
+                return View("Index", results);
             }
-        }
+       
 
         */
 
