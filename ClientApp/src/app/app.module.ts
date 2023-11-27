@@ -14,7 +14,7 @@ import { ListingformComponent } from './listing/listingform.component';
 import { UserhistoryComponent } from './userhistory/userhistory.component';
 import { ListingdetailsComponent } from './listingdetails/listingdetails.component';
 import { ListingformUpdateComponent } from './listing/listingformupdate.component';
-import { searchComponent } from './search/search.component';
+//import { searchComponent } from './search/search.component';
 
 
 
@@ -47,7 +47,7 @@ import { searchComponent } from './search/search.component';
       { path: 'listingFormUpdate/:id', component: ListingformUpdateComponent, canActivate: [AuthorizeGuard] }, 
       { path: 'userhistory', component: UserhistoryComponent, canActivate: [AuthorizeGuard] },
       { path: 'listingdetails/:id', component: ListingdetailsComponent },
-      { path: 'search', component: searchComponent },
+      //{ path: 'search', component: searchComponent },
 
      
     ])
