@@ -19,12 +19,6 @@ import { searchComponent } from './search/search.component';
 
 
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
-
 
 
 @NgModule({
