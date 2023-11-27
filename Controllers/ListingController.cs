@@ -48,6 +48,34 @@ namespace RentHiveV2.Controllers
             return Ok(listings);
         }
 
+        //GET search method
+
+        public class SearchController : Controller
+        {
+            private readonly ApplicationDbContext _context;
+
+            public SearchController(ApplicationDbContext context)
+            {
+                _context = context;
+            }
+
+            public IActionResult Index(string keywords, string country, string city)
+            {
+                // Perform database query based on search parameters
+                var results = _context.Listings
+                    .Where(l =>
+                        (string.IsNullOrEmpty(keywords) || l.Description.Contains(keywords)) &&
+                        (string.IsNullOrEmpty(country) || l.Country == country) &&
+                        (string.IsNullOrEmpty(city) || l.City == city)
+                    )
+                    .ToList();
+
+                // Pass the search results to the view
+                return View(results);
+            }
+        }
+
+
 
         //GETTING LISTINGS BELONGING TO THE HOST.
         [HttpGet("getByHost")]
