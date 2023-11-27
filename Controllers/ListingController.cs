@@ -62,7 +62,7 @@ namespace RentHiveV2.Controllers
             public IActionResult Index(string keywords, string country, string city)
             {
                 // Perform database query based on search parameters
-                var results = _context.Listings
+                var results = _context.Listing
                     .Where(l =>
                         (string.IsNullOrEmpty(keywords) || l.Description.Contains(keywords)) &&
                         (string.IsNullOrEmpty(country) || l.Country == country) &&
