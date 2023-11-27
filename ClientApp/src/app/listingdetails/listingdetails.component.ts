@@ -16,18 +16,31 @@ export class ListingdetailsComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
   totalPrice: number = 0;
+    bookings: any[] | undefined;
 
   constructor(private route: ActivatedRoute, private listingService: ListingService,private BookingService: BookingsService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.listingId = +params['id'];
+
+      // Fetch listing
       this.listingService.getListingById(this.listingId).subscribe(
         (listing) => {
           this.listing = listing;
         },
         (error) => {
           console.error('Error fetching listing:', error);
+        }
+      );
+
+      // Fetch bookings
+      this.BookingService.getBookingsByListingId(this.listingId).subscribe(
+        (bookings) => {
+          this.bookings = bookings;
+        },
+        (error) => {
+          console.error('Error fetching bookings:', error);
         }
       );
     });

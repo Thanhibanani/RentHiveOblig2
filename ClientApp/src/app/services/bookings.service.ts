@@ -18,4 +18,9 @@ export class BookingsService {
   createBooking(newBooking: Bookings): Observable<Bookings> {
     return this.http.post<Bookings>(this.apiUrl, newBooking);
   }
+
+  getBookingsByListingId(listingId: number): Observable<any[]> {
+    const url = `${this.apiUrl}/bookings?listingId=${listingId}`;
+    return this.http.get<any[]>(url);
+  }
 }
