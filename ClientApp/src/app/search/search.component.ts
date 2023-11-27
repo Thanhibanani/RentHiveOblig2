@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
-import { ListingService } from "./listing.service";
+import { ListingService } from "../listing/listing.service";
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.omponent.css']
 })
 export class SearchComponent {
 
