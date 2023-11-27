@@ -49,7 +49,7 @@ namespace RentHiveV2.Controllers
         }
 
         //GET search method
-
+        /**
         public class SearchController : Controller
         {
             private readonly ApplicationDbContext _context;
@@ -74,6 +74,8 @@ namespace RentHiveV2.Controllers
                 return View(results);
             }
         }
+
+        */
 
 
 
