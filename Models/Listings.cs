@@ -1,11 +1,10 @@
-﻿using Duende.IdentityServer.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace RentHiveV2.Models
 {
-    public class Listing
+    public class IListing
     {
 
         //Primary Key
@@ -33,7 +32,7 @@ namespace RentHiveV2.Models
 
 
         //Address
-        [JsonPropertyName("street")] 
+        [JsonPropertyName("street")]
         public string? Street { get; set; }
 
         [JsonPropertyName("city")]
@@ -70,10 +69,10 @@ namespace RentHiveV2.Models
         //Not a scaleable option. 
         [JsonPropertyName("image1")]
         public string? Image1 { get; set; } = "assets/images/PlaceholderApartmentImage.png"; //Adding a default image to the first image. 
-        
+
         [JsonPropertyName("image2")]
         public string? Image2 { get; set; }
-        
+
         [JsonPropertyName("image3")]
         public string? Image3 { get; set; }
 

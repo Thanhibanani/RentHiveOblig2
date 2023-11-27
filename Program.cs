@@ -28,7 +28,7 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
-builder.Services.AddScoped<IListingRepository, ListingRepository>();
+builder.Services.AddScoped<IListingRepository, ListingController>();
 
 
 

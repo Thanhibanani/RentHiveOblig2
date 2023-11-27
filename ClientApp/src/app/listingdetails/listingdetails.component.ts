@@ -45,20 +45,27 @@ export class ListingdetailsComponent implements OnInit {
       );
     });
   }
-
   calculateTotalPrice(): void {
     const startDateObj = new Date(this.startDate);
     const endDateObj = new Date(this.endDate);
+
+    // Check if the date parsing was successful
+    if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+      console.error('Invalid date format');
+      this.totalPrice = 0;
+      return;
+    }
 
     const timeDifference = endDateObj.getTime() - startDateObj.getTime();
     const diffDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
     if (diffDays >= 0) {
-      this.totalPrice = diffDays * this.listing!.pricePerNight;
+      this.totalPrice = diffDays * (this.listing?.pricePerNight || 0);
     } else {
       this.totalPrice = 0;
     }
   }
+
 
 
   createNewBooking(
