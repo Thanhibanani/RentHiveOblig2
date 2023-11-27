@@ -31,7 +31,7 @@ export class searchComponent {
 
   search() {
     this.http.get('/api/search', { params: { keywords: this.keywords, country: this.country, city: this.city } })
-      .subscribe((results: any[]) => {
+      .subscribe((results: any) => {
         this.searchResults = results;
       });
   }
