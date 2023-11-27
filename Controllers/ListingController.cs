@@ -48,18 +48,16 @@ namespace RentHiveV2.Controllers
             return Ok(listings);
         }
 
+
+        // Other actions...
+
+
+
+
         //GET search method
-
-        public class SearchController : Controller
-        {
-            private readonly ApplicationDbContext _context;
-
-            public SearchController(ApplicationDbContext context)
-            {
-                _context = context;
-            }
-
-            public IActionResult Index(string keywords, string country, string city)
+        /**
+         
+         public IActionResult Search(string searchPhrase)
             {
                 // Perform database query based on search parameters
                 var results = _context.Listings
@@ -70,10 +68,11 @@ namespace RentHiveV2.Controllers
                     )
                     .ToList();
 
-                // Pass the search results to the view
-                return View(results);
+                return View("Index", results);
             }
-        }
+       
+
+        */
 
 
 
@@ -157,8 +156,8 @@ namespace RentHiveV2.Controllers
                     }
                     else
                     {
-                        var respone = new { success = false, message = "Listing creation" };
-                        return Ok(respone);
+                        var response = new Responses { Success = false, Message = "Listing creation" };
+                        return Ok(response);
                     }
 
 
@@ -334,14 +333,6 @@ namespace RentHiveV2.Controllers
 
             return Ok(new { Image1 = paths[0], Image2 = paths[1], Image3 = paths[2] });
         }
-
-
-
-
-
-
-
-
 
 
 

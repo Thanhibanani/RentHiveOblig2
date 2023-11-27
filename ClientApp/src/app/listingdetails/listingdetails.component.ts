@@ -5,6 +5,7 @@ import { IListing } from '../models/listing.model';
 import { ListingService } from '../listing/listing.service';
 import { Bookings, BookingStatus } from '../models/booking.model';
 import { BookingsService } from '../services/bookings.service';
+import { AuthorizeService } from '../../api-authorization/authorize.service';
 
 @Component({
   selector: 'app-listing-listingdetails',
@@ -18,7 +19,13 @@ export class ListingdetailsComponent implements OnInit {
   totalPrice: number = 0;
     bookings: any[] | undefined;
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService,private BookingService: BookingsService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private listingService: ListingService,
+    private BookingService: BookingsService,
+    private authorizeService: AuthorizeService,
+    
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -53,6 +60,14 @@ export class ListingdetailsComponent implements OnInit {
     const timeDifference = endDateObj.getTime() - startDateObj.getTime();
     const diffDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
+    return diffDays; 
+  }
+
+
+  //We calculate the total price by multiplying the difference between start and enddate with the listing's pricePerNight.
+  calculateTotalPrice(): void {
+    const diffDays = this.calculateDiffDays(); 
+
     if (diffDays >= 0) {
       this.totalPrice = diffDays * this.listing!.pricePerNight;
     } else {
@@ -70,16 +85,13 @@ export class ListingdetailsComponent implements OnInit {
     quantityDays: number
   ) {
     const newBooking: Bookings = {
-      bookingId: 0, // 0 or null if it's a new booking
-      guestId: guestId,
-      propertyId: propertyId,
-      startDate: startDate,
-      endDate: endDate,
-      totalPrice: totalPrice,
-      bookingStatus:BookingStatus.Pending,
-      quantityDays: quantityDays,
-      applicationUser: undefined, 
-      listing: undefined, 
+      bookingId: 0,
+      propertyId: this.listingId,
+      startDate: new Date(this.startDate),
+      endDate: new Date(this.endDate),
+      totalPrice: this.totalPrice,
+      bookingStatus: BookingStatus.Pending,
+      quantityDays: this.calculateDiffDays(),
     };
 
     //error handling

@@ -1,10 +1,18 @@
-<p>Find your next destination</p>
 
-<!-- search.component.html -->
-<ul>
-  <li *ngFor="let result of searchResults">
-    <!-- show results -->
-    {{ result.description }} - {{ result.country }} - {{ result.city }}
-  </li>
-</ul>
+
+
+<h1>Find your next destination</h1>
+
+
+<form asp-controller="Listings" asp-action="Search" method="get">
+  <input type="text" name="searchPhrase" placeholder="Where do you want to buzz off to?">
+  <button type="submit">Search</button>
+</form>
+
+<!-- displays listings with details -->
+<div>
+  @foreach (var listing in Model)
+  {
+  }
+</div>
 
