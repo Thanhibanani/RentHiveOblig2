@@ -28,18 +28,19 @@
     <h2>Book your trip</h2>
 
 
-    <form (ngSubmit)="createNewBooking">
-      <p id="pricePerNight">{{ listing?.pricePerNight }} NOK per night</p>
+    <!-- <form (ngSubmit)="createNewBooking">
+     <p id="pricePerNight">{{ listing?.pricePerNight }} NOK per night</p>
 
-      <div class="availability">
-        <p>Date from</p>
-        <input type="date" [(ngModel)]="startDate" name="startDate" (change)="calculateTotalPrice()" />
-        <p>Date to</p>
-        <input type="date" [(ngModel)]="endDate" name="endTime" (change)="calculateTotalPrice()" />
-      </div>
+     <div class="availability">
+       <p>Date from</p>
+       <input type="date" [(ngModel)]="startDate" name="startDate" (change)="calculateTotalPrice()" />
+       <p>Date to</p>
+       <input type="date" [(ngModel)]="endDate" name="endTime" (change)="calculateTotalPrice()" />
+     </div>
 
-      <p>Total price <span id="totalPrice">{{ totalPrice }} NOK</span></p>
-      <button type="submit" class="btn btn-primary">Book now</button>
-    </form>
+     <p>Total price <span id="totalPrice">{{ totalPrice }} NOK</span></p>
+     <button type="submit" class="btn btn-primary">Book now</button>
+   </form>
+    -->
   </div>
 </body>

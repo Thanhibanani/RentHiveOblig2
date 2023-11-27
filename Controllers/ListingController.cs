@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using RentHiveV2.DAL;
 using RentHiveV2.Models;
 using System.Security.Claims;
-
-using RentHiveV2.DAL;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace RentHiveV2.Controllers
 {
@@ -156,7 +153,7 @@ namespace RentHiveV2.Controllers
                     }
                     else
                     {
-                        var response = new Responses { Success = false, Message = "Listing creation" };
+                        var response = new { Success = false, Message = "Listing creation" };
                         return Ok(response);
                     }
 
@@ -265,7 +262,7 @@ namespace RentHiveV2.Controllers
             _logger.LogInformation($"The updated listing Bathroom is: {newListing.Bathroom}");
             _logger.LogInformation($"The updated listing Beds is: {newListing.Beds}");
 
-            bool returnOk = await _listingRepository.Update(id,newListing); // To rep.
+            bool returnOk = await _listingRepository.Update(id, newListing); // To rep.
 
             if (returnOk)
             {
@@ -275,9 +272,9 @@ namespace RentHiveV2.Controllers
             else
             {
                 var response = new { success = false, message = "Updating listing failed" };
-                return Ok(response); 
+                return Ok(response);
             }
-        
+
         }
 
 
