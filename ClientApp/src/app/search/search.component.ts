@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.omponent.css']
+  styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
 
