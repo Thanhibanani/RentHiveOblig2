@@ -3,6 +3,9 @@ import { Router } from "@angular/router";
 import { ListingService } from "../listing/listing.service";
 import { HttpClient } from '@angular/common/http';
 
+
+/**
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -31,3 +34,5 @@ export class searchComponent {
       });
   }
 }
+
+*/
