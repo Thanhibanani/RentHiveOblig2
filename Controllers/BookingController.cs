@@ -5,8 +5,9 @@ using RentHiveV2.Models;
 
 namespace RentHiveV2.Controllers
 {
-    [Route("api/[controller]")]
+
     [ApiController]
+    [Route("api/[controller]")]
     public class BookingsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -38,6 +39,9 @@ namespace RentHiveV2.Controllers
         {
             return await _context.Bookings.ToListAsync();
         }
+
+
+
 
         // GET: api/Bookings/5
         [HttpGet("{id}")]

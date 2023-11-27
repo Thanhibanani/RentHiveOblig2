@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using RentHiveV2.DAL;
-using RentHiveV2.Models;
-using System.Security.Claims;
-
-namespace RentHiveV2.Controllers
+﻿namespace RentHiveV2.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -52,18 +46,16 @@ namespace RentHiveV2.Controllers
             return Ok(listings);
         }
 
+
+        // Other actions...
+
+
+
+
         //GET search method
-
-        public class SearchController : Controller
-        {
-            private readonly ApplicationDbContext _context;
-
-            public SearchController(ApplicationDbContext context)
-            {
-                _context = context;
-            }
-
-            public IActionResult Index(string keywords, string country, string city)
+        /**
+         
+         public IActionResult Search(string searchPhrase)
             {
                 // Perform database query based on search parameters
                 var results = _context.Listing
@@ -74,10 +66,11 @@ namespace RentHiveV2.Controllers
                     )
                     .ToList();
 
-                // Pass the search results to the view
-                return View(results);
+                return View("Index", results);
             }
-        }
+       
+
+        */
 
 
 
