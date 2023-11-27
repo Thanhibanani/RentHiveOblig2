@@ -1,4 +1,10 @@
-﻿namespace RentHiveV2.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using RentHiveV2.DAL;
+using RentHiveV2.Models;
+using System.Security.Claims;
+
+namespace RentHiveV2.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -149,13 +155,15 @@
 
                     if (returnOk)
                     {
+                        _logger.LogInformation("Listing created successfully");
                         var response = new Responses { Success = true, Message = "Listing " + newListing.Title + " created successfully" };
                         return Ok(response);
                     }
                     else
                     {
+                        _logger.LogInformation("Listing creation failed");
                         var response = new Responses { Success = false, Message = "Listing creation" };
-                        return Ok(response);
+                        return Ok(response); ;
                     }
 
 
@@ -330,14 +338,6 @@
 
             return Ok(new { Image1 = paths[0], Image2 = paths[1], Image3 = paths[2] });
         }
-
-
-
-
-
-
-
-
 
 
 

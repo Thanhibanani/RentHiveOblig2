@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentHiveV2", "RentHiveV2.csproj", "{930B81CB-B964-40A1-94FF-19BE6BCD39E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitTestRenthive2", "..\xUnitTestRenthive2\xUnitTestRenthive2.csproj", "{D41911C8-CB4F-4C8A-9124-AA556B829830}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "..\UnitTesting\UnitTesting.csproj", "{56DEC7FA-B5B0-411E-B0AD-9091BE32D605}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{930B81CB-B964-40A1-94FF-19BE6BCD39E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{930B81CB-B964-40A1-94FF-19BE6BCD39E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{930B81CB-B964-40A1-94FF-19BE6BCD39E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D41911C8-CB4F-4C8A-9124-AA556B829830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D41911C8-CB4F-4C8A-9124-AA556B829830}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D41911C8-CB4F-4C8A-9124-AA556B829830}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D41911C8-CB4F-4C8A-9124-AA556B829830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56DEC7FA-B5B0-411E-B0AD-9091BE32D605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56DEC7FA-B5B0-411E-B0AD-9091BE32D605}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56DEC7FA-B5B0-411E-B0AD-9091BE32D605}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56DEC7FA-B5B0-411E-B0AD-9091BE32D605}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
