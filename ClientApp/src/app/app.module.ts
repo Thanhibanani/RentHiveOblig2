@@ -18,17 +18,12 @@ import { searchComponent } from './search/search.component';
 
 
 
-const routes: Routes = [
-  // ... other routes
-  { path: 'search', component: SearchComponent },
-];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-
 
 
 
@@ -58,6 +53,7 @@ export class AppRoutingModule { }
       { path: 'listingFormUpdate/:id', component: ListingformUpdateComponent, canActivate: [AuthorizeGuard] }, 
       { path: 'userhistory', component: UserhistoryComponent, canActivate: [AuthorizeGuard] },
       { path: 'listingdetails/:id', component: ListingdetailsComponent },
+      { path: 'search', component: searchComponent },
 
      
     ])
