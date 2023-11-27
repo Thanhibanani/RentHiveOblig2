@@ -61,8 +61,10 @@
     <div class="mt-5 row justify-content-center">
       <div class="col-lg-6">
         <div class="input-group d-flex justify-content-center">
-          <input type="search" class="form-control form-control-lg rounded text-center shadow-sm border" aria-label="Search" aria-describedby="search-addon" />
-          <button type="button" class="btn btn-light">Search</button>
+          <form asp-controller="Listings" asp-action="Search" method="get">
+            <input type="text" class="form-control form-control-lg rounded text-center shadow-sm border" aria-label="Search" aria-describedby="search-addon" name="searchPhrase" placeholder="Where do you want to buzz off to?">
+            <button type="submit" class="btn btn-light">Search</button>
+          </form>
         </div>
       </div>
     </div>
