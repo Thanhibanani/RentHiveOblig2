@@ -15,7 +15,7 @@ namespace RentHiveV2.DAL
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<IListing> Listing { get; set; }
+        public DbSet<Listing> Listing { get; set; }
         public DbSet<Bookings> Bookings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,8 +55,8 @@ namespace RentHiveV2.DAL
              */
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<IListing>().HasData(
-                new IListing
+            modelBuilder.Entity<Listing>().HasData(
+                new Listing
                 {
                     //Starter denne på 2 fordi får feilmelding om duplicated PK på ListingId(1)
                     //Jeg tror dette er pga den test listingen som ligger i dabasen som sikkert har verdi id 1
@@ -76,7 +76,7 @@ namespace RentHiveV2.DAL
                     Image2 = "ClientApp/src/assets/images/house_1_s2",
                     Image3 = "ClientApp/src/assets/images/house_1_s3",
                 },
-                new IListing
+                new Listing
                 {
                     ListingId = 3,
                     Title = "Cozy modern apartment",
@@ -94,7 +94,7 @@ namespace RentHiveV2.DAL
                     Image2 = "ClientApp/src/assets/images/house_2_s2",
                     Image3 = "ClientApp/src/assets/images/house_2_s3",
                 },
-                new IListing
+                new Listing
                 {
                     ListingId = 4,
                     Title = "Cozy large sized cabin",
@@ -112,7 +112,7 @@ namespace RentHiveV2.DAL
                     Image2 = "ClientApp/src/assets/images/house_3_s2",
                     Image3 = "ClientApp/src/assets/images/house_3_s3",
                 },
-                new IListing
+                new Listing
                 {
                     ListingId = 5,
                     Title = "Cozy small sized cabin",
@@ -130,7 +130,7 @@ namespace RentHiveV2.DAL
                     Image2 = "ClientApp/src/assets/images/house_4_s2",
                     Image3 = "ClientApp/src/assets/images/house_4_s3",
                 },
-                new IListing
+                new Listing
                 {
                     ListingId = 6,
                     Title = "Medium sized modern cabin",
@@ -148,7 +148,7 @@ namespace RentHiveV2.DAL
                     Image2 = "ClientApp/src/assets/images/house_5_s2",
                     Image3 = "ClientApp/src/assets/images/house_5_s3",
                 },
-                new IListing
+                new Listing
                 {
                     ListingId = 7,
                     Title = "Modern apartment near Tromsø",

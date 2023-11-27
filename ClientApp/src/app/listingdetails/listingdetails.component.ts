@@ -53,19 +53,9 @@ export class ListingdetailsComponent implements OnInit {
     });
   }
 
-  //To calculate the difference in days between start and end-date. This will be used to set the quantitydays,
-  //but also to calculate the total price.
-
-  calculateDiffDays(): number {
+  calculateTotalPrice(): void {
     const startDateObj = new Date(this.startDate);
     const endDateObj = new Date(this.endDate);
-
-    // Check if the date parsing was successful
-    if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
-      console.error('Invalid date format');
-      this.totalPrice = 0;
-      return;
-    }
 
     const timeDifference = endDateObj.getTime() - startDateObj.getTime();
     const diffDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
@@ -79,7 +69,7 @@ export class ListingdetailsComponent implements OnInit {
     const diffDays = this.calculateDiffDays(); 
 
     if (diffDays >= 0) {
-      this.totalPrice = diffDays * (this.listing?.pricePerNight || 0);
+      this.totalPrice = diffDays * this.listing!.pricePerNight;
     } else {
       this.totalPrice = 0;
     }

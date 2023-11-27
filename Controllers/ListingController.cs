@@ -1,36 +1,32 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using RentHiveV2.DAL;
+﻿using Microsoft.AspNetCore.Mvc;
 using RentHiveV2.Models;
 using System.Security.Claims;
+
+using RentHiveV2.DAL;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace RentHiveV2.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class listingController : Controller
+    public class ListingController : Controller
 
     {
 
 
         private readonly IListingRepository _listingRepository;
-        private readonly ILogger<listingController> _logger;
+        private readonly ILogger<ListingController> _logger;
         private readonly IWebHostEnvironment _hostEnvironment;
-        private ListingController object1;
-        private ILogger<listingController> object2;
 
-        public listingController(IListingRepository listingRepository, ILogger<listingController> logger, IWebHostEnvironment hostEnvironment)
+
+        public ListingController(IListingRepository listingRepository, ILogger<ListingController> logger, IWebHostEnvironment hostEnvironment)
         {
             _listingRepository = listingRepository;
             _logger = logger;
             _hostEnvironment = hostEnvironment;
 
-        }
-
-        public listingController(ListingController object1, ILogger<listingController> object2)
-        {
-            this.object1 = object1;
-            this.object2 = object2;
         }
 
 
@@ -64,7 +60,7 @@ namespace RentHiveV2.Controllers
          public IActionResult Search(string searchPhrase)
             {
                 // Perform database query based on search parameters
-                var results = _context.Listing
+                var results = _context.Listings
                     .Where(l =>
                         (string.IsNullOrEmpty(keywords) || l.Description.Contains(keywords)) &&
                         (string.IsNullOrEmpty(country) || l.Country == country) &&
@@ -104,14 +100,13 @@ namespace RentHiveV2.Controllers
 
         //CREATING A NEW LISTING.
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] IListing newListing)
+        public async Task<IActionResult> Create([FromBody] Listing newListing)
         {
 
             _logger.LogInformation("[ListingController]: Create action method invoked.");
 
             if (newListing == null)
             {
-
                 return BadRequest("Invalid item data.");
             }
 
@@ -139,6 +134,7 @@ namespace RentHiveV2.Controllers
             if (string.IsNullOrEmpty(userId))
             {
                 _logger.LogError("The userId is null or empty.");
+
                 return Forbid();
             }
 
@@ -155,15 +151,13 @@ namespace RentHiveV2.Controllers
 
                     if (returnOk)
                     {
-                        _logger.LogInformation("Listing created successfully");
-                        var response = new Responses { Success = true, Message = "Listing " + newListing.Title + " created successfully" };
+                        var response = new { success = true, message = "Listing " + newListing.Title + " created successfully" };
                         return Ok(response);
                     }
                     else
                     {
-                        _logger.LogInformation("Listing creation failed");
                         var response = new Responses { Success = false, Message = "Listing creation" };
-                        return Ok(response); ;
+                        return Ok(response);
                     }
 
 
@@ -171,13 +165,14 @@ namespace RentHiveV2.Controllers
                 //If Modelstate is invalid.
                 else
                 {
-                    _logger.LogError("ModelState is invalid");
-                    return BadRequest(ModelState);
+                    _logger.LogError("ModelState in invalid");
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occured while creating the listing.");
+                //Need to return something here too. 
                 return StatusCode(500, ex.Message);
             }
         }
@@ -234,7 +229,7 @@ namespace RentHiveV2.Controllers
         //UPDATING A LISTING BY ITS ID.
 
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] IListing newListing)
+        public async Task<IActionResult> Update(int id, [FromBody] Listing newListing)
         {
             _logger.LogInformation($"Updating {newListing}");
 
@@ -270,7 +265,7 @@ namespace RentHiveV2.Controllers
             _logger.LogInformation($"The updated listing Bathroom is: {newListing.Bathroom}");
             _logger.LogInformation($"The updated listing Beds is: {newListing.Beds}");
 
-            bool returnOk = await _listingRepository.Update(id, newListing); // To rep.
+            bool returnOk = await _listingRepository.Update(id,newListing); // To rep.
 
             if (returnOk)
             {
@@ -280,9 +275,9 @@ namespace RentHiveV2.Controllers
             else
             {
                 var response = new { success = false, message = "Updating listing failed" };
-                return Ok(response);
+                return Ok(response); 
             }
-
+        
         }
 
 

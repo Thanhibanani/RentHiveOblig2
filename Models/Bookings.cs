@@ -32,7 +32,7 @@ namespace RentHiveV2.Models
 
         //NAV. PROP.
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual IListing Listing { get; set; }
+        public virtual Listing Listing { get; set; }
     }
     public enum BookingStatus
     {
