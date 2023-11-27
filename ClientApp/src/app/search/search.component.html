@@ -1,10 +1,30 @@
-<p>Find your next destination</p>
+
+
+
+<h1>Find your next destination</h1>
+
+<!-- search.component.html -->
+<form (ngSubmit)="search()" #searchForm="ngForm">
+  <label for="keywords">Keywords:</label>
+  <input type="text" id="keywords" name="keywords" [(ngModel)]="keywords">
+
+  <label for="country">Country:</label>
+  <input type="text" id="country" name="country" [(ngModel)]="country">
+
+  <label for="city">City:</label>
+  <input type="text" id="city" name="city" [(ngModel)]="city">
+
+  <button type="submit">Search</button>
+</form>
+
 
 <!-- search.component.html -->
 <ul>
   <li *ngFor="let result of searchResults">
-    <!-- show results -->
+    <!-- Show search results -->
     {{ result.description }} - {{ result.country }} - {{ result.city }}
   </li>
 </ul>
+
+
 
