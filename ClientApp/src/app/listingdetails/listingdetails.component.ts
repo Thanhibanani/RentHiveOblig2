@@ -31,6 +31,8 @@ export class ListingdetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.listingId = +params['id'];
+
+      // Fetch listing
       this.listingService.getListingById(this.listingId).subscribe(
         (listing) => {
           this.listing = listing;
@@ -39,8 +41,6 @@ export class ListingdetailsComponent implements OnInit {
           console.error('Error fetching listing:', error);
         }
       );
-    });
-  }
 
   //To calculate the difference in days between start and end-date. This will be used to set the quantitydays,
   // but also to calculate the total price.

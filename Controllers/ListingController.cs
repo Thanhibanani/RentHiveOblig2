@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using RentHiveV2.DAL;
 using RentHiveV2.Models;
 using System.Security.Claims;
-
-using RentHiveV2.DAL;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace RentHiveV2.Controllers
 {
@@ -48,21 +45,19 @@ namespace RentHiveV2.Controllers
             return Ok(listings);
         }
 
+
+        // Other actions...
+
+
+
+
         //GET search method
         /**
-        public class SearchController : Controller
-        {
-            private readonly ApplicationDbContext _context;
-
-            public SearchController(ApplicationDbContext context)
-            {
-                _context = context;
-            }
-
-            public IActionResult Index(string keywords, string country, string city)
+         
+         public IActionResult Search(string searchPhrase)
             {
                 // Perform database query based on search parameters
-                var results = _context.Listing
+                var results = _context.Listings
                     .Where(l =>
                         (string.IsNullOrEmpty(keywords) || l.Description.Contains(keywords)) &&
                         (string.IsNullOrEmpty(country) || l.Country == country) &&
@@ -70,10 +65,9 @@ namespace RentHiveV2.Controllers
                     )
                     .ToList();
 
-                // Pass the search results to the view
-                return View(results);
+                return View("Index", results);
             }
-        }
+       
 
         */
 
@@ -159,8 +153,8 @@ namespace RentHiveV2.Controllers
                     }
                     else
                     {
-                        var respone = new { success = false, message = "Listing creation" };
-                        return Ok(respone);
+                        var response = new { Success = false, Message = "Listing creation" };
+                        return Ok(response);
                     }
 
 
@@ -268,7 +262,7 @@ namespace RentHiveV2.Controllers
             _logger.LogInformation($"The updated listing Bathroom is: {newListing.Bathroom}");
             _logger.LogInformation($"The updated listing Beds is: {newListing.Beds}");
 
-            bool returnOk = await _listingRepository.Update(id,newListing); // To rep.
+            bool returnOk = await _listingRepository.Update(id, newListing); // To rep.
 
             if (returnOk)
             {
@@ -278,9 +272,9 @@ namespace RentHiveV2.Controllers
             else
             {
                 var response = new { success = false, message = "Updating listing failed" };
-                return Ok(response); 
+                return Ok(response);
             }
-        
+
         }
 
 
@@ -336,14 +330,6 @@ namespace RentHiveV2.Controllers
 
             return Ok(new { Image1 = paths[0], Image2 = paths[1], Image3 = paths[2] });
         }
-
-
-
-
-
-
-
-
 
 
 
