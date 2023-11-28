@@ -72,9 +72,9 @@ namespace RentHiveV2.DAL
                     Bedroom = 3,
                     Bathroom = 1,
                     Beds = 4,
-                    Image1 = "ClientApp/src/assets/images/house_1_s1",
-                    Image2 = "ClientApp/src/assets/images/house_1_s2",
-                    Image3 = "ClientApp/src/assets/images/house_1_s3",
+                    Image1 = "assets/images/house_1_s1.jpg",
+                    Image2 = "assets/images/house_1_s2.jpg",
+                    Image3 = "assets/images/house_1_s3.jpg",
                 },
                 new Listing
                 {
@@ -90,9 +90,9 @@ namespace RentHiveV2.DAL
                     Bedroom = 3,
                     Bathroom = 1,
                     Beds = 3,
-                    Image1 = "ClientApp/src/assets/images/house_2_s1",
-                    Image2 = "ClientApp/src/assets/images/house_2_s2",
-                    Image3 = "ClientApp/src/assets/images/house_2_s3",
+                    Image1 = "assets/images/house_2_s1.jpg",
+                    Image2 = "assets/images/house_2_s2.jpg",
+                    Image3 = "assets/images/house_2_s3.jpg",
                 },
                 new Listing
                 {
@@ -108,9 +108,9 @@ namespace RentHiveV2.DAL
                     Bedroom = 4,
                     Bathroom = 1,
                     Beds = 4,
-                    Image1 = "ClientApp/src/assets/images/house_3_s1",
-                    Image2 = "ClientApp/src/assets/images/house_3_s2",
-                    Image3 = "ClientApp/src/assets/images/house_3_s3",
+                    Image1 = "assets/images/house_3_s1.jpg",
+                    Image2 = "assets/images/house_3_s2.jpg",
+                    Image3 = "assets/images/house_3_s3.jpg",
                 },
                 new Listing
                 {
@@ -126,9 +126,9 @@ namespace RentHiveV2.DAL
                     Bedroom = 2,
                     Bathroom = 1,
                     Beds = 3,
-                    Image1 = "ClientApp/src/assets/images/house_4_s1",
-                    Image2 = "ClientApp/src/assets/images/house_4_s2",
-                    Image3 = "ClientApp/src/assets/images/house_4_s3",
+                    Image1 = "assets/images/house_4_s1.jpg",
+                    Image2 = "assets/images/house_4_s2.jpg",
+                    Image3 = "assets/images/house_4_s3.jpg",
                 },
                 new Listing
                 {
@@ -144,9 +144,9 @@ namespace RentHiveV2.DAL
                     Bedroom = 1,
                     Bathroom = 1,
                     Beds = 1,
-                    Image1 = "ClientApp/src/assets/images/house_5_s1",
-                    Image2 = "ClientApp/src/assets/images/house_5_s2",
-                    Image3 = "ClientApp/src/assets/images/house_5_s3",
+                    Image1 = "assets/images/house_5_s1.jpg",
+                    Image2 = "assets/images/house_5_s2.jpg",
+                    Image3 = "assets/images/house_5_s3.jpg",
                 },
                 new Listing
                 {
@@ -162,9 +162,9 @@ namespace RentHiveV2.DAL
                     Bedroom = 3,
                     Bathroom = 1,
                     Beds = 3,
-                    Image1 = "ClientApp/src/assets/images/house_6_s1",
-                    Image2 = "ClientApp/src/assets/images/house_6_s2",
-                    Image3 = "ClientApp/src/assets/images/house_6_s3",
+                    Image1 = "assets/images/house_6_s1.jpg",
+                    Image2 = "assets/images/house_6_s2.jpg",
+                    Image3 = "assets/images/house_6_s3.jpg",
                 }
             );
         }
