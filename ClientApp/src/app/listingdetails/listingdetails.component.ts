@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IListing } from '../models/listing.model';
@@ -12,6 +11,10 @@ import { catchError, finalize, switchMap, throwError } from 'rxjs';
   selector: 'app-listing-listingdetails',
   templateUrl: './listingdetails.component.html',
 })
+
+
+
+
 export class ListingdetailsComponent implements OnInit {
   listingId!: number;
   listing: IListing | undefined;
@@ -25,7 +28,7 @@ export class ListingdetailsComponent implements OnInit {
     private BookingService: BookingsService,
     private authorizeService: AuthorizeService,
     private _router: Router,
-    
+
   ) { }
 
   ngOnInit(): void {
@@ -41,32 +44,35 @@ export class ListingdetailsComponent implements OnInit {
           console.error('Error fetching listing:', error);
         }
       );
-
-  //To calculate the difference in days between start and end-date. This will be used to set the quantitydays,
-  // but also to calculate the total price.
-
-  calculateDiffDays(): number {
-    const startDateObj = new Date(this.startDate);
-    const endDateObj = new Date(this.endDate);
-
-    const timeDifference = endDateObj.getTime() - startDateObj.getTime();
-    const diffDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
-
-    return diffDays; 
+    }); 
   }
 
 
-  //We calculate the total price by multiplying the difference between start and enddate with the listing's pricePerNight.
-  calculateTotalPrice(): void {
-    const diffDays = this.calculateDiffDays(); 
+      //To calculate the difference in days between start and end-date. This will be used to set the quantitydays,
+      // but also to calculate the total price.
 
-    if (diffDays >= 0) {
+      calculateDiffDays(): number {
+      const startDateObj = new Date(this.startDate);
+      const endDateObj = new Date(this.endDate);
+
+      const timeDifference = endDateObj.getTime() - startDateObj.getTime();
+      const diffDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+      return diffDays;
+      }
+
+
+      //We calculate the total price by multiplying the difference between start and enddate with the listing's pricePerNight.
+      calculateTotalPrice(): void {
+      const diffDays = this.calculateDiffDays();
+
+      if(diffDays >= 0) {
       this.totalPrice = diffDays * this.listing!.pricePerNight;
     } else {
       this.totalPrice = 0;
     }
-  }
 
+  }
 
 
   RequestBooking() {
@@ -112,7 +118,5 @@ export class ListingdetailsComponent implements OnInit {
       );
   }
 }
-
-
 
 

@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\hosting\hosting.component.ts" />
+    <None Remove="ClientApp\src\app\listingdetails\listingdetails.component.ts" />
     <None Remove="ClientApp\src\app\listing\listing.service.ts" />
     <None Remove="ClientApp\src\app\listing\listingform.component.ts" />
     <None Remove="ClientApp\src\app\listing\listingformupdate.component.ts" />
@@ -42,6 +43,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\hosting\hosting.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\listingdetails\listingdetails.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\listing\listing.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\listing\listingform.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\listing\listingformupdate.component.ts" />
