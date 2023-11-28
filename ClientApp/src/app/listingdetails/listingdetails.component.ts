@@ -1,11 +1,12 @@
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IListing } from '../models/listing.model';
 import { ListingService } from '../listing/listing.service';
 import { Bookings, BookingStatus } from '../models/booking.model';
 import { BookingsService } from '../services/bookings.service';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { catchError, finalize, switchMap, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-listing-listingdetails',
@@ -23,6 +24,7 @@ export class ListingdetailsComponent implements OnInit {
     private listingService: ListingService,
     private BookingService: BookingsService,
     private authorizeService: AuthorizeService,
+    private _router: Router,
     
   ) { }
 
@@ -41,7 +43,7 @@ export class ListingdetailsComponent implements OnInit {
   }
 
   //To calculate the difference in days between start and end-date. This will be used to set the quantitydays,
-  //but also to calculate the total price.
+  // but also to calculate the total price.
 
   calculateDiffDays(): number {
     const startDateObj = new Date(this.startDate);
@@ -67,30 +69,49 @@ export class ListingdetailsComponent implements OnInit {
 
 
 
-  createNewBooking() {
-    const newBooking: Bookings = {
-      bookingId: 0,
-      propertyId: this.listingId,
-      startDate: new Date(this.startDate),
-      endDate: new Date(this.endDate),
-      totalPrice: this.totalPrice,
-      bookingStatus: BookingStatus.Pending,
-      quantityDays: this.calculateDiffDays(),
-    };
+  RequestBooking() {
 
-    //error handling
-    this.BookingService.createBooking(newBooking).subscribe(
-      (createdBooking: Bookings) => {
-        console.log('Booking created successfully:', createdBooking);
-      
-      },
-      (error: any) => {
-        console.error('Error creating booking:', error);
-        
-      }
-    );
+    console.log("Initiating booking request.");
+
+    this.authorizeService.getAccessToken()
+      .pipe(switchMap(token => {
+        if (!token) {
+          throw new Error('Authorization token not found');
+        }
+
+        const newBooking: Bookings = {
+          bookingId: 0,
+          listingId: this.listingId,
+          startDate: new Date(this.startDate),
+          endDate: new Date(this.endDate),
+          totalPrice: this.totalPrice,
+          bookingStatus: BookingStatus.Pending,
+          quantityDays: this.calculateDiffDays(),
+        };
+
+        console.log("Booking request: ", newBooking)
+
+        return this.BookingService.createBooking(newBooking, token);
+
+      }),
+        catchError(error => {
+          console.error('HTTP error:', error);
+          return throwError('Creating a booking failed');
+        }),
+      )
+      .subscribe(
+        response => {
+          if (response.success) {
+            console.log(response.message);
+            this._router.navigate(['']);
+          } else {
+            console.log('Creating a listing failed');
+          }
+        },
+        error => console.error('HTTP error:', error)
+      );
   }
-  }
+}
 
 
 

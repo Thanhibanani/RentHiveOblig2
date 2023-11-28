@@ -1,18 +1,21 @@
 ﻿using Duende.IdentityServer.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace RentHiveV2.Models
 {
     public class Bookings
     {
         [Key] public int BookingId { get; set; }
+
+
         [ForeignKey("ApplicationUser")]
         public string GuestId { get; set; } //Foreign key
 
         //The propertyId
-        [ForeignKey("Property")]
-        public int PropertyId { get; set; } //Foreign key
+        [ForeignKey("Listing")]
+        public int ListingId { get; set; } //Foreign key
 
         [Required(ErrorMessage = "StartDate is required.")]
         public DateTime StartDate { get; set; }
@@ -31,7 +34,11 @@ namespace RentHiveV2.Models
         public int QuantityDays { get; set; }
 
         //NAV. PROP.
+
+        [JsonIgnore]
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        [JsonIgnore]
         public virtual Listing Listing { get; set; }
     }
     public enum BookingStatus

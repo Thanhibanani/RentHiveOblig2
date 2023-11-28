@@ -29,6 +29,7 @@ builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
 builder.Services.AddScoped<IListingRepository, ListingRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 
 

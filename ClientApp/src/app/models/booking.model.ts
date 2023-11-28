@@ -5,7 +5,7 @@
 
 export interface Bookings {
   bookingId: number;
-  propertyId: number; 
+  listingId: number; 
   startDate: Date;
   endDate: Date;
   totalPrice: number;

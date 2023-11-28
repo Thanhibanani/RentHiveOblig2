@@ -105,7 +105,7 @@ namespace RentHiveV2.Data.Migrations
 
                     b.HasIndex("Use");
 
-                    b.ToTable("Keys");
+                    b.ToTable("Keys", (string)null);
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
@@ -404,7 +404,7 @@ namespace RentHiveV2.Data.Migrations
 
                     b.HasIndex("ListingId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("RentHiveV2.Models.Listing", b =>
@@ -468,7 +468,7 @@ namespace RentHiveV2.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Listing");
+                    b.ToTable("Listing", (string)null);
 
                     b.HasData(
                         new
