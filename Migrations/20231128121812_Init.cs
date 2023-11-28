@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace RentHiveV2.Data.Migrations
+#nullable disable
+
+namespace RentHiveV2.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,7 +60,7 @@ namespace RentHiveV2.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Expiration = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Data = table.Column<string>(type: "nvarchar(max)", maxLength: 51710, nullable: false)
+                    Data = table.Column<string>(type: "nvarchar(max)", maxLength: 50000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,11 +74,11 @@ namespace RentHiveV2.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Version = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Use = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
+                    Use = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Algorithm = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IsX509Certificate = table.Column<bool>(type: "bit", nullable: false),
                     DataProtected = table.Column<bool>(type: "bit", nullable: false),
-                    Data = table.Column<string>(type: "nvarchar(max)", maxLength: 51710, nullable: false)
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,7 +98,7 @@ namespace RentHiveV2.Data.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Expiration = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ConsumedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Data = table.Column<string>(type: "nvarchar(max)", maxLength: 51710, nullable: false)
+                    Data = table.Column<string>(type: "nvarchar(max)", maxLength: 50000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -209,6 +211,83 @@ namespace RentHiveV2.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Listing",
+                columns: table => new
+                {
+                    ListingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PricePerNight = table.Column<double>(type: "float", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bedroom = table.Column<int>(type: "int", nullable: false),
+                    Bathroom = table.Column<int>(type: "int", nullable: false),
+                    Beds = table.Column<int>(type: "int", nullable: false),
+                    Image1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Listing", x => x.ListingId);
+                    table.ForeignKey(
+                        name: "FK_Listing_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bookings",
+                columns: table => new
+                {
+                    BookingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GuestId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ListingId = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    BookingStatus = table.Column<int>(type: "int", nullable: false),
+                    QuantityDays = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bookings", x => x.BookingId);
+                    table.ForeignKey(
+                        name: "FK_Bookings_AspNetUsers_GuestId",
+                        column: x => x.GuestId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Listing_ListingId",
+                        column: x => x.ListingId,
+                        principalTable: "Listing",
+                        principalColumn: "ListingId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Listing",
+                columns: new[] { "ListingId", "ApplicationUserId", "Bathroom", "Bedroom", "Beds", "City", "Country", "CreatedDateTime", "Description", "Image1", "Image2", "Image3", "PricePerNight", "State", "Street", "Title", "ZipCode" },
+                values: new object[,]
+                {
+                    { 2, null, 1, 3, 4, "Oslo", "Norway", new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9834), "Here lies a remarkable house of outstanding quality, meticulously built from teh ground up. It represents the very best in comfort, style, and craftsmanship. It consists of a large carport, 3 bedrooms, one bathroom, and a wardrobe in the hallway. A great family home.", "ClientApp/src/assets/images/house_1_s1", "ClientApp/src/assets/images/house_1_s2", "ClientApp/src/assets/images/house_1_s3", 650.0, "Oslo", "Ammerudgrenda", "Cozy cabin, newly buildt near Oslo", "0958" },
+                    { 3, null, 1, 3, 3, "Gjøvik", "Norway", new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9866), "Welcome to this property, which is nicely located and very secluded at the end of a cul-de-sac. Close to the sea and Knarberg marina, which leads you directly into the idyllic Bjerkøysundet with many beautiful island opportunities in the archipelago. The house is also sunny and child-friendly. From the house, it's not far down to the sea. This area offers many great hiking opportunities and is close to the illuminated ski trail. ", "ClientApp/src/assets/images/house_2_s1", "ClientApp/src/assets/images/house_2_s2", "ClientApp/src/assets/images/house_2_s3", 400.0, "Innlandet", "Tanbergveien", "Cozy modern apartment", "2819" },
+                    { 4, null, 1, 4, 4, "Lillehammer", "Norway", new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9870), "Detached turnkey single-family homes from Nordbohus Modum, with a lifetime standard, projected on plot 1, zoned for 5 single-family homes. Centrally located in Skurdalen. 200 meters from the kindergarten, exit from Fv40, 10 km to Geilo, halfway between Oslo and Bergen by road and the Bergen Railway.", "ClientApp/src/assets/images/house_3_s1", "ClientApp/src/assets/images/house_3_s2", "ClientApp/src/assets/images/house_3_s3", 460.0, "Troms og Finnmark", "Alarmvegen", "Cozy large sized cabin", "9020" },
+                    { 5, null, 1, 2, 3, "Geilo", "Norway", new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9873), "The mini-house have an area-efficient and rich floor plan. The 1st floor comprises a hall with stairs, bathroom, storage room, technical room, one bedroom, and a living room/kitchen in an open layout. The 2nd floor has a practical loft. In connection with the entrance, a decking will be built with space for garden furniture. The house comes with a sports storage room, as well as a parking space.", "ClientApp/src/assets/images/house_4_s1", "ClientApp/src/assets/images/house_4_s2", "ClientApp/src/assets/images/house_4_s3", 500.0, "Viken", "Daglivegen", "Cozy small sized cabin", "3580" },
+                    { 6, null, 1, 1, 1, "Reinsvoll", "Norway", new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9876), "Modern home where emphasis has been placed on quality. Turnkey homes with no index regulation or additional costs. Attractive area in Resahagen which is starting to take shape with schools, kindergarten, and sports field nearby. 3 low-maintenance detached houses with a sheltered outdoor area where one can enjoy the afternoon and evening sun directly from the kitchen/living room. Practical home with 3 bedrooms, 2 living rooms, 2 bathrooms, laundry room, storage rooms. Carport with storage. Upgraded kitchen with appliances from Sigdal. Separate kitchen island. Single plank laminate throughout the home on all floors except tiles in the bathrooms, ensuring a consistent profile.", "ClientApp/src/assets/images/house_5_s1", "ClientApp/src/assets/images/house_5_s2", "ClientApp/src/assets/images/house_5_s3", 600.0, "Innlandet", "Torvvegen", "Medium sized modern cabin", "2840" },
+                    { 7, null, 1, 3, 3, "Jørpeland", "Norway", new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9880), "Here is a beautiful home that are to be built in the lovely Tromsdalen. It has a beautiful architectural design with large glass surfaces and exquisite material choices. Here you can live in peaceful surroundings while having all desired amenities within walking distance from the front door; school, kindergartens, recreational areas, illuminated ski trail, grocery store, as well as specialty stores with Pizza and Sushi. Good bus connections with a short distance to the bus stop.", "ClientApp/src/assets/images/house_6_s1", "ClientApp/src/assets/images/house_6_s2", "ClientApp/src/assets/images/house_6_s3", 450.0, "Rogaland", "Gaupevegen", "Modern apartment near Tromsø", "4103" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -249,6 +328,16 @@ namespace RentHiveV2.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bookings_GuestId",
+                table: "Bookings",
+                column: "GuestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_ListingId",
+                table: "Bookings",
+                column: "ListingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
                 table: "DeviceCodes",
                 column: "DeviceCode",
@@ -263,6 +352,11 @@ namespace RentHiveV2.Data.Migrations
                 name: "IX_Keys_Use",
                 table: "Keys",
                 column: "Use");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Listing_ApplicationUserId",
+                table: "Listing",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_ConsumedTime",
@@ -303,6 +397,9 @@ namespace RentHiveV2.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Bookings");
+
+            migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
@@ -313,6 +410,9 @@ namespace RentHiveV2.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Listing");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

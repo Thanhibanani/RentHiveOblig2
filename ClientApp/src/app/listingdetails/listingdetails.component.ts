@@ -64,15 +64,15 @@ export class ListingdetailsComponent implements OnInit {
 
       //We calculate the total price by multiplying the difference between start and enddate with the listing's pricePerNight.
       calculateTotalPrice(): void {
-      const diffDays = this.calculateDiffDays();
+          const diffDays = this.calculateDiffDays();
 
-      if(diffDays >= 0) {
-      this.totalPrice = diffDays * this.listing!.pricePerNight;
-    } else {
-      this.totalPrice = 0;
-    }
-
-  }
+          if(diffDays >= 0) {
+          this.totalPrice = diffDays * this.listing!.pricePerNight;
+          }
+          else {
+          this.totalPrice = 0;
+            }
+      }
 
 
   RequestBooking() {

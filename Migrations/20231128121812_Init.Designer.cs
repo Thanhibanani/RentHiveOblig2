@@ -9,11 +9,11 @@ using RentHiveV2.DAL;
 
 #nullable disable
 
-namespace RentHiveV2.Data.Migrations
+namespace RentHiveV2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231109194530_ListingnBookings")]
-    partial class ListingnBookings
+    [Migration("20231128121812_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -388,9 +388,6 @@ namespace RentHiveV2.Data.Migrations
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PropertyId")
-                        .HasColumnType("int");
-
                     b.Property<int>("QuantityDays")
                         .HasColumnType("int");
 
@@ -471,6 +468,122 @@ namespace RentHiveV2.Data.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Listing");
+
+                    b.HasData(
+                        new
+                        {
+                            ListingId = 2,
+                            Bathroom = 1,
+                            Bedroom = 3,
+                            Beds = 4,
+                            City = "Oslo",
+                            Country = "Norway",
+                            CreatedDateTime = new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9834),
+                            Description = "Here lies a remarkable house of outstanding quality, meticulously built from teh ground up. It represents the very best in comfort, style, and craftsmanship. It consists of a large carport, 3 bedrooms, one bathroom, and a wardrobe in the hallway. A great family home.",
+                            Image1 = "ClientApp/src/assets/images/house_1_s1",
+                            Image2 = "ClientApp/src/assets/images/house_1_s2",
+                            Image3 = "ClientApp/src/assets/images/house_1_s3",
+                            PricePerNight = 650.0,
+                            State = "Oslo",
+                            Street = "Ammerudgrenda",
+                            Title = "Cozy cabin, newly buildt near Oslo",
+                            ZipCode = "0958"
+                        },
+                        new
+                        {
+                            ListingId = 3,
+                            Bathroom = 1,
+                            Bedroom = 3,
+                            Beds = 3,
+                            City = "Gjøvik",
+                            Country = "Norway",
+                            CreatedDateTime = new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9866),
+                            Description = "Welcome to this property, which is nicely located and very secluded at the end of a cul-de-sac. Close to the sea and Knarberg marina, which leads you directly into the idyllic Bjerkøysundet with many beautiful island opportunities in the archipelago. The house is also sunny and child-friendly. From the house, it's not far down to the sea. This area offers many great hiking opportunities and is close to the illuminated ski trail. ",
+                            Image1 = "ClientApp/src/assets/images/house_2_s1",
+                            Image2 = "ClientApp/src/assets/images/house_2_s2",
+                            Image3 = "ClientApp/src/assets/images/house_2_s3",
+                            PricePerNight = 400.0,
+                            State = "Innlandet",
+                            Street = "Tanbergveien",
+                            Title = "Cozy modern apartment",
+                            ZipCode = "2819"
+                        },
+                        new
+                        {
+                            ListingId = 4,
+                            Bathroom = 1,
+                            Bedroom = 4,
+                            Beds = 4,
+                            City = "Lillehammer",
+                            Country = "Norway",
+                            CreatedDateTime = new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9870),
+                            Description = "Detached turnkey single-family homes from Nordbohus Modum, with a lifetime standard, projected on plot 1, zoned for 5 single-family homes. Centrally located in Skurdalen. 200 meters from the kindergarten, exit from Fv40, 10 km to Geilo, halfway between Oslo and Bergen by road and the Bergen Railway.",
+                            Image1 = "ClientApp/src/assets/images/house_3_s1",
+                            Image2 = "ClientApp/src/assets/images/house_3_s2",
+                            Image3 = "ClientApp/src/assets/images/house_3_s3",
+                            PricePerNight = 460.0,
+                            State = "Troms og Finnmark",
+                            Street = "Alarmvegen",
+                            Title = "Cozy large sized cabin",
+                            ZipCode = "9020"
+                        },
+                        new
+                        {
+                            ListingId = 5,
+                            Bathroom = 1,
+                            Bedroom = 2,
+                            Beds = 3,
+                            City = "Geilo",
+                            Country = "Norway",
+                            CreatedDateTime = new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9873),
+                            Description = "The mini-house have an area-efficient and rich floor plan. The 1st floor comprises a hall with stairs, bathroom, storage room, technical room, one bedroom, and a living room/kitchen in an open layout. The 2nd floor has a practical loft. In connection with the entrance, a decking will be built with space for garden furniture. The house comes with a sports storage room, as well as a parking space.",
+                            Image1 = "ClientApp/src/assets/images/house_4_s1",
+                            Image2 = "ClientApp/src/assets/images/house_4_s2",
+                            Image3 = "ClientApp/src/assets/images/house_4_s3",
+                            PricePerNight = 500.0,
+                            State = "Viken",
+                            Street = "Daglivegen",
+                            Title = "Cozy small sized cabin",
+                            ZipCode = "3580"
+                        },
+                        new
+                        {
+                            ListingId = 6,
+                            Bathroom = 1,
+                            Bedroom = 1,
+                            Beds = 1,
+                            City = "Reinsvoll",
+                            Country = "Norway",
+                            CreatedDateTime = new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9876),
+                            Description = "Modern home where emphasis has been placed on quality. Turnkey homes with no index regulation or additional costs. Attractive area in Resahagen which is starting to take shape with schools, kindergarten, and sports field nearby. 3 low-maintenance detached houses with a sheltered outdoor area where one can enjoy the afternoon and evening sun directly from the kitchen/living room. Practical home with 3 bedrooms, 2 living rooms, 2 bathrooms, laundry room, storage rooms. Carport with storage. Upgraded kitchen with appliances from Sigdal. Separate kitchen island. Single plank laminate throughout the home on all floors except tiles in the bathrooms, ensuring a consistent profile.",
+                            Image1 = "ClientApp/src/assets/images/house_5_s1",
+                            Image2 = "ClientApp/src/assets/images/house_5_s2",
+                            Image3 = "ClientApp/src/assets/images/house_5_s3",
+                            PricePerNight = 600.0,
+                            State = "Innlandet",
+                            Street = "Torvvegen",
+                            Title = "Medium sized modern cabin",
+                            ZipCode = "2840"
+                        },
+                        new
+                        {
+                            ListingId = 7,
+                            Bathroom = 1,
+                            Bedroom = 3,
+                            Beds = 3,
+                            City = "Jørpeland",
+                            Country = "Norway",
+                            CreatedDateTime = new DateTime(2023, 11, 28, 13, 18, 12, 719, DateTimeKind.Local).AddTicks(9880),
+                            Description = "Here is a beautiful home that are to be built in the lovely Tromsdalen. It has a beautiful architectural design with large glass surfaces and exquisite material choices. Here you can live in peaceful surroundings while having all desired amenities within walking distance from the front door; school, kindergartens, recreational areas, illuminated ski trail, grocery store, as well as specialty stores with Pizza and Sushi. Good bus connections with a short distance to the bus stop.",
+                            Image1 = "ClientApp/src/assets/images/house_6_s1",
+                            Image2 = "ClientApp/src/assets/images/house_6_s2",
+                            Image3 = "ClientApp/src/assets/images/house_6_s3",
+                            PricePerNight = 450.0,
+                            State = "Rogaland",
+                            Street = "Gaupevegen",
+                            Title = "Modern apartment near Tromsø",
+                            ZipCode = "4103"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
