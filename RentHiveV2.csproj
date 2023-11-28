@@ -45,6 +45,7 @@
     <None Remove="ClientApp\src\app\listing\listingformupdate.component.ts" />
     <None Remove="ClientApp\src\app\models\booking.model.ts" />
     <None Remove="ClientApp\src\app\models\listing.model.ts" />
+    <None Remove="ClientApp\src\app\pipes\truncate.pipe.ts" />
     <None Remove="ClientApp\src\app\services\bookings.service.ts" />
     <None Remove="ClientApp\src\app\userhistory\userhistory.component.ts" />
   </ItemGroup>
@@ -57,6 +58,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\listing\listingformupdate.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\booking.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\listing.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\pipes\truncate.pipe.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\bookings.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\userhistory\userhistory.component.ts" />
   </ItemGroup>

@@ -15,6 +15,7 @@ import { UserhistoryComponent } from './userhistory/userhistory.component';
 import { ListingdetailsComponent } from './listingdetails/listingdetails.component';
 import { ListingformUpdateComponent } from './listing/listingformupdate.component';
 //import { searchComponent } from './search/search.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 
 
@@ -31,7 +32,7 @@ import { ListingformUpdateComponent } from './listing/listingformupdate.componen
     UserhistoryComponent,
     ListingdetailsComponent,
     ListingformUpdateComponent,
-    
+    TruncatePipe,
   ],
 
   imports: [
