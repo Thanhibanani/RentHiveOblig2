@@ -127,9 +127,6 @@ export class ListingformUpdateComponent {
   }
 
 
-
-
-  
   //Sending image upload.
 
   uploadImages() {

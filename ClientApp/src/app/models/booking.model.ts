@@ -1,9 +1,10 @@
 
 export interface Bookings {
+  guestId: string; 
   bookingId: number;
   listingId: number; 
-  startDate: Date;
-  endDate: Date;
+  startDate: string; //THIS HAS TO BE A STRING BECAUSE CONVERTING TO ISOSTRING
+  endDate: string; //THIS HAS TO BE A STRING BECAUSE CONVERTING TO ISOSTRING
   totalPrice: number;
   bookingStatus: BookingStatus;
   quantityDays: number;

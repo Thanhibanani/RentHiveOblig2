@@ -21,6 +21,7 @@ export class ListingdetailsComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
   totalPrice: number = 0;
+  guestId: string = 'guest'; 
 
   constructor(
     private route: ActivatedRoute,
@@ -76,7 +77,6 @@ export class ListingdetailsComponent implements OnInit {
 
 
   RequestBooking() {
-
     console.log("Initiating booking request.");
 
     this.authorizeService.getAccessToken()
@@ -88,11 +88,12 @@ export class ListingdetailsComponent implements OnInit {
         const newBooking: Bookings = {
           bookingId: 0,
           listingId: this.listingId,
-          startDate: new Date(this.startDate),
-          endDate: new Date(this.endDate),
+          startDate: new Date(this.startDate).toISOString(),
+          endDate: new Date(this.endDate).toISOString(),
           totalPrice: this.totalPrice,
           bookingStatus: BookingStatus.Pending,
           quantityDays: this.calculateDiffDays(),
+          guestId: this.guestId,
         };
 
         console.log("Booking request: ", newBooking)

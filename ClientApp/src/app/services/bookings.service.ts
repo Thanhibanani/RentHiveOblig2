@@ -9,7 +9,7 @@ import { AuthorizeService } from '../../api-authorization/authorize.service';
 })
 export class BookingsService {
 
-  private apiUrl = '/api/bookings';
+  private apiUrl = '/api/booking';
 
   constructor(private http: HttpClient, private authorizeService: AuthorizeService) { }
 
@@ -22,14 +22,20 @@ export class BookingsService {
 
 
   //CLIENT CREATE (POST) REQUEST TO THE SERVER
+
   createBooking(newBooking: Bookings, token: string): Observable<any> {
+
+    const createUrl = "/api/bookings/create"
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.post<any>(this.apiUrl, newBooking, { headers });
+    return this.http.post<any>(createUrl, newBooking, { headers });
   }
+
+
+
 
   getBookingsByListingId(listingId: number): Observable<any[]> {
     const url = `${this.apiUrl}/bookings?listingId=${listingId}`;

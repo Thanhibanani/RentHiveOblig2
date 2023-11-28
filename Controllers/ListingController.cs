@@ -96,7 +96,7 @@ namespace RentHiveV2.Controllers
 
 
         //CREATING A NEW LISTING.
-        [HttpPost("create")]
+        [HttpPost("/create")]
         public async Task<IActionResult> Create([FromBody] Listing newListing)
         {
 

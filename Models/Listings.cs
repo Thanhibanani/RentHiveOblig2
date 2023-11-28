@@ -82,6 +82,9 @@ namespace RentHiveV2.Models
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
 
 
+
+
+
         //NAV. PROP.
         public virtual ApplicationUser? ApplicationUser { get; set; } //Enables lazyloading. 
 

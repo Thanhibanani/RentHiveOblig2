@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RentHiveV2.DAL;
 using RentHiveV2.Models;
@@ -15,20 +16,31 @@ namespace RentHiveV2.Controllers
         private readonly IBookingRepository _bookingRepository;
         private readonly ILogger<BookingsController> _logger;
 
-        public BookingsController(IBookingRepository bookingRepository,  ApplicationDbContext context, ILogger<BookingsController> logger)
+        public BookingsController(IBookingRepository bookingRepository, ApplicationDbContext context, ILogger<BookingsController> logger)
         {
             _context = context;
             _bookingRepository = bookingRepository;
             _logger = logger;
         }
 
+
+
+
+
+
         // GET: api/Bookings/ByGuest/{guestId}
+        /*
         [HttpGet("ByGuest/{guestId}")]
-        public async Task<ActionResult<IEnumerable<Bookings>>> GetBookingsByGuest(string guestId, string ApplicationUser)
+        public async Task<ActionResult<IEnumerable<Bookings>>> GetPendingBookingsByGuest(string guestId)
         {
-            var bookings = await _context.Bookings
-                                         .Where(b => b.GuestId == ApplicationUser)
-                                         .ToListAsync();
+
+            _logger.LogInformation($"Attempting to get all pending bookings for guest {guestId}");
+
+            const pendingBookings = await Bookings.getBookingByUser(guestId)
+                     
+            
+                
+ 
 
             if (!bookings.Any())
             {
@@ -37,6 +49,8 @@ namespace RentHiveV2.Controllers
 
             return bookings;
         }
+        */
+
 
         // GET: api/Bookings
         [HttpGet]
@@ -44,8 +58,6 @@ namespace RentHiveV2.Controllers
         {
             return await _context.Bookings.ToListAsync();
         }
-
-
 
 
         // GET: api/Bookings/5
@@ -65,10 +77,10 @@ namespace RentHiveV2.Controllers
 
 
         //CREATING A BOOKING
-
         // POST: api/Bookings
-        [HttpPost]
-        public async Task<ActionResult<Bookings>> CreateBooking(Bookings booking)
+        [Authorize]
+        [HttpPost("create")]
+        public async Task<ActionResult<Bookings>> CreateBooking([FromBody] Bookings booking)
         {
 
             _logger.LogInformation("[BookingController]: CreateBooking action method invoked.");
@@ -81,15 +93,11 @@ namespace RentHiveV2.Controllers
 
             //Logging for debugging and more information and monitoring: 
             _logger.LogInformation("Attempting to create a booking with the following model:");
-
             _logger.LogInformation($"The booking is for listing {booking.ListingId}");
             _logger.LogInformation($"The booking start-date is {booking.StartDate}");
             _logger.LogInformation($"The booking end-date is {booking.EndDate}");
             _logger.LogInformation($"The booking status is {booking.BookingStatus}");
             _logger.LogInformation($"The booking total price is {booking.TotalPrice}");
-
-
-
 
             //Getting the guestId (The account/user who is logged in is the guest)
             string guestId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -101,7 +109,6 @@ namespace RentHiveV2.Controllers
 
                 return Forbid();
             }
-
             try
             {
                 booking.GuestId = guestId; //Setting the guestId to the user logged in. 
@@ -124,7 +131,6 @@ namespace RentHiveV2.Controllers
                         var respone = new { success = false, message = "Booking creation" };
                         return Ok(respone);
                     }
-
                 }
                 //If Modelstate is invalid.
                 else
@@ -143,63 +149,7 @@ namespace RentHiveV2.Controllers
         }
 
 
-        // PUT: api/Bookings/5
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBooking(int id, Bookings booking)
-        {
-            if (id != booking.BookingId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(booking).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BookingExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
 
 
-
-
-
-        //THIS IS NOT NEEDED. A BOOKING SHOULD NEVER GET DELETED!
-
-        // DELETE: api/Bookings/5
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBooking(int id)
-        {
-            var booking = await _context.Bookings.FindAsync(id);
-            if (booking == null)
-            {
-                return NotFound();
-            }
-
-            _context.Bookings.Remove(booking);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool BookingExists(int id)
-        {
-            return _context.Bookings.Any(e => e.BookingId == id);
-        }
     }
 }
