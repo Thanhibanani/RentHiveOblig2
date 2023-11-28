@@ -24,8 +24,16 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Data\**" />
+    <Compile Remove="wwwroot\listingImages\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Data\**" />
+    <Content Remove="wwwroot\listingImages\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <EmbeddedResource Remove="wwwroot\listingImages\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Data\**" />
+    <None Remove="wwwroot\listingImages\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -54,9 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Migrations\" />
-    <Folder Include="wwwroot\listingImages\" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
