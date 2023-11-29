@@ -89,7 +89,7 @@
             <img *ngIf="listing.image1" src="{{ listing.image1 }}" class="card-img-top" alt="Listing Image">
             <div class="card-body">
               <h5 class="card-title">{{ listing.title }}</h5>
-              <p class="card-text">{{ listing.description | truncate:50 }}</p>
+              <p class="card-text">{{ listing.description | truncate:100 }}</p>
             </div>
           </div>
         </div>
