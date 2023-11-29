@@ -19,6 +19,8 @@ export class SearchComponent {
   city: string = '';
   searchResults: any[] = [];
 
+
+
   constructor(private http: HttpClient) { }
 
   search() {
