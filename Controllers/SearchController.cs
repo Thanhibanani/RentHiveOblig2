@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentHiveV2.DAL;
+using RentHiveV2.Models;
 
 
 
@@ -37,46 +38,71 @@ namespace RentHiveV2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string keywords, string country, string city)
+        public async Task<IActionResult> GetAll(string searchPhrase)
         {
-            
 
-            var results =  _context.Listing
+            var listings = await _listingRepository.GetAll();
 
-            .Where(l =>
-                        (string.IsNullOrEmpty(keywords) || l.Description.Contains(keywords)) &&
-                        (string.IsNullOrEmpty(country) || l.Country == country) &&
+            listings = listings.Where(l =>
+        string.IsNullOrEmpty(searchPhrase) ||
+        l.Title.Contains(searchPhrase) ||
+        l.Description.Contains(searchPhrase) ||
+        l.Country.Contains(searchPhrase) ||
+        l.City.Contains(searchPhrase)
+            ).ToList();
 
-                        (string.IsNullOrEmpty(city) || l.City == city)
-                    )
-                    .ToList();
-
-            if (results == null)
+            if (listings == null)
             {
                 _logger.LogError("There were no Listings found when executing _listingRepository.GetAll()");
-                return NotFound(new Responses { Success = false, Message = "Nothing matches your search." });
+                return Ok(new List<Listing>()); // Return an empty list instead of null
             }
 
-            return Ok(results);
+
+            return Ok(listings);
+
+
+            /**
+        .Where(l =>
+                    (string.IsNullOrEmpty(keywords) || l.Description.Contains(keywords)) &&
+                    (string.IsNullOrEmpty(country) || l.Country == country) &&
+
+                    (string.IsNullOrEmpty(city) || l.City == city)
+                )
+                .ToList();
+
+
+        if (results == null)
+        {
+            _logger.LogError("There were no Listings found when executing _listingRepository.GetAll()");
+            return NotFound(new Responses { Success = false, Message = "Nothing matches your search." });
         }
-        /*
-        [HttpGet]
-        public IActionResult Index(string keywords, string country, string city)
-            {
-                // find results in database based on search phrases
-                var results = _context.Listing
-                    .Where(l =>
-                        (string.IsNullOrEmpty(keywords) || l.Description.Contains(keywords)) &&
-                        (string.IsNullOrEmpty(country) || l.Country == country) &&
 
-                        (string.IsNullOrEmpty(city) || l.City == city)
-                    )
-                    .ToList();
-
-                // show the results
-                return View(results);
-            }*/
+        return Ok(results);
     }
+            */
 
+
+
+
+            /*
+            [HttpGet]
+            public IActionResult Index(string keywords, string country, string city)
+                {
+                    // find results in database based on search phrases
+                    var results = _context.Listing
+                        .Where(l =>
+                            (string.IsNullOrEmpty(keywords) || l.Description.Contains(keywords)) &&
+                            (string.IsNullOrEmpty(country) || l.Country == country) &&
+
+                            (string.IsNullOrEmpty(city) || l.City == city)
+                        )
+                        .ToList();
+
+                    // show the results
+                    return View(results);
+                }*/
+        }
+
+    }
 }
 
