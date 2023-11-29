@@ -47,7 +47,7 @@ namespace RentHiveV2.DAL
             else { return null; }
         }
 
-
+        //GUEST:
 
         //All bookings by guest. 
         public async Task<IEnumerable<Bookings>?> GetAllByGuest(string guestId)
@@ -87,6 +87,52 @@ namespace RentHiveV2.DAL
         public Task<Bookings?> GetById(int id)
         {
             throw new NotImplementedException();
+        }
+
+
+
+
+        //--------HOST---------//:
+
+
+        //For fetching
+
+        public async Task<IEnumerable<Bookings>?> GetAllPendingByHost(string hostId)
+        {
+
+            var pendingBookings = await _context.Bookings.Where(b => b.Listing.ApplicationUserId == hostId 
+                                                                    && b.EndDate >= DateTime.Today
+                                                                    && b.BookingStatus == BookingStatus.Pending).ToListAsync();
+           
+            return pendingBookings;
+        }
+
+        public async Task<IEnumerable<Bookings>?> GetAllAcceptedByHost(string hostId)
+        {
+
+            var acceptedBookings = await _context.Bookings.Where(b => b.Listing.ApplicationUserId == hostId
+                                                                    && b.EndDate >= DateTime.Today
+                                                                    && b.BookingStatus == BookingStatus.Accepted).ToListAsync();
+
+            return acceptedBookings;
+        }
+
+        public async Task<IEnumerable<Bookings>?> GetAllDeclinedByHost(string hostId)
+        {
+            var declinedBookings = await _context.Bookings.Where(b => b.Listing.ApplicationUserId == hostId
+                                                        && b.EndDate >= DateTime.Today
+                                                        && b.BookingStatus == BookingStatus.Declined).ToListAsync();
+
+            return declinedBookings;
+        }
+
+        public async Task<IEnumerable<Bookings>?> GetAllDueByHost(string hostId)
+        {
+            var dueBookings = await _context.Bookings.Where(b => b.Listing.ApplicationUserId == hostId
+                                            && b.EndDate < DateTime.Today
+                                            ).ToListAsync();
+
+            return dueBookings;
         }
     }
 

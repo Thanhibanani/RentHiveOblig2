@@ -133,9 +133,6 @@ namespace RentHiveV2.Controllers
         }
 
 
-
-
-
         [Authorize]
         [HttpGet("previous")]
         public async Task<IActionResult> GetPreviousBookingsForGuest()
@@ -153,6 +150,82 @@ namespace RentHiveV2.Controllers
             var bookings = await _bookingRepository.GetAllPreviousByGuest(guestId);
             return Ok(bookings);
         }
+
+
+
+        [Authorize]
+        [HttpGet("pendingRequests")]
+        public async Task<IActionResult> GetPendingRequests()
+        {
+
+            string hostId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(hostId))
+            {
+                _logger.LogError("The hostId is null or empty.");
+
+                return Forbid();
+            }
+
+            var bookings = await _bookingRepository.GetAllPendingByHost(hostId);
+            return Ok(bookings);
+        }
+
+
+        [Authorize]
+        [HttpGet("acceptedRequests")]
+        public async Task<IActionResult> GetAcceptedRequests()
+        {
+
+            string hostId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(hostId))
+            {
+                _logger.LogError("The hostId is null or empty.");
+
+                return Forbid();
+            }
+
+            var bookings = await _bookingRepository.GetAllAcceptedByHost(hostId);
+            return Ok(bookings);
+        }
+
+        [Authorize]
+        [HttpGet("declinedRequests")]
+        public async Task<IActionResult> GetDeclinedRequests()
+        {
+
+            string hostId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(hostId))
+            {
+                _logger.LogError("The hostId is null or empty.");
+
+                return Forbid();
+            }
+
+            var bookings = await _bookingRepository.GetAllDeclinedByHost(hostId);
+            return Ok(bookings);
+        }
+
+        [Authorize]
+        [HttpGet("dueRequests")]
+        public async Task<IActionResult> GetDueRequests()
+        {
+
+            string hostId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(hostId))
+            {
+                _logger.LogError("The hostId is null or empty.");
+
+                return Forbid();
+            }
+
+            var bookings = await _bookingRepository.GetAllDueByHost(hostId);
+            return Ok(bookings);
+        }
+
 
 
 

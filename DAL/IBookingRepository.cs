@@ -13,20 +13,21 @@ namespace RentHiveV2.DAL
 
 
 
-        //FOR THE GUEST: 
+        //GETS FOR THE GUEST: 
         Task<IEnumerable<Bookings>?> GetAllByGuest(string guestId);
         Task<IEnumerable<Bookings>?> GetAllActiveByGuest(string guestId);
         Task<IEnumerable<Bookings>?> GetAllPreviousByGuest(string guestId);
 
 
 
-        //FOR THE HOST: 
+        //GETS FOR THE HOST: 
 
+        Task<IEnumerable<Bookings>?> GetAllPendingByHost(string hostId);
+        Task<IEnumerable<Bookings>?> GetAllAcceptedByHost(string hostId);
 
-        //NEED TO IMPLEMENT: 
-        //GET BOOKING BY HOSTID AND STATUS.
-        //GET BOOKING BY HOSTID, STATUS AND DATE.
+        Task<IEnumerable<Bookings>?> GetAllDeclinedByHost(string hostId);
 
+        Task<IEnumerable<Bookings>?> GetAllDueByHost(string hostId);
 
     }
 }
