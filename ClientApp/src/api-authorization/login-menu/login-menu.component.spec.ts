@@ -1,35 +1,3 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { LoginMenuComponent } from './login-menu.component';
-import { AuthorizeService } from '../authorize.service';
-import { of } from 'rxjs';
-
-describe('LoginMenuComponent', () => {
-  let component: LoginMenuComponent;
-  let fixture: ComponentFixture<LoginMenuComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule], 
-      declarations: [ LoginMenuComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    let authService = TestBed.get(AuthorizeService);
-
-    spyOn(authService, 'ensureUserManagerInitialized').and.returnValue(
-      Promise.resolve());
-    spyOn(authService, 'getUserFromStorage').and.returnValue(
-      of(null));
-
-    fixture = TestBed.createComponent(LoginMenuComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+version https://git-lfs.github.com/spec/v1
+oid sha256:e20ccb2aa26ce00b7a8580bab35c4d022d0ed84376b2167cd17c1887b77cb6bd
+size 1102

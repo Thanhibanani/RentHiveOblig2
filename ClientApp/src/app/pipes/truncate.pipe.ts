@@ -1,13 +1,3 @@
-import { Pipe, PipeTransform } from '@angular/core';
-
-@Pipe({
-  name: 'truncate'
-})
-export class TruncatePipe implements PipeTransform {
-  transform(value: string, limit: number = 25, completeWords: boolean = false, ellipsis: string = '...'): string {
-    if (completeWords) {
-      limit = value.substr(0, limit).lastIndexOf(' ');
-    }
-    return value.length > limit ? value.substr(0, limit) + ellipsis : value;
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:cc91d872cc58708bbaa45dd6bb1e1c6adce0ed571e1d4c294974a953a341b500
+size 434

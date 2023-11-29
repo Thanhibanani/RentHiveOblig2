@@ -1,26 +1,3 @@
-
-<!-- input search phrases-->
-
-
-<form (ngSubmit)="search()" #searchForm="ngForm">
-  <label for="keywords">Keywords:</label>
-  <input type="text" id="keywords" name="keywords" [(ngModel)]="keywords">
-
-  <label for="country">Country:</label>
-  <input type="text" id="country" name="country" [(ngModel)]="country">
-
-  <label for="city">City:</label>
-  <input type="text" id="city" name="city" [(ngModel)]="city">
-
-  <button type="submit">Search</button>
-</form>
-
-
-<ul>
-  <li *ngFor="let result of searchResults">
-    <!-- show search results-->
-    {{ result.description }} - {{ result.country }} - {{ result.city }}
-  </li>
-</ul>
-
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:8982fd1fdbbef38bd06e2140bd5b1507215450bb524dc4d9072151823ef55991
+size 656
