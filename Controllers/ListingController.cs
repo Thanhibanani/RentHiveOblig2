@@ -1,49 +1,51 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using RentHiveV2.DAL;
-using RentHiveV2.Models;
-using System.Security.Claims;
+﻿    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using RentHiveV2.DAL;
+    using RentHiveV2.Models;
+    using System.Security.Claims;
 
-namespace RentHiveV2.Controllers
-{
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ListingController : Controller
-
+    namespace RentHiveV2.Controllers
     {
+        [ApiController]
+        [Route("api/[controller]")]
+        public class ListingController : Controller
 
-
-        private readonly IListingRepository _listingRepository;
-        private readonly ILogger<ListingController> _logger;
-        private readonly IWebHostEnvironment _hostEnvironment;
-
-
-        public ListingController(IListingRepository listingRepository, ILogger<ListingController> logger, IWebHostEnvironment hostEnvironment)
         {
-            _listingRepository = listingRepository;
-            _logger = logger;
-            _hostEnvironment = hostEnvironment;
-
-        }
 
 
+            private readonly IListingRepository _listingRepository;
+            private readonly ILogger<ListingController> _logger;
+            private readonly IWebHostEnvironment _hostEnvironment;
+        
 
-        //GETTING ALL LISTINGS.
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            _logger.LogInformation("GetAll action method invoked in Listing");
 
-            var listings = await _listingRepository.GetAll();
-
-            if (listings == null)
+            public ListingController(IListingRepository listingRepository, ILogger<ListingController> logger, IWebHostEnvironment hostEnvironment)
             {
-                _logger.LogError("There were no Listings found when executing _listingRepository.GetAll()");
-                return NotFound(new Responses { Success = false, Message = "No listings found." });
+                _listingRepository = listingRepository;
+                _logger = logger;
+                _hostEnvironment = hostEnvironment;
+            
+
             }
 
-            return Ok(listings);
-        }
+
+
+            //GETTING ALL LISTINGS.
+            [HttpGet]
+            public async Task<IActionResult> GetAll()
+            {
+                _logger.LogInformation("GetAll action method invoked in Listing");
+
+                var listings = await _listingRepository.GetAll();
+
+                if (listings == null)
+                {
+                    _logger.LogError("There were no Listings found when executing _listingRepository.GetAll()");
+                    return NotFound(new Responses { Success = false, Message = "No listings found." });
+                }
+
+                return Ok(listings);
+            }
 
 
         // Other actions...
