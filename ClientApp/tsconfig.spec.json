@@ -1,19 +1,3 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine",
-      "node"
-    ]
-  },
-  "files": [
-    "src/test.ts",
-    "src/polyfills.ts"
-  ],
-  "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
-  ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:1b0d38f154b531b54ab6d952d76c9dcca2c87a9ed678df8b4f87bfa2b760ac20
+size 366

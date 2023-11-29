@@ -1,19 +1,3 @@
-
-export interface Bookings {
-  guestId: string; 
-  bookingId: number;
-  listingId: number; 
-  startDate: string; //THIS HAS TO BE A STRING BECAUSE CONVERTING TO ISOSTRING
-  endDate: string; //THIS HAS TO BE A STRING BECAUSE CONVERTING TO ISOSTRING
-  totalPrice: number;
-  bookingStatus: BookingStatus;
-  quantityDays: number;
-
-}
-
-// Enum for BookingStatus: This is to define the different statuses a booking can have. 
-export enum BookingStatus {
-  Pending,
-  Accepted,
-  Declined
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:266ccc41629dd32f4ef634f2db31c16d38df4cfc978750153834105aecf5d133
+size 502

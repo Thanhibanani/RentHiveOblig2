@@ -39,7 +39,7 @@ namespace RentHiveV2.Controllers
             if (listings == null)
             {
                 _logger.LogError("There were no Listings found when executing _listingRepository.GetAll()");
-                return NotFound();
+                return NotFound(new Responses { Success = false, Message = "No listings found." });
             }
 
             return Ok(listings);
@@ -88,7 +88,7 @@ namespace RentHiveV2.Controllers
             if (listings == null)
             {
                 _logger.LogError("There were no Listings found when executing _listingRepository.GetByHost()");
-                return NotFound();
+                return NotFound(new Responses { Success = false, Message = "No listings found." });
             }
 
             return Ok(listings);
@@ -96,7 +96,7 @@ namespace RentHiveV2.Controllers
 
 
         //CREATING A NEW LISTING.
-        [HttpPost("/create")]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] Listing newListing)
         {
 
@@ -104,7 +104,7 @@ namespace RentHiveV2.Controllers
 
             if (newListing == null)
             {
-                return BadRequest("Invalid item data.");
+                return BadRequest(new Responses { Success = false, Message = "Invalid item data." });
             }
 
 
@@ -148,31 +148,31 @@ namespace RentHiveV2.Controllers
 
                     if (returnOk)
                     {
-                        var response = new { success = true, message = "Listing " + newListing.Title + " created successfully" };
+                        var response = new Responses { Success = true, Message = $"Listing {newListing.Title} created successfully" };
                         return Ok(response);
+
                     }
                     else
                     {
-                        var response = new { Success = false, Message = "Listing creation" };
-                        return Ok(response);
+                        var response = new Responses { Success = false, Message = "Listing creation failed" };
+                        return BadRequest(response); // Return BadRequest with the failure response
                     }
-
-
                 }
                 //If Modelstate is invalid.
                 else
                 {
-                    _logger.LogError("ModelState in invalid");
-                    return BadRequest();
+                    _logger.LogError("ModelState is invalid");
+                    var response = new { Success = false, Message = "Listing creation failed", Errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)) };
+                    return BadRequest(response); // Return BadRequest with validation errors
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occured while creating the listing.");
-                //Need to return something here too. 
-                return StatusCode(500, ex.Message);
+                _logger.LogError(ex, "An error occurred while creating the listing.");
+                return StatusCode(500, new Responses { Success = false, Message = ex.Message });
             }
         }
+
 
         //GETTING A LISTING BY ITS ID.
         [HttpGet("{id}")]
@@ -215,12 +215,12 @@ namespace RentHiveV2.Controllers
             bool returnOk = await _listingRepository.Delete(id);
             if (!returnOk)
             {
-                _logger.LogError("ListingController: listing deletion failed for the listing {listingId:0000}", id);
-                return BadRequest("Listing deletion failed.");
+                _logger.LogError($"ListingController: listing deletion failed for the listing {id}");
+                return BadRequest(new Responses { Success = false, Message = $"Listing {id} deletion failed." });
             }
-            var response = new { success = true, message = "Listing " + id.ToString() + " deleted successfully" };
-            return Ok(response);
+            return Ok(new Responses { Success = true, Message = $"Listing {id} deleted successfully" });
         }
+
 
 
         //UPDATING A LISTING BY ITS ID.
@@ -236,17 +236,18 @@ namespace RentHiveV2.Controllers
 
             var listing = await _listingRepository.GetById(id);
 
-            if (listing.ApplicationUserId != userId)
+            if (listing == null || listing.ApplicationUserId != userId)
             {
                 _logger.LogError("The user is not the owner of the listing");
-                _logger.LogInformation($"User {userId} attemped to delete listing {id}");
+                _logger.LogInformation($"User {(userId ?? "null")} attempted to delete listing {id}");
 
                 return Forbid();
             }
 
+
             if (newListing == null)
             {
-                return BadRequest("Invalid listing data");
+                return BadRequest(new Responses { Success = false, Message = "Invalid listing data" });
             }
 
             //Loggers for debugging:
@@ -266,19 +267,16 @@ namespace RentHiveV2.Controllers
 
             if (returnOk)
             {
-                var response = new { success = true, message = "Listing " + newListing.Title + " updated successfully." };
+                var response = new Responses { Success = true, Message = $"Listing {newListing.Title} updated successfully." };
                 return Ok(response);
             }
             else
             {
-                var response = new { success = false, message = "Updating listing failed" };
-                return Ok(response);
+                var response = new Responses { Success = false, Message = $"Failed to update listing {newListing.Title}." };
+                return BadRequest(response); ;
             }
 
         }
-
-
-
 
         private async Task<string> SaveFile(IFormFile file)
         {

@@ -1,23 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Provide sufficient contrast against white background */
-
-
-body {
-  margin:0;
-  padding-top: 10px; /*This padding is to keep the content below the navbar because the navbar has fixed-top*/
-}
-
-a {
-  color: #0366d6;
-}
-
-code {
-  color: #e01a76;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:8f9799713c6cee02bb1f3a6e76d3e5739356c21c6eae4b0a72dc519834502b0c
+size 437
