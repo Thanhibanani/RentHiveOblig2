@@ -5,11 +5,24 @@
     <h2>{{ listing?.city }}, {{ listing?.street }}, {{ listing?.country }}</h2>
 
     <!-- Image grid -->
-    <div class="image-grid">
-      <img class="image-grid-col-2 image-grid-row-2" [src]="listing?.image1 || 'https://via.placeholder.com/150'" alt="">
-      <img class="img-fluid" [src]="listing?.image2 || 'https://via.placeholder.com/150'" alt="">
-      <img class="img-fluid" [src]="listing?.image3 || 'https://via.placeholder.com/150'" alt="">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <img class="img-fluid" [src]="listing?.image1 || 'https://via.placeholder.com/150'" alt="Image 1">
+        </div>
+        <div class="col-md-6">
+          <img class="img-fluid" [src]="listing?.image2 || 'https://via.placeholder.com/150'" alt="Image 2">
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-md-6">
+          <img class="img-fluid" [src]="listing?.image3 || 'https://via.placeholder.com/150'" alt="Image 3">
+        </div>
+      </div>
     </div>
+    <br />
+
 
     <!-- Description -->
     <div class="row">
