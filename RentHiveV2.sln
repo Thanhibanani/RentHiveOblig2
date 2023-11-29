@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentHiveV2", "RentHiveV2.csproj", "{930B81CB-B964-40A1-94FF-19BE6BCD39E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitTestRentHive", "..\..\..\OneDrive\Dokumenter\ITPE3200\xUnitTestRentHive\xUnitTestRentHive.csproj", "{530EFF06-CA81-4BF4-B1D2-6F1A275CB4BC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{558C7C52-DBD4-4A68-87EE-B227E982F905}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitTestRentHive", "..\..\..\OneDrive\Dokumenter\ITPE3200\xUnitTestRentHive\xUnitTestRentHive.csproj", "{FBDE81AA-534F-46C2-A1C7-CB713C9920BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,13 +19,16 @@ Global
 		{930B81CB-B964-40A1-94FF-19BE6BCD39E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{930B81CB-B964-40A1-94FF-19BE6BCD39E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{930B81CB-B964-40A1-94FF-19BE6BCD39E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{530EFF06-CA81-4BF4-B1D2-6F1A275CB4BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{530EFF06-CA81-4BF4-B1D2-6F1A275CB4BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{530EFF06-CA81-4BF4-B1D2-6F1A275CB4BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{530EFF06-CA81-4BF4-B1D2-6F1A275CB4BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBDE81AA-534F-46C2-A1C7-CB713C9920BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBDE81AA-534F-46C2-A1C7-CB713C9920BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBDE81AA-534F-46C2-A1C7-CB713C9920BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBDE81AA-534F-46C2-A1C7-CB713C9920BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FBDE81AA-534F-46C2-A1C7-CB713C9920BC} = {558C7C52-DBD4-4A68-87EE-B227E982F905}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A3E6688-22E8-4BEE-89B5-EDD363715E24}
