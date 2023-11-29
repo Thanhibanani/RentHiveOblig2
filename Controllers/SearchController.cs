@@ -57,6 +57,9 @@ namespace RentHiveV2.Controllers
                 return Ok(new List<Listing>()); // Return an empty list instead of null
             }
 
+           
+            
+
 
             return Ok(listings);
 
