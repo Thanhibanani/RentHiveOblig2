@@ -48,6 +48,14 @@
     <None Remove="ClientApp\src\app\pipes\truncate.pipe.ts" />
     <None Remove="ClientApp\src\app\services\bookings.service.ts" />
     <None Remove="ClientApp\src\app\userhistory\userhistory.component.ts" />
+    <None Remove="ClientApp\src\assets\favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\src\assets\favicon.ico">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
