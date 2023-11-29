@@ -12,59 +12,22 @@ namespace RentHiveV2.Controllers
     [Route("api/[controller]")]
     public class BookingsController : Controller
     {
-        private readonly ApplicationDbContext _context; //NEED TO REMOVE THIS LINE BECAUSE IT IS NOW IMPLEMENTED IN WITH REPOSITORY INSTEAD!
         private readonly IBookingRepository _bookingRepository;
         private readonly ILogger<BookingsController> _logger;
 
-        public BookingsController(IBookingRepository bookingRepository, ApplicationDbContext context, ILogger<BookingsController> logger)
+        public BookingsController(IBookingRepository bookingRepository, ILogger<BookingsController> logger)
         {
-            _context = context;
             _bookingRepository = bookingRepository;
             _logger = logger;
         }
 
 
 
-
-
-
-        // GET: api/Bookings/ByGuest/{guestId}
-        /*
-        [HttpGet("ByGuest/{guestId}")]
-        public async Task<ActionResult<IEnumerable<Bookings>>> GetPendingBookingsByGuest(string guestId)
-        {
-
-            _logger.LogInformation($"Attempting to get all pending bookings for guest {guestId}");
-
-            const pendingBookings = await Bookings.getBookingByUser(guestId)
-                     
-            
-                
- 
-
-            if (!bookings.Any())
-            {
-                return NotFound();
-            }
-
-            return bookings;
-        }
-        */
-
-
-        // GET: api/Bookings
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bookings>>> GetBookings()
-        {
-            return await _context.Bookings.ToListAsync();
-        }
-
-
         // GET: api/Bookings/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Bookings>> GetBooking(int id)
         {
-            var booking = await _context.Bookings.FindAsync(id);
+            var booking = await _bookingRepository.GetById(id);
 
             if (booking == null)
             {
@@ -150,6 +113,176 @@ namespace RentHiveV2.Controllers
 
 
 
+        [Authorize]
+        [HttpGet("active")]
+        public async Task<IActionResult> GetActiveBookingsForGuest()
+        {
+            string guestId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(guestId))
+            {
+                _logger.LogError("The guestId is null or empty.");
+
+                return Forbid();
+            }
+
+
+
+            var bookings = await _bookingRepository.GetAllActiveByGuest(guestId);
+            return Ok(bookings);
+        }
+
+
+
+
+
+        [Authorize]
+        [HttpGet("previous")]
+        public async Task<IActionResult> GetPreviousBookingsForGuest()
+        {
+
+            string guestId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(guestId))
+            {
+                _logger.LogError("The guestId is null or empty.");
+
+                return Forbid();
+            }
+
+            var bookings = await _bookingRepository.GetAllPreviousByGuest(guestId);
+            return Ok(bookings);
+        }
+
+
 
     }
 }
+
+/*
+
+
+        [Authorize]
+[HttpPost]
+public async Task<IActionResult> AcceptBooking(int bookingId)
+{
+    _logger.LogInformation($"Attempting to accept booking with id {bookingId}.");
+
+    //Finding the booking related to the id.
+    var booking = await _context.Booking.FindAsync(bookingId); 
+
+
+    if(booking == null)
+    {
+        _logger.LogError($"Booking with ID {bookingId} was not found."); 
+        return NotFound("The booking was not found.");
+    }
+
+    var eiendom = await _context.Eiendom.FindAsync(booking.EiendomId);
+    _logger.LogInformation($"Found eiendomId {eiendom.EiendomID}"); 
+
+    if(eiendom == null)
+    {
+        _logger.LogError($"EiendomID with ID {eiendom.EiendomID} is null"); 
+    }
+
+    //Extra control to prevent other users to accept booking on other's behalf. 
+    var userId = _userManager.GetUserId(User);
+
+    if (userId == null || userId != eiendom.ApplicationUserId)
+    {
+        _logger.LogError($"Not-Authorized user tried to Accept Booking ID {bookingId}. The user was: {userId}. The user for the listing is: {eiendom.ApplicationUserId}");
+        return Forbid();
+    }
+
+    //Updating the bookingStatus
+    _logger.LogInformation("Attempting to update the BookingStatus"); 
+    try
+    {
+        booking.BookingStatus = BookingStatus.Accepted;
+        _context.Booking.Update(booking);
+        await _context.SaveChangesAsync();
+        _logger.LogInformation($"Bookingstatus changed to {booking.BookingStatus}."); 
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, $"Updating the bookinstatus failed. The booking status is {booking.BookingStatus}");
+        return RedirectToAction("Index", "Hosting");
+    }
+
+    //Redirecting back to the hosting dashboard
+    return RedirectToAction("Index", "Hosting"); 
+}
+ */
+
+
+
+
+
+
+
+
+/*
+
+
+  [Authorize]
+[HttpPost]
+public async Task<IActionResult> DeclineBooking(int bookingId)
+{
+    _logger.LogInformation($"Attempting to decline booking with id {bookingId}.");
+
+    //Finding the booking related to the id.
+    var booking = await _context.Booking.FindAsync(bookingId);
+
+
+    if (booking == null)
+    {
+        _logger.LogError($"Booking with ID {bookingId} was not found.");
+        return NotFound("The booking was not found.");
+    }
+
+    var eiendom = await _context.Eiendom.FindAsync(booking.EiendomId);
+    _logger.LogInformation($"Found eiendomId {eiendom.EiendomID}");
+
+    if (eiendom == null)
+    {
+        _logger.LogError($"EiendomID with ID {eiendom.EiendomID} is null");
+    }
+
+    //Extra control to prevent other users to accept booking on other's behalf. 
+    var userId = _userManager.GetUserId(User);
+
+    if (userId == null || userId != eiendom.ApplicationUserId)
+    {
+        _logger.LogError($"Not-Authorized user tried to Decline Booking ID {bookingId}. The user was: {userId}. The user for the listing is: {eiendom.ApplicationUserId}");
+        return Forbid();
+    }
+
+    //Updating the bookingStatus
+    _logger.LogInformation("Attempting to update the BookingStatus");
+    try
+    {
+        booking.BookingStatus = BookingStatus.Declined;
+        _context.Booking.Update(booking);
+        await _context.SaveChangesAsync();
+        _logger.LogInformation($"Bookingstatus changed to {booking.BookingStatus}.");
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, $"Updating the bookinstatus failed. The booking status is {booking.BookingStatus}");
+        return RedirectToAction("Index", "Hosting");
+    }
+
+    //Redirecting back to the hosting dashboard
+    return RedirectToAction("Index", "Hosting");
+}
+
+
+
+
+
+ */
+
+
+
+

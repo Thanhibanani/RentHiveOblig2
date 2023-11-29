@@ -1,4 +1,5 @@
-﻿using RentHiveV2.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RentHiveV2.Models;
 
 namespace RentHiveV2.DAL
 {
@@ -35,24 +36,59 @@ namespace RentHiveV2.DAL
 
 
 
-        public Task<IEnumerable<Bookings>?> GetAll()
+        public async Task<IEnumerable<Bookings>?> GetAll()
         {
-            throw new NotImplementedException();
+            var allBookings = await _context.Bookings.ToListAsync();
+
+            if (allBookings.Any())
+            {
+                return allBookings;
+            }
+            else { return null; }
         }
+
+
+
+        //All bookings by guest. 
+        public async Task<IEnumerable<Bookings>?> GetAllByGuest(string guestId)
+        {
+            var guestsBooking = await _context.Bookings.Where(b => b.GuestId == guestId).ToListAsync();
+
+            if (guestsBooking.Any())
+            {
+                return guestsBooking;
+            }
+            else { return null; }
+        }
+
+
+        //Active
+        //Where Today < endDate
+        public async Task<IEnumerable<Bookings>?> GetAllActiveByGuest(string guestId)
+        {
+
+            var activeBookings = await _context.Bookings.Where(b => b.GuestId == guestId && b.EndDate >= DateTime.Today).ToListAsync();
+            return activeBookings;
+        }
+
+        //Due
+        //Where Today > endDate
+        public async Task<IEnumerable<Bookings>?> GetAllPreviousByGuest(string guestId)
+        {
+
+            var previousBookings = await _context.Bookings.Where(b => b.GuestId == guestId && b.EndDate <= DateTime.Today).ToListAsync();
+            return previousBookings;
+
+        }
+
+
+
 
         public Task<Bookings?> GetById(int id)
         {
             throw new NotImplementedException();
         }
     }
-
-
-
-
-
-
-
-
 
 
 }

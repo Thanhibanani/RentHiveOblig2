@@ -12,8 +12,8 @@ using RentHiveV2.DAL;
 namespace RentHiveV2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231128192049_migupd")]
-    partial class migupd
+    [Migration("20231129165314_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -321,12 +321,6 @@ namespace RentHiveV2.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Firstname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Lastname")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -349,9 +343,6 @@ namespace RentHiveV2.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ProfilePicture")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -487,7 +478,7 @@ namespace RentHiveV2.Migrations
                             Beds = 4,
                             City = "Oslo",
                             Country = "Norway",
-                            CreatedDateTime = new DateTime(2023, 11, 28, 20, 20, 49, 164, DateTimeKind.Local).AddTicks(346),
+                            CreatedDateTime = new DateTime(2023, 11, 29, 17, 53, 14, 488, DateTimeKind.Local).AddTicks(9652),
                             Description = "Here lies a remarkable house of outstanding quality, meticulously built from teh ground up. It represents the very best in comfort, style, and craftsmanship. It consists of a large carport, 3 bedrooms, one bathroom, and a wardrobe in the hallway. A great family home.",
                             Image1 = "assets/images/house_1_s1.jpg",
                             Image2 = "assets/images/house_1_s2.jpg",
@@ -506,7 +497,7 @@ namespace RentHiveV2.Migrations
                             Beds = 3,
                             City = "Gjøvik",
                             Country = "Norway",
-                            CreatedDateTime = new DateTime(2023, 11, 28, 20, 20, 49, 164, DateTimeKind.Local).AddTicks(377),
+                            CreatedDateTime = new DateTime(2023, 11, 29, 17, 53, 14, 488, DateTimeKind.Local).AddTicks(9684),
                             Description = "Welcome to this property, which is nicely located and very secluded at the end of a cul-de-sac. Close to the sea and Knarberg marina, which leads you directly into the idyllic Bjerkøysundet with many beautiful island opportunities in the archipelago. The house is also sunny and child-friendly. From the house, it's not far down to the sea. This area offers many great hiking opportunities and is close to the illuminated ski trail. ",
                             Image1 = "assets/images/house_2_s1.jpg",
                             Image2 = "assets/images/house_2_s2.jpg",
@@ -525,7 +516,7 @@ namespace RentHiveV2.Migrations
                             Beds = 4,
                             City = "Lillehammer",
                             Country = "Norway",
-                            CreatedDateTime = new DateTime(2023, 11, 28, 20, 20, 49, 164, DateTimeKind.Local).AddTicks(380),
+                            CreatedDateTime = new DateTime(2023, 11, 29, 17, 53, 14, 488, DateTimeKind.Local).AddTicks(9687),
                             Description = "Detached turnkey single-family homes from Nordbohus Modum, with a lifetime standard, projected on plot 1, zoned for 5 single-family homes. Centrally located in Skurdalen. 200 meters from the kindergarten, exit from Fv40, 10 km to Geilo, halfway between Oslo and Bergen by road and the Bergen Railway.",
                             Image1 = "assets/images/house_3_s1.jpg",
                             Image2 = "assets/images/house_3_s2.jpg",
@@ -544,7 +535,7 @@ namespace RentHiveV2.Migrations
                             Beds = 3,
                             City = "Geilo",
                             Country = "Norway",
-                            CreatedDateTime = new DateTime(2023, 11, 28, 20, 20, 49, 164, DateTimeKind.Local).AddTicks(383),
+                            CreatedDateTime = new DateTime(2023, 11, 29, 17, 53, 14, 488, DateTimeKind.Local).AddTicks(9690),
                             Description = "The mini-house have an area-efficient and rich floor plan. The 1st floor comprises a hall with stairs, bathroom, storage room, technical room, one bedroom, and a living room/kitchen in an open layout. The 2nd floor has a practical loft. In connection with the entrance, a decking will be built with space for garden furniture. The house comes with a sports storage room, as well as a parking space.",
                             Image1 = "assets/images/house_4_s1.jpg",
                             Image2 = "assets/images/house_4_s2.jpg",
@@ -563,7 +554,7 @@ namespace RentHiveV2.Migrations
                             Beds = 1,
                             City = "Reinsvoll",
                             Country = "Norway",
-                            CreatedDateTime = new DateTime(2023, 11, 28, 20, 20, 49, 164, DateTimeKind.Local).AddTicks(387),
+                            CreatedDateTime = new DateTime(2023, 11, 29, 17, 53, 14, 488, DateTimeKind.Local).AddTicks(9694),
                             Description = "Modern home where emphasis has been placed on quality. Turnkey homes with no index regulation or additional costs. Attractive area in Resahagen which is starting to take shape with schools, kindergarten, and sports field nearby. 3 low-maintenance detached houses with a sheltered outdoor area where one can enjoy the afternoon and evening sun directly from the kitchen/living room. Practical home with 3 bedrooms, 2 living rooms, 2 bathrooms, laundry room, storage rooms. Carport with storage. Upgraded kitchen with appliances from Sigdal. Separate kitchen island. Single plank laminate throughout the home on all floors except tiles in the bathrooms, ensuring a consistent profile.",
                             Image1 = "assets/images/house_5_s1.jpg",
                             Image2 = "assets/images/house_5_s2.jpg",
@@ -582,7 +573,7 @@ namespace RentHiveV2.Migrations
                             Beds = 3,
                             City = "Jørpeland",
                             Country = "Norway",
-                            CreatedDateTime = new DateTime(2023, 11, 28, 20, 20, 49, 164, DateTimeKind.Local).AddTicks(390),
+                            CreatedDateTime = new DateTime(2023, 11, 29, 17, 53, 14, 488, DateTimeKind.Local).AddTicks(9697),
                             Description = "Here is a beautiful home that are to be built in the lovely Tromsdalen. It has a beautiful architectural design with large glass surfaces and exquisite material choices. Here you can live in peaceful surroundings while having all desired amenities within walking distance from the front door; school, kindergartens, recreational areas, illuminated ski trail, grocery store, as well as specialty stores with Pizza and Sushi. Good bus connections with a short distance to the bus stop.",
                             Image1 = "assets/images/house_6_s1.jpg",
                             Image2 = "assets/images/house_6_s2.jpg",
