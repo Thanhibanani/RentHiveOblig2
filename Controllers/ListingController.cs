@@ -1,5 +1,6 @@
 ﻿    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RentHiveV2.DAL;
 using RentHiveV2.Models;
     using System.Security.Claims;
@@ -16,14 +17,16 @@ using RentHiveV2.Models;
             private readonly IListingRepository _listingRepository;
             private readonly ILogger<ListingController> _logger;
             private readonly IWebHostEnvironment _hostEnvironment;
+            private readonly ApplicationDbContext _context;
         
 
 
-            public ListingController(IListingRepository listingRepository, ILogger<ListingController> logger, IWebHostEnvironment hostEnvironment)
+            public ListingController(IListingRepository listingRepository, ILogger<ListingController> logger, IWebHostEnvironment hostEnvironment, ApplicationDbContext context)
             {
                 _listingRepository = listingRepository;
                 _logger = logger;
                 _hostEnvironment = hostEnvironment;
+                _context = context;
             
 
             }
@@ -280,29 +283,99 @@ using RentHiveV2.Models;
 
         }
 
-        private async Task<string> SaveFile(IFormFile file)
+
+
+        //SAVING IMAGE AND UPDATING IMAGE PATH
+
+        [HttpPost("upload-images/{listingId}")]
+        public async Task<IActionResult> SaveImage(IFormFile? file1, IFormFile? file2, IFormFile? file3, int listingId)
         {
-            _logger.LogInformation("Attempting to save image file.");
-            if (file == null) return null;
-            _logger.LogError("Image file was null.");
 
-            var uploadsFolderPath = Path.Combine(_hostEnvironment.WebRootPath, "listingImages");
-
-            //Logging for debugging
-            if (!Directory.Exists(uploadsFolderPath))
-                _logger.LogError("The folder path does not exist. Check the path!");
-
-
-
-            var fileName = Path.GetRandomFileName() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadsFolderPath, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            if (listingId == 0)
             {
-                await file.CopyToAsync(stream);
+                return NotFound("The listing does not exist.");
             }
 
-            return Path.Combine("listingImages", fileName); // Return the relative path
+
+            var listing = await _listingRepository.GetById(listingId);
+            if (listing == null)
+            {
+                return NotFound("The property cannot be found.");
+
+            }
+
+
+
+            if (file1 != null)
+            {
+                var pathForwardSlash1 = "/Images/" + file1.FileName;
+
+                var webPath1 = "Images" + Path.DirectorySeparatorChar + file1.FileName;
+                var fullPath1 = Path.Combine(_hostEnvironment.WebRootPath, webPath1);
+
+                //Some logging used for debugging on earlier issues
+                _logger.LogInformation("webpath is: " + webPath1);
+                _logger.LogInformation("fullpath is: " + fullPath1);
+                _logger.LogInformation("hostEnvironment webrootpath: " + _hostEnvironment.WebRootPath);
+
+                using (var stream = new FileStream(fullPath1, FileMode.Create))
+                {
+                    await file1.CopyToAsync(stream);
+                }
+
+                listing.Image1 = pathForwardSlash1;
+                _context.Update(listing);
+
+            }
+            if (file2 != null)
+            {
+                var pathForwardSlash2 = "/Images/" + file2.FileName;
+
+                var webPath2 = "Images" + Path.DirectorySeparatorChar + file2.FileName;
+                var fullPath2 = Path.Combine(_hostEnvironment.WebRootPath, webPath2);
+
+                //Some logging used for debugging on earlier issues
+                _logger.LogInformation("webpath is: " + webPath2);
+                _logger.LogInformation("fullpath is: " + fullPath2);
+                _logger.LogInformation("hostEnvironment webrootpath: " + _hostEnvironment.WebRootPath);
+
+                using (var stream = new FileStream(fullPath2, FileMode.Create))
+                {
+                    await file2.CopyToAsync(stream);
+                }
+
+                listing.Image2 = pathForwardSlash2;
+                _context.Update(listing);
+
+            }
+
+            if (file3 != null)
+            {
+
+                var pathForwardSlash3 = "/Images/" + file3.FileName;
+
+                var webPath3 = "Images" + Path.DirectorySeparatorChar + file3.FileName;
+                var fullPath3 = Path.Combine(_hostEnvironment.WebRootPath, webPath3);
+
+                //Some logging used for debugging on earlier issues
+                _logger.LogInformation("webpath is: " + webPath3);
+                _logger.LogInformation("fullpath is: " + fullPath3);
+                _logger.LogInformation("hostEnvironment webrootpath: " + _hostEnvironment.WebRootPath);
+
+                using (var stream = new FileStream(fullPath3, FileMode.Create))
+                {
+                    await file3.CopyToAsync(stream);
+                }
+                listing.Image3 = pathForwardSlash3;
+                _context.Update(listing);
+            }
+
+            //Finally save the changes.
+
+            await _context.SaveChangesAsync(); // Save the changes
+
+
+            return Ok(new Responses { Success = true, Message = "Images uploaded" });
         }
 
 
