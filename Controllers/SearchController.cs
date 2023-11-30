@@ -42,6 +42,9 @@ namespace RentHiveV2.Controllers
 
         }
 
+        /* get all method gets all listings from database, and shows them if the search phrase entered matches
+         logging*/
+
         [HttpGet("getAll")]
         public async Task<IActionResult> GetAll(string searchPhrase)
         {
