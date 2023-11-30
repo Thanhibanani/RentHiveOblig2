@@ -132,36 +132,17 @@ namespace RentHiveV2.DAL
 
         //UPDATING THE LISTING IMAGES OF A LISTING
 
-        public async Task<bool> UpdateListingImages(int listingId, string imagePath1, string imagePath2, string imagePath3)
+        public async Task<bool> UpdateImagesPath(int listingId, string[] imagePaths)
         {
+            var listing = await _context.Listing.FindAsync(listingId);
+            if (listing == null) return false;
 
-            _logger.LogInformation("LISTINGREPOSITORY: UpdateListingImages invoked."); 
-            
-            var listing = await GetById(listingId);
+            listing.Image1 = imagePaths[0];
+            listing.Image2 = imagePaths[1];
+            listing.Image3 = imagePaths[2];
 
-            if (listing == null)
-            {
-                _logger.LogError($"LISTINGREPOSITORY: Listing {listingId} does not exist");
-                return false;
-            }
-
-
-            // Updating thep ath if the path has changed
-            listing.Image1 = imagePath1 ?? listing.Image1;
-            listing.Image2 = imagePath2 ?? listing.Image2;
-            listing.Image3 = imagePath3 ?? listing.Image3;
-
-            try
-            {
-                _context.Listing.Update(listing);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"LISTINGREPOSITORY: Error updating images for listing {listingId}");
-                return false;
-            }
+            await _context.SaveChangesAsync();
+            return true;
         }
 
 

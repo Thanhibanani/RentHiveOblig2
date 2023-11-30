@@ -1,7 +1,7 @@
 ﻿    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using RentHiveV2.DAL;
-    using RentHiveV2.Models;
+using RentHiveV2.DAL;
+using RentHiveV2.Models;
     using System.Security.Claims;
 
     namespace RentHiveV2.Controllers
@@ -308,28 +308,7 @@
 
 
 
-        [HttpPost("upload-images/{listingId}")]
-        public async Task<IActionResult> UploadImages(int listingId, IFormFile file1, IFormFile file2, IFormFile file3)
-        {
-            _logger.LogInformation($"Got images from client. Attempting to update listing {listingId}");
 
-            var paths = new string[3];
-            paths[0] = await SaveFile(file1);
-            paths[1] = await SaveFile(file2);
-            paths[2] = await SaveFile(file3);
-
-            _logger.LogInformation("Files saved.");
-
-            // After saving the files, we will update the listing with the paths
-
-            bool updateSuccess = await _listingRepository.UpdateListingImages(listingId, paths[0], paths[1], paths[2]);
-            if (!updateSuccess)
-            {
-                return BadRequest("Failed to update listing with image paths.");
-            }
-
-            return Ok(new { Image1 = paths[0], Image2 = paths[1], Image3 = paths[2] });
-        }
 
 
 

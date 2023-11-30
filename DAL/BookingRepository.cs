@@ -68,7 +68,9 @@ namespace RentHiveV2.DAL
         public async Task<IEnumerable<Bookings>?> GetAllActiveByGuest(string guestId)
         {
 
-            var activeBookings = await _context.Bookings.Where(b => b.GuestId == guestId && b.EndDate >= DateTime.Today).ToListAsync();
+            var activeBookings = await _context.Bookings.Where(b => b.GuestId == guestId 
+                                                                 && b.EndDate >= DateTime.Today
+                                                                 && b.BookingStatus != BookingStatus.Declined).ToListAsync();
             return activeBookings;
         }
 
@@ -77,7 +79,9 @@ namespace RentHiveV2.DAL
         public async Task<IEnumerable<Bookings>?> GetAllPreviousByGuest(string guestId)
         {
 
-            var previousBookings = await _context.Bookings.Where(b => b.GuestId == guestId && b.EndDate <= DateTime.Today).ToListAsync();
+            var previousBookings = await _context.Bookings.Where(b => b.GuestId == guestId 
+                                                                    && b.EndDate < DateTime.Today
+                                                                    && b.BookingStatus != BookingStatus.Declined).ToListAsync();
             return previousBookings;
 
         }

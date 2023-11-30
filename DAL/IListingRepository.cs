@@ -15,7 +15,7 @@ namespace RentHiveV2.DAL
 
         Task<IEnumerable<Listing>?> GetByHost(string hostId);
 
-        Task<bool> UpdateListingImages(int listingId, string imagePath1, string imagePath2, string imagePath3);
+        Task<bool> UpdateImagesPath(int listingId, string[] imagePaths);
 
     }
 }
