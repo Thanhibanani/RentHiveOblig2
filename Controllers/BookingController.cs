@@ -14,11 +14,13 @@ namespace RentHiveV2.Controllers
     {
         private readonly IBookingRepository _bookingRepository;
         private readonly ILogger<BookingsController> _logger;
+        private readonly IListingRepository _listingRepository;
 
-        public BookingsController(IBookingRepository bookingRepository, ILogger<BookingsController> logger)
+        public BookingsController(IBookingRepository bookingRepository, ILogger<BookingsController> logger, IListingRepository listingRepository)
         {
             _bookingRepository = bookingRepository;
             _logger = logger;
+            _listingRepository = listingRepository;
         }
 
 
@@ -229,64 +231,124 @@ namespace RentHiveV2.Controllers
 
 
 
-    }
-}
+        //CHANGES TO THE BOOKING (ACCEPT OG DECLINE)
 
-/*
+        //I am aware that this probably could of been done with one function, with some extra parameters retrieved from the client, but I found this much easier. 
 
+        //Accept booking
 
         [Authorize]
-[HttpPost]
-public async Task<IActionResult> AcceptBooking(int bookingId)
-{
-    _logger.LogInformation($"Attempting to accept booking with id {bookingId}.");
+        [HttpPost("accept/{bookingId}")]
+        public async Task<IActionResult> AcceptBooking(int bookingId)
+        {
+            _logger.LogInformation($"Attempting to accept booking with id {bookingId}.");
 
-    //Finding the booking related to the id.
-    var booking = await _context.Booking.FindAsync(bookingId); 
+            //Finding the booking related to the id.
+            var booking = await _bookingRepository.GetById(bookingId); 
+
+            if(booking == null)
+            {
+                _logger.LogError($"Booking with ID {bookingId} was not found."); 
+                return NotFound("The booking was not found.");
+            }
+
+            var listing = await _listingRepository.GetById(booking.ListingId);
+            _logger.LogInformation($"Found listingId {listing.ListingId}"); 
+
+            if(listing == null)
+            {
+                _logger.LogError($"ListingId with ID {listing.ListingId} is null"); 
+            }
+
+            //Extra control to prevent other users to accept booking on other's behalf. 
+            string hostId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (hostId == null || hostId != listing.ApplicationUserId)
+            {
+                _logger.LogError($"Not-Authorized user tried to Accept Booking ID {bookingId}. The user was: {hostId}. The user for the listing is: {listing.ApplicationUserId}");
+                return Forbid();
+            }
+
+            //Updating the bookingStatus
+            _logger.LogInformation("Attempting to update the BookingStatus"); 
+
+            var response = await _bookingRepository.AcceptBooking(bookingId);
+            if (response)
+            {
+                return Ok(new { message = "Booking accepted successfully." });
+            }
+            else
+            {
+                _logger.LogError("Failed to accept booking.");
+                return StatusCode(500, "An error occurred while accepting the booking.");
+            }
+          
+
+        }
+
+        //Decline booking
+        [Authorize]
+        [HttpPost("decline/{bookingId}")]
+        public async Task<IActionResult> DeclineBooking(int bookingId)
+        {
+            _logger.LogInformation($"Attempting to decline booking with id {bookingId}.");
+
+            //Finding the booking related to the id.
+            var booking = await _bookingRepository.GetById(bookingId);
+
+            if (booking == null)
+            {
+                _logger.LogError($"Booking with ID {bookingId} was not found.");
+                return NotFound("The booking was not found.");
+            }
+
+            var listing = await _listingRepository.GetById(booking.ListingId);
+            _logger.LogInformation($"Found listingId {listing.ListingId}");
+
+            if (listing == null)
+            {
+                _logger.LogError($"ListingId with ID {listing.ListingId} is null");
+            }
+
+            //Extra control to prevent other users to accept booking on other's behalf. 
+            string hostId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (hostId == null || hostId != listing.ApplicationUserId)
+            {
+                _logger.LogError($"Not-Authorized user tried to decline Booking ID {bookingId}. The user was: {hostId}. The user for the listing is: {listing.ApplicationUserId}");
+                return Forbid();
+            }
+
+            //Updating the bookingStatus
+            _logger.LogInformation("Attempting to update the BookingStatus");
+
+            var response = await _bookingRepository.DeclineBooking(bookingId);
+            if (response)
+            {
+                return Ok(new { message = "Booking declined successfully." });
+            }
+            else
+            {
+                _logger.LogError("Failed to decline booking.");
+                return StatusCode(500, "An error occurred while declined the booking.");
+            }
 
 
-    if(booking == null)
-    {
-        _logger.LogError($"Booking with ID {bookingId} was not found."); 
-        return NotFound("The booking was not found.");
+        }
+
+
+
+
+
+
+
+
+
+
     }
-
-    var eiendom = await _context.Eiendom.FindAsync(booking.EiendomId);
-    _logger.LogInformation($"Found eiendomId {eiendom.EiendomID}"); 
-
-    if(eiendom == null)
-    {
-        _logger.LogError($"EiendomID with ID {eiendom.EiendomID} is null"); 
-    }
-
-    //Extra control to prevent other users to accept booking on other's behalf. 
-    var userId = _userManager.GetUserId(User);
-
-    if (userId == null || userId != eiendom.ApplicationUserId)
-    {
-        _logger.LogError($"Not-Authorized user tried to Accept Booking ID {bookingId}. The user was: {userId}. The user for the listing is: {eiendom.ApplicationUserId}");
-        return Forbid();
-    }
-
-    //Updating the bookingStatus
-    _logger.LogInformation("Attempting to update the BookingStatus"); 
-    try
-    {
-        booking.BookingStatus = BookingStatus.Accepted;
-        _context.Booking.Update(booking);
-        await _context.SaveChangesAsync();
-        _logger.LogInformation($"Bookingstatus changed to {booking.BookingStatus}."); 
-    }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, $"Updating the bookinstatus failed. The booking status is {booking.BookingStatus}");
-        return RedirectToAction("Index", "Hosting");
-    }
-
-    //Redirecting back to the hosting dashboard
-    return RedirectToAction("Index", "Hosting"); 
 }
- */
+
+
 
 
 

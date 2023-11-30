@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RentHiveV2.Models;
+using System.Linq.Expressions;
 
 namespace RentHiveV2.DAL
 {
@@ -17,7 +18,7 @@ namespace RentHiveV2.DAL
         }
 
 
-        //CREATE A BOOKING
+        //---CREATE A BOOKING---//
         public async Task<bool> Create(Bookings booking)
         {
             try
@@ -47,7 +48,7 @@ namespace RentHiveV2.DAL
             else { return null; }
         }
 
-        //GUEST:
+        //--------GUEST---------//:
 
         //All bookings by guest. 
         public async Task<IEnumerable<Bookings>?> GetAllByGuest(string guestId)
@@ -84,9 +85,10 @@ namespace RentHiveV2.DAL
 
 
 
-        public Task<Bookings?> GetById(int id)
+        public async Task<Bookings?> GetById(int id)
         {
-            throw new NotImplementedException();
+            var booking = await _context.Bookings.FindAsync(id);
+            return booking; 
         }
 
 
@@ -120,8 +122,8 @@ namespace RentHiveV2.DAL
         public async Task<IEnumerable<Bookings>?> GetAllDeclinedByHost(string hostId)
         {
             var declinedBookings = await _context.Bookings.Where(b => b.Listing.ApplicationUserId == hostId
-                                                        && b.EndDate >= DateTime.Today
-                                                        && b.BookingStatus == BookingStatus.Declined).ToListAsync();
+                                                                    && b.EndDate >= DateTime.Today
+                                                                    && b.BookingStatus == BookingStatus.Declined).ToListAsync();
 
             return declinedBookings;
         }
@@ -129,10 +131,45 @@ namespace RentHiveV2.DAL
         public async Task<IEnumerable<Bookings>?> GetAllDueByHost(string hostId)
         {
             var dueBookings = await _context.Bookings.Where(b => b.Listing.ApplicationUserId == hostId
-                                            && b.EndDate < DateTime.Today
-                                            ).ToListAsync();
+                                                              && b.EndDate < DateTime.Today).ToListAsync();
 
             return dueBookings;
+        }
+
+
+        //---UPDATE THE BOOKING STATUS---//
+        public async Task<bool> AcceptBooking(int bookingId)
+        {
+            var newStatus = BookingStatus.Accepted;
+            var booking = await GetById(bookingId);       
+            booking.BookingStatus = newStatus;
+            try{
+                await _context.SaveChangesAsync();
+                _logger.LogInformation($"BookingRepository: Bookingstatus changed to {booking.BookingStatus}.");
+                return true;
+            }
+            catch(Exception ex) {
+                _logger.LogError(ex, $"Updating the bookinstatus failed. The booking status is {booking.BookingStatus}");
+                return false; 
+            }
+        }
+
+        public async Task<bool> DeclineBooking(int bookingId)
+        {
+            var newStatus = BookingStatus.Declined;
+            var booking = await GetById(bookingId);
+            booking.BookingStatus = newStatus;
+            try
+            {
+                await _context.SaveChangesAsync();
+                _logger.LogInformation($"BookingRepository: Bookingstatus changed to {booking.BookingStatus}.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Updating the bookinstatus failed. The booking status is {booking.BookingStatus}");
+                return false;
+            }
         }
     }
 

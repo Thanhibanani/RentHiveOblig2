@@ -29,5 +29,13 @@ namespace RentHiveV2.DAL
 
         Task<IEnumerable<Bookings>?> GetAllDueByHost(string hostId);
 
+
+        //UPDATE THE BOOKING STATUS
+
+        Task <bool> AcceptBooking(int bookingId);
+        Task<bool> DeclineBooking(int bookingId);
+
+
+
     }
 }
